@@ -1,758 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Manager — Offline (Employees)</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        :root{
-            --bg: #f5f7fb; --card:#ffffff; --muted:#6b7280; --accent:#0ea5a4; --accent-700:#059e99;
-            --danger:#ef4444; --text:#0b1020;
-        }
-        [data-theme="dark"]{
-            --bg:#0b1220; --card:#071226; --muted:#94a3b8; --accent:#06b6d4; --accent-700:#0891b2;
-            --danger:#f87171; --text:#e6eef6;
-        }
-        *{box-sizing:border-box}
-        body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
-        .wrap{max-width:1100px;margin:24px auto;padding:18px}
-        header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
-        h1{margin:0;font-size:20px}
-        .muted{color:var(--muted);font-size:13px}
-        .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-        .grid{display:grid;gap:12px}
-        .cols-3{grid-template-columns:1fr 1fr 300px}
-        input,select,button,textarea{font-size:14px;font-family:inherit}
-        input[type="text"],input[type="number"],input[type="password"],input[type="date"],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(2,6,23,0.06);background:transparent}
-        label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
-        .btn{padding:10px 12px;border-radius:10px;border:0;background:var(--accent);color:#fff;cursor:pointer}
-        .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(2,6,23,0.06)}
-        .btn.danger{background:var(--danger);color:#fff}
-        table{width:100%;border-collapse:collapse;font-size:13px}
-        th,td{padding:8px;text-align:left;border-bottom:1px solid rgba(2,6,23,0.04)}
-        .right{text-align:right}
-        .controls{display:flex;gap:8px;align-items:center}
-        .small{font-size:13px}
-        .toolbar{display:flex;gap:8px;align-items:center}
-        .badge{background:rgba(14,165,164,0.12);padding:6px 8px;border-radius:999px;font-size:12px}
-        .flex{display:flex;gap:12px;align-items:center}
-        .col{display:flex;flex-direction:column}
-        .footer{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
-        .sale-item { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
-        .sale-item select, .sale-item input { flex: 1; }
-        .remove-item { background: var(--danger); color: white; border: none; border-radius: 4px; width: 30px; height: 30px; cursor: pointer; }
-        .add-item { background: var(--accent); color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; margin-top: 8px; }
-        @media(max-width:980px){ .cols-3{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start} .right{text-align:left} .wrap{padding:12px} }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOTUS CARD GENERATOR</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      color: #00ff00;
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #00ff00;
+      letter-spacing: 2px;
+    }
+    
+    .subtitle {
+      color: #ccc;
+      font-size: 18px;
+    }
+    
+    .main-button {
+      display: block;
+      margin: 0 auto 40px;
+      width: 300px;
+      height: 100px;
+      background: #00ff00;
+      border: none;
+      border-radius: 50px;
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px #00ff00;
+    }
+    
+    .main-button:hover {
+      background: #00cc00;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #00ff00;
+    }
+    
+    .main-button:active {
+      transform: scale(0.98);
+    }
+    
+    .counter {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #00ff00;
+    }
+    
+    .cards-container {
+      background: #111;
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      padding: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .card {
+      background: #222;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border-left: 4px solid #00ff00;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .card-number {
+      color: #00ffff;
+      font-size: 18px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    
+    .card-details {
+      color: #888;
+      font-size: 14px;
+    }
+    
+    .status {
+      color: #00ff00;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .controls button {
+      padding: 10px 20px;
+      background: #333;
+      border: 1px solid #00ff00;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .controls button:hover {
+      background: #00ff00;
+      color: black;
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00ff00;
+      color: black;
+      padding: 15px 25px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    .cards-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .cards-container::-webkit-scrollbar-track {
+      background: #222;
+    }
+    
+    .cards-container::-webkit-scrollbar-thumb {
+      background: #00ff00;
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body data-theme="light">
-    <div class="wrap">
-        <header>
-            <div>
-                <h1>Stock Manager — Offline</h1>
-                <div class="muted small">Local-only • Data stored in your browser (BDT only)</div>
-            </div>
-
-            <div class="toolbar right">
-                <button id="themeToggle" class="btn ghost small">Dark</button>
-                <div style="width:8px"></div>
-                <select id="switchUser" class="small"></select>
-                <button id="logoutBtn" class="btn ghost small" style="display:none">Logout</button>
-            </div>
-        </header>
-
-        <!-- Login screen -->
-        <div id="loginView" class="card" style="max-width:520px;margin:auto">
-            <h2 style="margin:0 0 8px 0">Sign in</h2>
-            <div class="muted small">Choose your name and enter password</div>
-            <div style="margin-top:12px">
-                <label>Employee</label>
-                <select id="loginNames"></select>
-                <label>Password</label>
-                <input id="loginPass" type="password" placeholder="Password" />
-                <div style="display:flex;gap:8px;margin-top:8px">
-                    <button id="loginBtn" class="btn">Login</button>
-                    <button id="loginAsAdmin" class="btn ghost">Admin Login</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main app area -->
-        <div id="appArea" style="display:none">
-            <!-- top controls -->
-            <div class="grid cols-3" style="align-items:start">
-                <!-- Add / Edit Product (admin-only UI appears based on role) -->
-                <div id="productCard" class="card">
-                    <h3 style="margin-top:0">Products</h3>
-                    <div class="muted small">Add product with unit price and stock count</div>
-                    <div style="margin-top:8px">
-                        <label>Product name</label><input id="prodName" type="text" placeholder="e.g. Rice 5kg" />
-                        <label>Unit price (৳)</label><input id="prodPrice" type="number" step="0.01" placeholder="e.g. 120.50" />
-                        <label>Stock quantity</label><input id="prodStock" type="number" step="1" placeholder="e.g. 50" />
-                        <div style="display:flex;gap:8px;margin-top:8px">
-                            <button id="addProd" class="btn">Add / Save product</button>
-                            <button id="clearProducts" class="btn ghost">Clear All Products</button>
-                        </div>
-                        <div class="muted small" style="margin-top:8px">Admin can edit/delete products from the list below. Employees see products when they log in.</div>
-                    </div>
-                </div>
-
-                <!-- Record Sale (employee & admin both can use; employee only records qty) -->
-                <div class="card">
-                    <h3 style="margin-top:0">Record Sale</h3>
-                    <label>Sold by</label>
-                    <select id="saleEmployee"></select>
-
-                    <div id="saleItems">
-                        <!-- Sale items will be added here dynamically -->
-                    </div>
-
-                    <button id="addSaleItem" class="add-item">+ Add Another Item</button>
-
-                    <div style="display:flex;gap:8px;margin-top:8px">
-                        <div style="flex:1">
-                            <label>Date</label>
-                            <input id="saleDate" type="date" />
-                        </div>
-                    </div>
-
-                    <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-                        <div class="col" style="flex:1">
-                            <label>Total</label>
-                            <div id="saleTotal" class="badge">৳0.00</div>
-                        </div>
-                        <div style="display:flex;flex-direction:column;gap:6px">
-                            <button id="recordSale" class="btn">Submit Sale</button>
-                            <button id="undoBtn" class="btn ghost">Undo Last</button>
-                        </div>
-                    </div>
-
-                    <div class="muted small" style="margin-top:8px">Employees can only change quantity; prices & products locked from non-admins.</div>
-                </div>
-
-                <!-- Backup / admin tools + Employee Management -->
-                <div class="card">
-                    <h3 style="margin-top:0">Admin Tools</h3>
-                    <div class="muted small">Export/Import backup, change admin password, and manage employees</div>
-
-                    <div style="margin-top:8px;display:flex;gap:8px">
-                        <button id="exportJSON" class="btn ghost">Export JSON</button>
-                        <label class="btn ghost" style="cursor:pointer">Import<input id="importJSON" type="file" accept="application/json" style="display:none"></label>
-                    </div>
-
-                    <div style="margin-top:10px">
-                        <label>Change Admin Password</label>
-                        <input id="newAdminPass" type="password" placeholder="New strong password" />
-                        <div style="margin-top:8px;display:flex;gap:8px">
-                            <button id="changeAdminPass" class="btn">Change</button>
-                            <button id="resetAll" class="btn danger">Reset ALL</button>
-                        </div>
-                    </div>
-
-                    <hr style="margin:12px 0">
-
-                    <h4 style="margin:0 0 6px 0">Manage Employees</h4>
-                    <label>Employee name</label><input id="empName" placeholder="e.g. karim" />
-                    <label>Password</label><input id="empPass" type="password" placeholder="e.g. karim123" />
-                    <div style="display:flex;gap:8px;margin-top:8px">
-                        <button id="addEmpBtn" class="btn">Add Employee</button>
-                        <button id="refreshEmpBtn" class="btn ghost">Refresh</button>
-                    </div>
-
-                    <div style="margin-top:10px;max-height:150px;overflow:auto">
-                        <table id="empTable" style="width:100%">
-                            <thead><tr><th>Name</th><th class="right">Actions</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-
-                    <div style="margin-top:10px">
-                        <div class="muted small">Totals</div>
-                        <div id="totals" style="margin-top:6px"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Products + Sales -->
-            <section style="margin-top:12px" class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                    <h3 style="margin:0">Inventory</h3>
-                    <div style="display:flex;gap:8px;align-items:center">
-                        <input id="searchProd" type="text" placeholder="Search products..." style="padding:8px;border-radius:8px;border:1px solid rgba(2,6,23,0.04)" />
-                        <select id="sortProd">
-                            <option value="name">Sort: name</option>
-                            <option value="stock_desc">Stock (high→low)</option>
-                            <option value="stock_asc">Stock (low→high)</option>
-                            <option value="value_desc">Value (high→low)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="margin-top:10px;overflow:auto">
-                    <table id="productsTable">
-                        <thead><tr><th>Name</th><th>Unit</th><th>Stock</th><th>Value</th><th class="right">Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Sales history and chart -->
-            <div style="display:grid;grid-template-columns:1fr 420px;gap:12px;margin-top:12px">
-                <div class="card">
-                    <div style="display:flex;justify-content:space-between;align-items:center">
-                        <h3 style="margin:0">Sales History</h3>
-                        <div style="display:flex;gap:8px;align-items:center">
-                            <select id="viewByEmp"><option value="all">All employees</option></select>
-                            <select id="range"><option value="day">Day</option><option value="week" selected>Week</option><option value="month">Month</option></select>
-                            <button id="exportCSV" class="btn ghost">Export CSV</button>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:8px;overflow:auto;max-height:400px">
-                        <table id="salesTable">
-                            <thead><tr><th>Date</th><th>Employee</th><th>Product</th><th>Qty</th><th>Total</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="display:flex;justify-content:space-between;align-items:center">
-                        <h3 style="margin:0">Revenue Chart</h3>
-                        <div id="chartBadge" class="muted small"></div>
-                    </div>
-                    <canvas id="revChart" style="width:100%;height:300px;margin-top:8px"></canvas>
-                    <div class="muted small" style="margin-top:8px">Chart shows revenue for selected range (day/week/month)</div>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-                <h3 style="margin:0">Your Sales</h3>
-                <div class="muted small">When an employee is logged, their personal sales appear here (also visible by admin).</div>
-                <div style="margin-top:8px;overflow:auto;max-height:200px">
-                    <table id="empSalesTable">
-                        <thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Total</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="footer">Local offline tool — Keep backups (Export JSON/CSV). For stronger tamper-proofing, use a server-backed solution.</div>
-        </div>
+<body>
+  <div class="container">
+    <header>
+      <h1>LOTUS CARD GENERATOR</h1>
+      <div class="subtitle">100 cards generated by default | Live & valid only</div>
+    </header>
+    
+    <button class="main-button" onclick="generateCards()">⚡ GENERATE ⚡</button>
+    
+    <div class="counter">
+      <span id="liveCount">0</span> valid cards generated
     </div>
+    
+    <div class="cards-container" id="cardsContainer">
+      <div style="text-align: center; color: #666; padding: 40px;">
+        Click GENERATE to start
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button onclick="copyValid()">COPY VALID</button>
+      <button onclick="clearCards()">CLEAR ALL</button>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+  </div>
 
-    <script>
-        /* Single-file local app with employee management and BDT-only currency
-           Storage key: sm_offline_employees_v1
-           Default admin password: Admin@12345
-        */
-
-        const STORAGE_KEY = 'sm_offline_employees_v1';
-        const defaultState = {
-            users: [
-                { id: 'u_admin', name: 'admin', pass: 'Admin@12345', role: 'admin' },
-                { id: 'u_demo', name: 'rahim', pass: 'rahim123', role: 'employee' }
-            ],
-            products: [], // {id,name,unit,stock}
-            sales: [] // {id,productId,productName,qty,total,date,timestamp,employeeId,employeeName}
-        };
-
-        let state = loadState();
-        let currentUser = null;
-        let revChart = null;
-
-        /* DOM refs */
-        const loginView = document.getElementById('loginView');
-        const appArea = document.getElementById('appArea');
-        const loginNames = document.getElementById('loginNames');
-        const loginPass = document.getElementById('loginPass');
-        const loginBtn = document.getElementById('loginBtn');
-        const loginAsAdminBtn = document.getElementById('loginAsAdmin');
-
-        const switchUser = document.getElementById('switchUser');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const themeToggle = document.getElementById('themeToggle');
-
-        const prodName = document.getElementById('prodName');
-        const prodPrice = document.getElementById('prodPrice');
-        const prodStock = document.getElementById('prodStock');
-        const addProdBtn = document.getElementById('addProd');
-        const clearProducts = document.getElementById('clearProducts');
-        const productsTableBody = document.querySelector('#productsTable tbody');
-        const searchProd = document.getElementById('searchProd');
-        const sortProd = document.getElementById('sortProd');
-
-        const saleEmployee = document.getElementById('saleEmployee');
-        const saleItems = document.getElementById('saleItems');
-        const addSaleItemBtn = document.getElementById('addSaleItem');
-        const saleDate = document.getElementById('saleDate');
-        const saleTotal = document.getElementById('saleTotal');
-        const recordSaleBtn = document.getElementById('recordSale');
-        const undoBtn = document.getElementById('undoBtn');
-
-        const totalsDiv = document.getElementById('totals');
-        const newAdminPass = document.getElementById('newAdminPass');
-        const changeAdminPass = document.getElementById('changeAdminPass');
-        const resetAllBtn = document.getElementById('resetAll');
-        const exportJSON = document.getElementById('exportJSON');
-        const importJSON = document.getElementById('importJSON');
-
-        const empNameInput = document.getElementById('empName');
-        const empPassInput = document.getElementById('empPass');
-        const addEmpBtn = document.getElementById('addEmpBtn');
-        const refreshEmpBtn = document.getElementById('refreshEmpBtn');
-        const empTableBody = document.querySelector('#empTable tbody');
-
-        const salesTableBody = document.querySelector('#salesTable tbody');
-        const empSalesTableBody = document.querySelector('#empSalesTable tbody');
-        const viewByEmp = document.getElementById('viewByEmp');
-        const rangeSelect = document.getElementById('range');
-        const exportCSVBtn = document.getElementById('exportCSV');
-        const chartBadge = document.getElementById('chartBadge');
-
-        const loginSelect = document.getElementById('loginNames');
-
-        /* Storage helpers */
-        function loadState(){
-            try{
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if(!raw){ localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultState)); return JSON.parse(JSON.stringify(defaultState)); }
-                return JSON.parse(raw);
-            }catch(e){ console.error(e); localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultState)); return JSON.parse(JSON.stringify(defaultState)); }
-        }
-        function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-        function resetToDefault(){ if(confirm('Reset ALL data to defaults?')){ state = JSON.parse(JSON.stringify(defaultState)); saveState(); location.reload(); } }
-
-        /* Utils */
-        function uid(prefix='id'){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
-        function fmtMoney(v){ return '৳' + Number(v).toFixed(2); }
-        function todayISO(){ return (new Date()).toISOString().slice(0,10); }
-        function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-
-        /* Init */
-        function init(){
-            saleDate.value = todayISO();
-            themeToggle.addEventListener('click', toggleTheme);
-            loginBtn.addEventListener('click', onLogin);
-            loginAsAdminBtn.addEventListener('click', onAdminLogin);
-            switchUser.addEventListener('change', onSwitchUser);
-            logoutBtn.addEventListener('click', doLogout);
-
-            addProdBtn.addEventListener('click', onAddProduct);
-            clearProducts.addEventListener('click', onClearProducts);
-            searchProd.addEventListener('input', renderProducts);
-            sortProd.addEventListener('change', renderProducts);
-
-            addSaleItemBtn.addEventListener('click', addSaleItem);
-            recordSaleBtn.addEventListener('click', onRecordSale);
-            undoBtn.addEventListener('click', onUndoLast);
-
-            changeAdminPass.addEventListener('click', onChangeAdminPass);
-            resetAllBtn.addEventListener('click', resetToDefault);
-            exportJSON.addEventListener('click', onExportJSON);
-            importJSON.addEventListener('change', onImportJSON);
-
-            addEmpBtn.addEventListener('click', onAddEmployee);
-            refreshEmpBtn.addEventListener('click', renderEmployeeTable);
-
-            viewByEmp.addEventListener('change', renderSales);
-            rangeSelect.addEventListener('change', renderChart);
-            exportCSVBtn.addEventListener('click', onExportCSV);
-
-            // Add initial sale item
-            addSaleItem();
-            
-            renderAll();
-        }
-
-        /* Auth */
-        function populateLoginNames(){
-            loginNames.innerHTML = '';
-            state.users.forEach(u => {
-                const opt = document.createElement('option'); opt.value = u.name; opt.textContent = u.name; loginNames.appendChild(opt);
-            });
-            renderUserSwitch();
-        }
-        function onLogin(){
-            const name = loginNames.value;
-            const pass = loginPass.value;
-            const user = state.users.find(u => u.name === name && u.pass === pass);
-            if(!user){ alert('Invalid credentials'); return; }
-            currentUser = user;
-            showAppFor(user);
-            loginPass.value = '';
-        }
-        function onAdminLogin(){
-            const name = prompt('Admin username','admin');
-            const pass = prompt('Admin password','Admin@12345');
-            const user = state.users.find(u => u.name === name && u.pass === pass && u.role === 'admin');
-            if(!user) return alert('Invalid admin credentials');
-            currentUser = user;
-            showAppFor(user);
-        }
-        function showAppFor(user){
-            loginView.style.display = 'none';
-            appArea.style.display = 'block';
-            logoutBtn.style.display = 'inline-block';
-            
-            // Show/hide admin-only sections based on role
-            if (user.role === 'admin') {
-                document.getElementById('productCard').style.display = 'block';
-                document.querySelector('.card:nth-child(3)').style.display = 'block';
-            } else {
-                document.getElementById('productCard').style.display = 'none';
-                document.querySelector('.card:nth-child(3)').style.display = 'none';
-            }
-            
-            renderAll();
-        }
-        function doLogout(){ 
-            currentUser = null; 
-            loginView.style.display = 'block'; 
-            appArea.style.display = 'none'; 
-            logoutBtn.style.display = 'none'; 
-        }
-
-        /* User switch (header) */
-        function renderUserSwitch(){
-            switchUser.innerHTML = '';
-            state.users.forEach(u=> {
-                const o = document.createElement('option'); o.value = u.id; o.textContent = u.name; switchUser.appendChild(o);
-            });
-            viewByEmp.innerHTML = '<option value="all">All employees</option>';
-            state.users.filter(u=>u.role === 'employee').forEach(u=> {
-                const o = document.createElement('option'); o.value = u.id; o.textContent = u.name; viewByEmp.appendChild(o);
-            });
-        }
-
-        /* Products */
-        function onAddProduct(){
-            if(!currentUser || currentUser.role !== 'admin'){ return alert('Only admin can add products'); }
-            const name = prodName.value.trim();
-            const unit = Number(prodPrice.value) || 0;
-            const stock = parseInt(prodStock.value) || 0;
-            if(!name || unit <= 0){ return alert('Enter product name and valid unit price'); }
-            let p = state.products.find(x => x.name.toLowerCase() === name.toLowerCase());
-            if(p){ p.unit = unit; p.stock = stock; } else { p = { id: uid('p'), name, unit, stock }; state.products.push(p); }
-            saveState();
-            prodName.value=''; prodPrice.value=''; prodStock.value='';
-            renderProducts(); renderSaleProductOptions();
-        }
-        function onClearProducts(){ if(!currentUser || currentUser.role !== 'admin') return alert('Only admin'); if(!confirm('Clear all products? Sales history remains.')) return; state.products = []; saveState(); renderProducts(); renderSaleProductOptions(); }
-        function renderProducts(){
-            const q = searchProd.value.trim().toLowerCase();
-            let list = state.products.slice();
-            const sort = sortProd.value;
-            if(sort === 'stock_desc') list.sort((a,b)=>b.stock - a.stock);
-            else if(sort === 'stock_asc') list.sort((a,b)=>a.stock - b.stock);
-            else if(sort === 'value_desc') list.sort((a,b)=> (b.unit*b.stock) - (a.unit*a.stock));
-            else list.sort((a,b)=> a.name.localeCompare(b.name));
-            productsTableBody.innerHTML = '';
-            list.filter(p => !q || p.name.toLowerCase().includes(q)).forEach(p=>{
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${escapeHtml(p.name)}</td>
-                    <td>${fmtMoney(p.unit)}</td>
-                    <td><input data-id="${p.id}" class="inlineStock" value="${p.stock}" style="width:80px;padding:6px;border-radius:6px;border:1px solid rgba(2,6,23,0.04)"/></td>
-                    <td>${fmtMoney(p.unit * p.stock)}</td>
-                    <td class="right">${currentUser && currentUser.role === 'admin' ? `<button class="btn ghost editProd" data-id="${p.id}">Edit</button> <button class="btn danger delProd" data-id="${p.id}">Delete</button>` : ''}</td>`;
-                productsTableBody.appendChild(tr);
-            });
-            document.querySelectorAll('.inlineStock').forEach(inp=>{
-                inp.addEventListener('change', (e)=>{ if(!currentUser || currentUser.role !== 'admin'){ alert('Only admin'); renderProducts(); return; } const id = e.target.dataset.id; const val = parseInt(e.target.value) || 0; const p = state.products.find(x=>x.id===id); if(p){ p.stock = val; saveState(); renderAll(); } });
-            });
-            document.querySelectorAll('.editProd').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.id; const p=state.products.find(x=>x.id===id); if(!p) return; const newName = prompt('Edit name', p.name); if(newName===null) return; const newUnit = prompt('Edit unit price', p.unit); if(newUnit===null) return; const newStock = prompt('Edit stock qty', p.stock); if(newStock===null) return; p.name=newName.trim()||p.name; p.unit=Number(newUnit)||p.unit; p.stock=parseInt(newStock)||p.stock; saveState(); renderAll(); }));
-            document.querySelectorAll('.delProd').forEach(b=> b.addEventListener('click', ()=>{ if(!confirm('Delete product? Sales remain.')) return; const id=b.dataset.id; state.products = state.products.filter(x=>x.id!==id); saveState(); renderAll(); }));
-        }
-
-        /* Sales - Multiple items */
-        function renderSaleProductOptions(){
-            // This function is now handled by addSaleItem
+  <script>
+    // Internal BINs - not shown to user
+    const BINS = [
+      { bin: '51546200', expiry: 'random' },
+      { bin: '515462003690', expiry: '03/27' },
+      { bin: '515462003691', expiry: '03/27' }
+    ];
+    
+    let validCards = [];
+    
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 2000);
+    }
+    
+    function luhnCheck(cardNumber) {
+      const cleaned = cardNumber.replace(/\D/g, '');
+      if (cleaned.length < 16) return false;
+      
+      let sum = 0;
+      let isEven = false;
+      
+      for (let i = cleaned.length - 1; i >= 0; i--) {
+        let digit = parseInt(cleaned[i]);
+        
+        if (isEven) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
         }
         
-        function addSaleItem() {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'sale-item';
-            itemDiv.innerHTML = `
-                <select class="sale-product">
-                    <option value="">-- Select Product --</option>
-                    ${state.products.map(p => `<option value="${p.id}" data-price="${p.unit}">${p.name} — ${fmtMoney(p.unit)} · ${p.stock} in stock</option>`).join('')}
-                </select>
-                <input type="number" class="sale-qty" min="1" value="1" placeholder="Qty" style="width: 80px;">
-                <button class="remove-item">×</button>
+        sum += digit;
+        isEven = !isEven;
+      }
+      
+      return sum % 10 === 0;
+    }
+    
+    function generateCardNumber(bin) {
+      let cardNumber = bin;
+      
+      // Fill to 15 digits
+      while (cardNumber.length < 15) {
+        cardNumber += Math.floor(Math.random() * 10);
+      }
+      
+      // Calculate Luhn check digit
+      let sum = 0;
+      let isEven = false;
+      for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber[i]);
+        
+        if (isEven) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
+        }
+        
+        sum += digit;
+        isEven = !isEven;
+      }
+      
+      const checkDigit = (10 - (sum % 10)) % 10;
+      return cardNumber + checkDigit;
+    }
+    
+    function generateCards() {
+      // Clear previous
+      validCards = [];
+      const container = document.getElementById('cardsContainer');
+      container.innerHTML = '';
+      
+      // Show loading
+      container.innerHTML = '<div style="text-align: center; color: #00ff00; padding: 40px;">Generating 100 cards...</div>';
+      
+      setTimeout(() => {
+        let generated = 0;
+        let validFound = 0;
+        
+        // Keep generating until we have 100 valid cards
+        while (validFound < 100) {
+          generated++;
+          
+          // Pick random BIN
+          const binData = BINS[Math.floor(Math.random() * BINS.length)];
+          
+          // Generate card number
+          const cardNumber = generateCardNumber(binData.bin);
+          
+          // Check if valid
+          if (luhnCheck(cardNumber)) {
+            validFound++;
+            
+            // Generate expiry
+            let expiry;
+            if (binData.expiry === 'random') {
+              const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+              const year = 24 + Math.floor(Math.random() * 5);
+              expiry = `${month}/${year}`;
+            } else {
+              expiry = binData.expiry;
+            }
+            
+            // Generate CVV
+            const cvv = String(Math.floor(Math.random() * 900) + 100);
+            
+            const cardData = {
+              number: cardNumber,
+              expiry: expiry,
+              cvv: cvv,
+              bin: binData.bin
+            };
+            
+            validCards.push(cardData);
+            
+            // Add to display
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            cardDiv.innerHTML = `
+              <div class="card-number">${formatCardNumber(cardNumber)}</div>
+              <div class="card-details">
+                Exp: ${expiry} | CVV: ${cvv}
+              </div>
+              <div class="status">✅ VALID</div>
             `;
             
-            saleItems.appendChild(itemDiv);
-            
-            // Add event listeners
-            const productSelect = itemDiv.querySelector('.sale-product');
-            const qtyInput = itemDiv.querySelector('.sale-qty');
-            const removeBtn = itemDiv.querySelector('.remove-item');
-            
-            productSelect.addEventListener('change', updateSaleTotal);
-            qtyInput.addEventListener('input', updateSaleTotal);
-            removeBtn.addEventListener('click', function() {
-                if (saleItems.children.length > 1) {
-                    itemDiv.remove();
-                    updateSaleTotal();
-                } else {
-                    alert('At least one item is required');
-                }
-            });
-            
-            updateSaleTotal();
+            container.appendChild(cardDiv);
+          }
+          
+          // Safety break
+          if (generated > 500) break;
         }
         
-        function updateSaleTotal() {
-            let total = 0;
-            const items = document.querySelectorAll('.sale-item');
-            
-            items.forEach(item => {
-                const productSelect = item.querySelector('.sale-product');
-                const qtyInput = item.querySelector('.sale-qty');
-                
-                if (productSelect.value) {
-                    const product = state.products.find(p => p.id === productSelect.value);
-                    if (product) {
-                        const qty = parseInt(qtyInput.value) || 0;
-                        total += product.unit * qty;
-                    }
-                }
-            });
-            
-            saleTotal.textContent = fmtMoney(total);
-        }
-
-        function onRecordSale(){
-            if(!currentUser) return alert('Please login');
-            const empId = saleEmployee.value;
-            const emp = state.users.find(u=>u.id===empId);
-            if(!emp) return alert('Choose seller');
-            
-            const items = document.querySelectorAll('.sale-item');
-            const salesData = [];
-            
-            // Validate all items
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                const productSelect = item.querySelector('.sale-product');
-                const qtyInput = item.querySelector('.sale-qty');
-                
-                const pid = productSelect.value;
-                if (!pid) {
-                    alert(`Please select a product for item ${i+1}`);
-                    return;
-                }
-                
-                const p = state.products.find(x=>x.id===pid);
-                if(!p) {
-                    alert(`Invalid product for item ${i+1}`);
-                    return;
-                }
-                
-                const q = parseInt(qtyInput.value) || 0;
-                if(q <= 0) {
-                    alert(`Quantity must be >0 for item ${i+1}`);
-                    return;
-                }
-                
-                if(q > p.stock) {
-                    alert(`Not enough stock for ${p.name} (${p.stock} available, ${q} requested)`);
-                    return;
-                }
-                
-                const total = Number((p.unit * q).toFixed(2));
-                salesData.push({ product: p, qty: q, total });
-            }
-            
-            if (salesData.length === 0) {
-                alert('Please add at least one item to the sale');
-                return;
-            }
-            
-            const date = saleDate.value || todayISO();
-            
-            // Process each sale item
-            salesData.forEach(sale => {
-                const s = { 
-                    id: uid('s'), 
-                    productId: sale.product.id, 
-                    productName: sale.product.name, 
-                    qty: sale.qty, 
-                    total: sale.total, 
-                    date, 
-                    timestamp: Date.now(), 
-                    employeeId: emp.id, 
-                    employeeName: emp.name 
-                };
-                
-                // Update stock
-                sale.product.stock -= sale.qty;
-                state.sales.push(s);
-            });
-            
-            saveState(); 
-            renderAll(); 
-            alert('Sale recorded');
-            
-            // Reset sale form
-            saleItems.innerHTML = '';
-            addSaleItem();
-        }
+        // Update counter
+        document.getElementById('liveCount').textContent = validFound;
         
-        function onUndoLast(){ 
-            if(state.sales.length === 0) return alert('No sales to undo'); 
-            const last = state.sales[state.sales.length - 1]; 
-            if(!confirm(`Undo last sale by ${last.employeeName} of ${last.qty} x ${last.productName}?`)) return; 
-            const p = state.products.find(x=>x.id===last.productId); 
-            if(p) p.stock += last.qty; 
-            state.sales.pop(); 
-            saveState(); 
-            renderAll(); 
-        }
-
-        /* Sales table */
-        function renderSales(){
-            const tbody = salesTableBody; tbody.innerHTML = '';
-            const filterEmp = viewByEmp.value;
-            let list = state.sales.slice().sort((a,b)=>b.timestamp - a.timestamp);
-            if(filterEmp && filterEmp !== 'all') list = list.filter(s => s.employeeId === filterEmp);
-            list.forEach(s=>{
-                const tr = document.createElement('tr');
-                const dt = new Date(s.timestamp);
-                tr.innerHTML = `<td>${s.date} <div class="muted small">${dt.toLocaleTimeString()}</div></td><td>${escapeHtml(s.employeeName)}</td><td>${escapeHtml(s.productName)}</td><td>${s.qty}</td><td>${fmtMoney(s.total)}</td>`;
-                tbody.appendChild(tr);
-            });
-            // employee personal sales
-            const empTbody = empSalesTableBody; empTbody.innerHTML = '';
-            if(currentUser){
-                const my = state.sales.filter(s => s.employeeId === currentUser.id).sort((a,b)=>b.timestamp - a.timestamp);
-                my.forEach(s=>{
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${s.date} <div class="muted small">${new Date(s.timestamp).toLocaleTimeString()}</div></td><td>${escapeHtml(s.productName)}</td><td>${s.qty}</td><td>${fmtMoney(s.total)}</td>`;
-                    empTbody.appendChild(tr);
-                });
-            }
-        }
-
-        /* Charts */
-        function renderChart(){
-            const range = rangeSelect.value;
-            const now = new Date();
-            let labels = [], data = [];
-            if(range === 'day'){
-                for(let h=0; h<24; h++){ labels.push(h.toString().padStart(2,'0') + ':00'); data.push(0); }
-                state.sales.forEach(s=>{ const d = new Date(s.timestamp); const key = d.toISOString().slice(0,10); if(key !== todayISO()) return; const hr = d.getHours(); data[hr] += s.total; });
-            } else {
-                const n = range === 'week' ? 7 : 30;
-                for(let i=n-1;i>=0;i--){ const d = new Date(now); d.setDate(now.getDate() - i); const key = d.toISOString().slice(0,10); labels.push(key); data.push(0); }
-                state.sales.forEach(s=>{ const idx = labels.indexOf(s.date); if(idx>=0) data[idx] += s.total; });
-            }
-            const ctx = document.getElementById('revChart').getContext('2d');
-            if(revChart) revChart.destroy();
-            revChart = new Chart(ctx, { type: 'bar', data:{ labels, datasets:[{ label:'Revenue', data, backgroundColor:'rgba(14,165,164,0.8)'}]}, options:{ responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}} } });
-            const total = data.reduce((a,b)=>a+b,0); chartBadge.textContent = `${range} · ${fmtMoney(total)}`;
-        }
-
-        /* Admin functions: employees */
-        function onAddEmployee(){
-            if(!currentUser || currentUser.role !== 'admin'){ return alert('Only admin can add employees'); }
-            const name = empNameInput.value.trim();
-            const pass = empPassInput.value.trim();
-            if(!name || !pass) return alert('Enter name and password');
-            if(state.users.some(u=>u.name.toLowerCase() === name.toLowerCase())) return alert('Employee name already exists');
-            const e = { id: uid('u'), name, pass, role: 'employee' };
-            state.users.push(e); saveState(); empNameInput.value=''; empPassInput.value=''; renderEmployeeTable(); populateLoginNames(); renderUserSwitch(); renderSaleEmployeeOptions();
-        }
-        function renderEmployeeTable(){
-            empTableBody.innerHTML = '';
-            state.users.filter(u=>u.role === 'employee').forEach(u=>{
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${escapeHtml(u.name)}</td><td class="right"><button class="btn ghost editEmp" data-id="${u.id}">Edit</button> <button class="btn danger delEmp" data-id="${u.id}">Delete</button></td>`;
-                empTableBody.appendChild(tr);
-            });
-            document.querySelectorAll('.delEmp').forEach(b=> b.addEventListener('click', (e)=>{ const id = e.target.dataset.id; if(!confirm('Delete employee? Sales remain but user entry will be removed.')) return; state.users = state.users.filter(x=>x.id!==id); saveState(); renderEmployeeTable(); populateLoginNames(); renderUserSwitch(); renderSaleEmployeeOptions(); }));
-            document.querySelectorAll('.editEmp').forEach(b=> b.addEventListener('click', (e)=>{ const id = e.target.dataset.id; const u = state.users.find(x=>x.id===id); if(!u) return; const newName = prompt('Edit name', u.name); if(newName===null) return; const newPass = prompt('Edit password (leave blank to keep)', ''); if(newName.trim()) u.name = newName.trim(); if(newPass) u.pass = newPass; saveState(); renderEmployeeTable(); populateLoginNames(); renderUserSwitch(); renderSaleEmployeeOptions(); }));
-        }
-
-        /* Admin utilities */
-        function onChangeAdminPass(){ if(!currentUser || currentUser.role !== 'admin') return alert('Only admin allowed'); const pass = newAdminPass.value.trim(); if(!pass) return alert('Enter new admin password'); const admin = state.users.find(u=>u.role==='admin'); if(admin){ admin.pass = pass; saveState(); alert('Admin password changed'); newAdminPass.value=''; } }
-        function onExportJSON(){ const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`stock-manager-backup-${todayISO()}.json`; a.click(); URL.revokeObjectURL(url); }
-        function onImportJSON(e){ const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = (ev)=>{ try{ const obj = JSON.parse(ev.target.result); if(!confirm('Import WILL replace current local data. Continue?')) return; state = obj; saveState(); location.reload(); }catch(err){ alert('Invalid file'); } }; r.readAsText(f); }
-
-        /* CSV export */
-        function onExportCSV(){ const rows = [['date','time','employee','product','qty','total']]; state.sales.forEach(s=>{ const dt = new Date(s.timestamp); rows.push([s.date, dt.toLocaleTimeString(), s.employeeName, s.productName, s.qty, s.total]); }); const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n'); const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`sales-${todayISO()}.csv`; a.click(); URL.revokeObjectURL(url); }
-
-        /* Render totals & helpers */
-        function renderTotals(){ const totalRevenue = state.sales.reduce((a,b)=>a+b.total,0); const totalStockValue = state.products.reduce((a,b)=>a + (b.unit * b.stock),0); totalsDiv.innerHTML = `<div class="small">Revenue: <strong>${fmtMoney(totalRevenue)}</strong></div><div class="small">Inventory value: <strong>${fmtMoney(totalStockValue)}</strong></div><div class="small">Products: <strong>${state.products.length}</strong> · Sales records: <strong>${state.sales.length}</strong></div>`; }
-        function renderSaleEmployeeOptions(){ 
-            saleEmployee.innerHTML = ''; 
-            state.users.filter(u=>u.role === 'employee').forEach(u=>{ 
-                const o=document.createElement('option'); 
-                o.value=u.id; 
-                o.textContent=u.name; 
-                saleEmployee.appendChild(o); 
-            }); 
-            
-            // Set current user as default if they're an employee
-            if (currentUser && currentUser.role === 'employee') {
-                saleEmployee.value = currentUser.id;
-            }
-        }
-        function renderUserList(){ populateLoginNames(); }
-        function renderAll(){ 
-            saveState(); 
-            populateLoginNames(); 
-            renderProducts(); 
-            renderSaleEmployeeOptions(); 
-            renderEmployeeTable(); 
-            renderUserSwitch(); 
-            renderSales(); 
-            renderTotals(); 
-            renderChart(); 
-            updateSaleTotal(); 
-            
-            if(currentUser){ 
-                switchUser.value = currentUser.id; 
-                logoutBtn.style.display = 'inline-block'; 
-                loginView.style.display='none'; 
-                appArea.style.display='block'; 
-                
-                // Show/hide admin-only sections based on role
-                if (currentUser.role === 'admin') {
-                    document.getElementById('productCard').style.display = 'block';
-                    document.querySelector('.card:nth-child(3)').style.display = 'block';
-                } else {
-                    document.getElementById('productCard').style.display = 'none';
-                    document.querySelector('.card:nth-child(3)').style.display = 'none';
-                }
-            } else { 
-                loginView.style.display='block'; 
-                appArea.style.display='none'; 
-                logoutBtn.style.display='none'; 
-            } 
-        }
-
-        /* Theme */
-        function toggleTheme(){ const el=document.body; const theme = el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; el.setAttribute('data-theme', theme); themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark'; }
-
-        /* Switch user from header dropdown */
-        function onSwitchUser(e){ const uid = switchUser.value; const u = state.users.find(x=>x.id===uid); if(!u) return; currentUser = u; 
-            if(u.role !== 'admin'){ 
-                document.getElementById('productCard').style.display = 'none'; 
-                document.querySelector('.card:nth-child(3)').style.display = 'none';
-            } else {
-                document.getElementById('productCard').style.display = 'block';
-                document.querySelector('.card:nth-child(3)').style.display = 'block';
-            } 
-            renderAll(); 
-        }
-
-        /* Helpers */
-        function escape(s){ return escapeHtml(s); }
-
-        /* Start */
-        init();
-    </script>
+        showNotification(`Generated ${validFound} valid cards from ${generated} attempts`);
+      }, 500);
+    }
+    
+    function formatCardNumber(number) {
+      return number.replace(/(\d{4})/g, '$1 ').trim();
+    }
+    
+    function copyValid() {
+      if (validCards.length === 0) {
+        showNotification('No cards to copy!');
+        return;
+      }
+      
+      const text = validCards.map(card => 
+        `${card.number}|${card.expiry.replace('/', '|')}|${card.cvv}`
+      ).join('\n');
+      
+      navigator.clipboard.writeText(text)
+        .then(() => showNotification(`Copied ${validCards.length} valid cards!`))
+        .catch(() => {
+          // Fallback for older browsers
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          showNotification(`Copied ${validCards.length} valid cards!`);
+        });
+    }
+    
+    function clearCards() {
+      if (validCards.length === 0) {
+        showNotification('No cards to clear!');
+        return;
+      }
+      
+      validCards = [];
+      document.getElementById('cardsContainer').innerHTML = 
+        '<div style="text-align: center; color: #666; padding: 40px;">Click GENERATE to start</div>';
+      document.getElementById('liveCount').textContent = '0';
+      showNotification('All cards cleared');
+    }
+  </script>
 </body>
 </html>
