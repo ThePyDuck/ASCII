@@ -1,386 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LOTUS CARD GENERATOR</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    
-    body {
-      background: #000;
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 900px;
-    }
-    
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    h1 {
-      color: #00ff00;
-      font-size: 48px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #00ff00;
-      letter-spacing: 2px;
-    }
-    
-    .subtitle {
-      color: #ccc;
-      font-size: 18px;
-    }
-    
-    .main-button {
-      display: block;
-      margin: 0 auto 40px;
-      width: 300px;
-      height: 100px;
-      background: #00ff00;
-      border: none;
-      border-radius: 50px;
-      color: black;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 0 20px #00ff00;
-    }
-    
-    .main-button:hover {
-      background: #00cc00;
-      transform: scale(1.05);
-      box-shadow: 0 0 30px #00ff00;
-    }
-    
-    .main-button:active {
-      transform: scale(0.98);
-    }
-    
-    .counter {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-      color: #00ff00;
-    }
-    
-    .cards-container {
-      background: #111;
-      border: 2px solid #00ff00;
-      border-radius: 10px;
-      padding: 20px;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-    
-    .card {
-      background: #222;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border-left: 4px solid #00ff00;
-      font-family: 'Courier New', monospace;
-    }
-    
-    .card-number {
-      color: #00ffff;
-      font-size: 18px;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-    }
-    
-    .card-details {
-      color: #888;
-      font-size: 14px;
-    }
-    
-    .status {
-      color: #00ff00;
-      font-weight: bold;
-      margin-top: 5px;
-    }
-    
-    .controls {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    .controls button {
-      padding: 10px 20px;
-      background: #333;
-      border: 1px solid #00ff00;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    
-    .controls button:hover {
-      background: #00ff00;
-      color: black;
-    }
-    
-    .notification {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #00ff00;
-      color: black;
-      padding: 15px 25px;
-      border-radius: 5px;
-      font-weight: bold;
-      display: none;
-      animation: fadeIn 0.3s;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Hide scrollbar but keep functionality */
-    .cards-container::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    .cards-container::-webkit-scrollbar-track {
-      background: #222;
-    }
-    
-    .cards-container::-webkit-scrollbar-thumb {
-      background: #00ff00;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>LOTUS CARD GENERATOR</h1>
-      <div class="subtitle">By Somapto Akando🇧🇩</div>
-    </header>
-    
-    <button class="main-button" onclick="generateCards()">⚡ GENERATE ⚡</button>
-    
-    <div class="counter">
-      <span id="liveCount">0</span> valid cards generated
-    </div>
-    
-    <div class="cards-container" id="cardsContainer">
-      <div style="text-align: center; color: #666; padding: 40px;">
-        Click GENERATE to start
-      </div>
-    </div>
-    
-    <div class="controls">
-      <button onclick="copyValid()">COPY VALID</button>
-      <button onclick="clearCards()">CLEAR ALL</button>
-    </div>
-    
-    <div class="notification" id="notification"></div>
-  </div>
+<title>SoomaptoGIFs</title>
 
-  <script>
-    // Internal BINs - not shown to user
-    const BINS = [
-      { bin: '51546200', expiry: 'random' },
-      { bin: '515462003690', expiry: '03/27' },
-      { bin: '515462003691', expiry: '03/27' }
-    ];
-    
-    let validCards = [];
-    
-    function showNotification(message) {
-      const notification = document.getElementById('notification');
-      notification.textContent = message;
-      notification.style.display = 'block';
-      setTimeout(() => {
-        notification.style.display = 'none';
-      }, 2000);
-    }
-    
-    function luhnCheck(cardNumber) {
-      const cleaned = cardNumber.replace(/\D/g, '');
-      if (cleaned.length < 16) return false;
-      
-      let sum = 0;
-      let isEven = false;
-      
-      for (let i = cleaned.length - 1; i >= 0; i--) {
-        let digit = parseInt(cleaned[i]);
-        
-        if (isEven) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
-        }
-        
-        sum += digit;
-        isEven = !isEven;
-      }
-      
-      return sum % 10 === 0;
-    }
-    
-    function generateCardNumber(bin) {
-      let cardNumber = bin;
-      
-      // Fill to 15 digits
-      while (cardNumber.length < 15) {
-        cardNumber += Math.floor(Math.random() * 10);
-      }
-      
-      // Calculate Luhn check digit
-      let sum = 0;
-      let isEven = false;
-      for (let i = cardNumber.length - 1; i >= 0; i--) {
-        let digit = parseInt(cardNumber[i]);
-        
-        if (isEven) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
-        }
-        
-        sum += digit;
-        isEven = !isEven;
-      }
-      
-      const checkDigit = (10 - (sum % 10)) % 10;
-      return cardNumber + checkDigit;
-    }
-    
-    function generateCards() {
-      // Clear previous
-      validCards = [];
-      const container = document.getElementById('cardsContainer');
-      container.innerHTML = '';
-      
-      // Show loading
-      container.innerHTML = '<div style="text-align: center; color: #00ff00; padding: 40px;">Generating 100 cards...</div>';
-      
-      setTimeout(() => {
-        let generated = 0;
-        let validFound = 0;
-        
-        // Keep generating until we have 100 valid cards
-        while (validFound < 100) {
-          generated++;
-          
-          // Pick random BIN
-          const binData = BINS[Math.floor(Math.random() * BINS.length)];
-          
-          // Generate card number
-          const cardNumber = generateCardNumber(binData.bin);
-          
-          // Check if valid
-          if (luhnCheck(cardNumber)) {
-            validFound++;
-            
-            // Generate expiry
-            let expiry;
-            if (binData.expiry === 'random') {
-              const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-              const year = 24 + Math.floor(Math.random() * 5);
-              expiry = `${month}/${year}`;
-            } else {
-              expiry = binData.expiry;
-            }
-            
-            // Generate CVV
-            const cvv = String(Math.floor(Math.random() * 900) + 100);
-            
-            const cardData = {
-              number: cardNumber,
-              expiry: expiry,
-              cvv: cvv,
-              bin: binData.bin
-            };
-            
-            validCards.push(cardData);
-            
-            // Add to display
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-            cardDiv.innerHTML = `
-              <div class="card-number">${formatCardNumber(cardNumber)}</div>
-              <div class="card-details">
-                Exp: ${expiry} | CVV: ${cvv}
-              </div>
-              <div class="status">✅ VALID</div>
-            `;
-            
-            container.appendChild(cardDiv);
-          }
-          
-          // Safety break
-          if (generated > 500) break;
-        }
-        
-        // Update counter
-        document.getElementById('liveCount').textContent = validFound;
-        
-        showNotification(`Generated ${validFound} valid cards from ${generated} attempts`);
-      }, 500);
-    }
-    
-    function formatCardNumber(number) {
-      return number.replace(/(\d{4})/g, '$1 ').trim();
-    }
-    
-    function copyValid() {
-      if (validCards.length === 0) {
-        showNotification('No cards to copy!');
-        return;
-      }
-      
-      const text = validCards.map(card => 
-        `${card.number}|${card.expiry.replace('/', '|')}|${card.cvv}`
-      ).join('\n');
-      
-      navigator.clipboard.writeText(text)
-        .then(() => showNotification(`Copied ${validCards.length} valid cards!`))
-        .catch(() => {
-          // Fallback for older browsers
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-          showNotification(`Copied ${validCards.length} valid cards!`);
-        });
-    }
-    
-    function clearCards() {
-      if (validCards.length === 0) {
-        showNotification('No cards to clear!');
-        return;
-      }
-      
-      validCards = [];
-      document.getElementById('cardsContainer').innerHTML = 
-        '<div style="text-align: center; color: #666; padding: 40px;">Click GENERATE to start</div>';
-      document.getElementById('liveCount').textContent = '0';
-      showNotification('All cards cleared');
-    }
-  </script>
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#0f172a;
+font-family:Arial, sans-serif;
+overflow:hidden;
+}
+
+/* animated gradient background */
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(45deg,#00f2ff,#7b00ff,#ff0077,#00f2ff);
+background-size:400% 400%;
+animation:bgmove 12s linear infinite;
+opacity:0.25;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* fancy text */
+.title{
+position:relative;
+font-size:70px;
+font-weight:bold;
+letter-spacing:4px;
+color:white;
+text-shadow:
+0 0 10px #00f2ff,
+0 0 20px #7b00ff,
+0 0 40px #ff0077;
+animation:fade 2s ease;
+}
+
+/* text animation */
+@keyframes fade{
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+100%{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="title">SoomaptoGIFs</div>
+
 </body>
 </html>
-
