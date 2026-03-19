@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="google-site-verification" content="1ca3gechnQKf8WFVpBW6GHUe2HNyYawmhW78NQxSPfI" />
   <title>Nexim — AI Prompt Playground</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -2299,15 +2298,15 @@
     const apiKey = document.getElementById('imgApiKey').value.trim() || document.getElementById('gemini-key').value.trim();
     const [w, h] = size.split('x');
 
-    if (provider === 'pollinations') {
+    if (provider === 'pollinations' || provider === 'puter') {
       const encodedPrompt = encodeURIComponent(prompt);
-      return { type: 'url', url: `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&seed=${Date.now()}` };
-    }
-
-    if (provider === 'puter') {
-      // Puter generates via their JS SDK but since we can't load it dynamically, fallback to pollinations
-      const encodedPrompt = encodeURIComponent(prompt);
-      return { type: 'url', url: `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Date.now()}` };
+      // Use flux model (most stable) and fetch as blob so image displays + downloads properly
+      const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Math.floor(Math.random()*99999999)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Pollinations error: ${res.status}`);
+      const blob = await res.blob();
+      const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+      return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
     }
 
     if (provider === 'gemini-flash-img') {
@@ -2461,21 +2460,37 @@
       aDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant</div><div class="message-bubble">❌ ${escapeHtml(errorMsg)}</div></div>`;
     } else {
       let imgSrc = imgResult.type === 'url' ? imgResult.url : `data:${imgResult.mime};base64,${imgResult.data}`;
+      const modelLabel = document.getElementById('imgProvider').options[document.getElementById('imgProvider').selectedIndex].text.split('—')[1]?.trim() || 'Generated';
+      const imgId = 'img-' + Date.now();
       aDiv.innerHTML = `
         <div class="message-avatar">✦</div>
         <div class="message-content">
           <div class="message-role">assistant · image</div>
           <div class="message-bubble" style="padding:10px;">
-            <img src="${imgSrc}" class="generated-img" alt="${escapeHtml(prompt)}" />
+            <img id="${imgId}" src="${imgSrc}" class="generated-img" alt="${escapeHtml(prompt)}" />
             <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
-              <a class="img-dl-btn" href="${imgSrc}" download="nexim-${Date.now()}.png">⬇ Download</a>
-              <span style="font-size:11px;color:var(--text3);">${document.getElementById('imgProvider').options[document.getElementById('imgProvider').selectedIndex].text.split('—')[1]?.trim() || 'Generated'}</span>
+              <button class="img-dl-btn" onclick="downloadImg('${imgId}', '${escapeTemplate(prompt)}')">⬇ Download</button>
+              <span style="font-size:11px;color:var(--text3);">${modelLabel}</span>
             </div>
           </div>
         </div>`;
     }
     chat.appendChild(aDiv);
     chat.scrollTop = chat.scrollHeight;
+  }
+
+  function downloadImg(imgId, prompt) {
+    const img = document.getElementById(imgId);
+    if (!img) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth || img.width;
+    canvas.height = img.naturalHeight || img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'nexim-' + (prompt || 'image').slice(0, 30).replace(/[^a-z0-9]/gi, '-') + '.png';
+    a.click();
   }
 
   // DARK MODE
