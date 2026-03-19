@@ -1248,6 +1248,100 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .img-dl-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); color: var(--text2); cursor: pointer; text-decoration: none; margin-top: 6px; font-family: "DM Sans", sans-serif; transition: all 0.15s; }
     .img-dl-btn:hover { background: var(--border); color: var(--text); }
+
+    /* MARKDOWN RENDERING */
+    .message-bubble { white-space: normal !important; }
+    .message-bubble p { margin-bottom: 10px; line-height: 1.7; }
+    .message-bubble p:last-child { margin-bottom: 0; }
+    .message-bubble h1,.message-bubble h2,.message-bubble h3,.message-bubble h4 {
+      font-family: 'DM Serif Display', serif;
+      margin: 16px 0 8px;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .message-bubble h1 { font-size: 20px; }
+    .message-bubble h2 { font-size: 17px; }
+    .message-bubble h3 { font-size: 15px; }
+    .message-bubble h4 { font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+    .message-bubble strong { font-weight: 600; color: var(--text); }
+    .message-bubble em { font-style: italic; }
+    .message-bubble ul, .message-bubble ol { padding-left: 20px; margin-bottom: 10px; }
+    .message-bubble li { margin-bottom: 4px; line-height: 1.6; }
+    .message-bubble ul li { list-style-type: disc; }
+    .message-bubble ol li { list-style-type: decimal; }
+    .message-bubble blockquote {
+      border-left: 3px solid var(--border2);
+      padding: 6px 12px;
+      margin: 10px 0;
+      color: var(--text2);
+      font-style: italic;
+      background: var(--surface2);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .message-bubble a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+    .message-bubble hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+    .message-bubble table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 13px; }
+    .message-bubble th { background: var(--surface2); font-weight: 600; text-align: left; padding: 7px 10px; border: 1px solid var(--border); }
+    .message-bubble td { padding: 6px 10px; border: 1px solid var(--border); }
+    .message-bubble tr:nth-child(even) td { background: var(--surface2); }
+
+    /* Inline code */
+    .message-bubble code:not(.block-code) {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--text);
+    }
+    .message.user .message-bubble code:not(.block-code) {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    /* Code blocks */
+    .code-block {
+      margin: 10px 0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #1e1e1e;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background: #2d2d2d;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: #aaa;
+    }
+    .code-copy-btn {
+      background: transparent;
+      border: 1px solid #444;
+      color: #aaa;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .code-copy-btn:hover { background: #444; color: #fff; }
+    .code-copy-btn.copied { color: #4ade80; border-color: #4ade80; }
+    .code-block pre {
+      margin: 0;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e8e8e8;
+      white-space: pre;
+    }
   </style>
 </head>
 <body>
@@ -1600,48 +1694,138 @@
 
       <!-- Models config -->
       <div class="compare-config show" id="config-models">
-        <div class="compare-two-col">
-          <div class="input-group" style="margin:0">
-            <div class="input-label">Model A</div>
-            <select class="input-field" id="cmp-model-a">
-              <optgroup label="── Gemini">
+        <!-- Side A -->
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Side A</div>
+          <div class="compare-two-col" style="gap:8px;">
+            <div class="input-group" style="margin:0">
+              <div class="input-label">Model</div>
+              <select class="input-field" id="cmp-model-a" onchange="updateCmpKeyHint('a')">
+                              <optgroup label="── Gemini 3.x">
+                <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                <option value="gemini:gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+                <option value="gemini:gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+                <option value="gemini:gemini-3-pro-preview">Gemini 3 Pro Preview</option>
+                <option value="gemini:gemini-3-flash">Gemini 3 Flash</option>
+              </optgroup>
+              <optgroup label="── Gemini 2.5">
+                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
                 <option value="gemini:gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
-                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
               </optgroup>
-              <optgroup label="── OpenRouter">
+              <optgroup label="── OpenAI GPT">
+                <option value="openai:gpt-4o">GPT-4o</option>
+                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
+                <option value="openai:gpt-4.5-preview">GPT-4.5 Preview</option>
+                <option value="openai:gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="openai:gpt-3.5-turbo">GPT-3.5 Turbo</option>
+              </optgroup>
+              <optgroup label="── OpenAI Reasoning">
+                <option value="openai:o3">o3</option>
+                <option value="openai:o3-mini">o3 Mini</option>
+                <option value="openai:o1">o1</option>
+                <option value="openai:o1-mini">o1 Mini</option>
+              </optgroup>
+              <optgroup label="── Meta Llama (OpenRouter)">
                 <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+                <option value="openrouter:meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
+                <option value="openrouter:meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
+              </optgroup>
+              <optgroup label="── DeepSeek (OpenRouter)">
                 <option value="openrouter:deepseek/deepseek-chat:free">DeepSeek V3</option>
-                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
+                <option value="openrouter:deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+              </optgroup>
+              <optgroup label="── Mistral (OpenRouter)">
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
                 <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+                <option value="openrouter:mistralai/codestral-latest">Codestral (Code)</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OpenRouter)">
                 <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
               </optgroup>
-              <optgroup label="── OpenAI">
-                <option value="openai:gpt-4o">GPT-4o</option>
-                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
-                <option value="openai:o3-mini">o3 Mini</option>
+              <optgroup label="── Google via OpenRouter">
+                <option value="openrouter:google/gemini-2.5-pro">Gemini 2.5 Pro (OR)</option>
+                <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B</option>
               </optgroup>
-            </select>
+              <optgroup label="── Other (OpenRouter)">
+                <option value="openrouter:qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
+                <option value="openrouter:microsoft/phi-4">Microsoft Phi-4</option>
+              </optgroup>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0">
+              <div class="input-label" id="cmp-key-label-a">API Key (Gemini)</div>
+              <input type="password" class="input-field password" id="cmp-key-a" placeholder="Uses sidebar key if empty" style="font-size:12px;" />
+            </div>
           </div>
-          <div class="input-group" style="margin:0">
-            <div class="input-label">Model B</div>
-            <select class="input-field" id="cmp-model-b">
-              <optgroup label="── Gemini">
-                <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
+        </div>
+        <!-- Side B -->
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Side B</div>
+          <div class="compare-two-col" style="gap:8px;">
+            <div class="input-group" style="margin:0">
+              <div class="input-label">Model</div>
+              <select class="input-field" id="cmp-model-b" onchange="updateCmpKeyHint('b')">
+                              <optgroup label="── Gemini 3.x">
+                <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                <option value="gemini:gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+                <option value="gemini:gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+                <option value="gemini:gemini-3-pro-preview">Gemini 3 Pro Preview</option>
+                <option value="gemini:gemini-3-flash">Gemini 3 Flash</option>
+              </optgroup>
+              <optgroup label="── Gemini 2.5">
                 <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+                <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
+                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
               </optgroup>
-              <optgroup label="── OpenRouter">
-                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
-                <option value="openrouter:deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
-                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
-                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
-                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
-              </optgroup>
-              <optgroup label="── OpenAI">
+              <optgroup label="── OpenAI GPT">
                 <option value="openai:gpt-4o">GPT-4o</option>
                 <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
-                <option value="openai:o3-mini">o3 Mini</option>
+                <option value="openai:gpt-4.5-preview">GPT-4.5 Preview</option>
+                <option value="openai:gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="openai:gpt-3.5-turbo">GPT-3.5 Turbo</option>
               </optgroup>
-            </select>
+              <optgroup label="── OpenAI Reasoning">
+                <option value="openai:o3">o3</option>
+                <option value="openai:o3-mini">o3 Mini</option>
+                <option value="openai:o1">o1</option>
+                <option value="openai:o1-mini">o1 Mini</option>
+              </optgroup>
+              <optgroup label="── Meta Llama (OpenRouter)">
+                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+                <option value="openrouter:meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
+                <option value="openrouter:meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
+              </optgroup>
+              <optgroup label="── DeepSeek (OpenRouter)">
+                <option value="openrouter:deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
+                <option value="openrouter:deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+              </optgroup>
+              <optgroup label="── Mistral (OpenRouter)">
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
+                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+                <option value="openrouter:mistralai/codestral-latest">Codestral (Code)</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OpenRouter)">
+                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+              </optgroup>
+              <optgroup label="── Google via OpenRouter">
+                <option value="openrouter:google/gemini-2.5-pro">Gemini 2.5 Pro (OR)</option>
+                <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B</option>
+              </optgroup>
+              <optgroup label="── Other (OpenRouter)">
+                <option value="openrouter:qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
+                <option value="openrouter:microsoft/phi-4">Microsoft Phi-4</option>
+              </optgroup>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0">
+              <div class="input-label" id="cmp-key-label-b">API Key (OpenRouter)</div>
+              <input type="password" class="input-field password" id="cmp-key-b" placeholder="Uses sidebar key if empty" style="font-size:12px;" />
+            </div>
           </div>
         </div>
       </div>
@@ -2050,11 +2234,118 @@
   }
 
   // RENDER MESSAGE
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // Full markdown parser
+  function parseMarkdown(md) {
+    let html = escapeHtml(md);
+
+    // Code blocks (``` ... ```) — must be before inline code
+    html = html.replace(/```(\w*)
+?([\s\S]*?)```/g, (_, lang, code) => {
+      const id = 'cb-' + Math.random().toString(36).slice(2,8);
+      const escapedCode = code.trimEnd();
+      const langLabel = lang || 'code';
+      return `<div class="code-block"><div class="code-block-header"><span>${langLabel}</span><button class="code-copy-btn" onclick="copyCodeBlock('${id}',this)">Copy</button></div><pre id="${id}">${escapedCode}</pre></div>`;
+    });
+
+    // Inline code
+    html = html.replace(/`([^`
+]+)`/g, '<code>$1</code>');
+
+    // Headers
+    html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+
+    // Blockquotes
+    html = html.replace(/^&gt;\s+(.+)$/gm, '<blockquote>$1</blockquote>');
+
+    // Bold + italic
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+    // Strikethrough
+    html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+    // Horizontal rule
+    html = html.replace(/^(-{3,}|\*{3,})$/gm, '<hr>');
+
+    // Tables
+    html = html.replace(/(\|.+\|
+\|[-| :]+\|
+(?:\|.+\|
+?)+)/g, (table) => {
+      const rows = table.trim().split('
+');
+      const header = rows[0].split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+      const body = rows.slice(2).map(r =>
+        '<tr>' + r.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('') + '</tr>'
+      ).join('');
+      return `<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+    });
+
+    // Unordered lists
+    html = html.replace(/((?:^[*\-+]\s.+
+?)+)/gm, (block) => {
+      const items = block.trim().split('
+').map(l => `<li>${l.replace(/^[*\-+]\s/, '')}</li>`).join('');
+      return `<ul>${items}</ul>`;
+    });
+
+    // Ordered lists
+    html = html.replace(/((?:^\d+\.\s.+
+?)+)/gm, (block) => {
+      const items = block.trim().split('
+').map(l => `<li>${l.replace(/^\d+\.\s/, '')}</li>`).join('');
+      return `<ol>${items}</ol>`;
+    });
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+    // Line breaks — double newline = paragraph
+    const parts = html.split(/
+{2,}/);
+    html = parts.map(part => {
+      part = part.trim();
+      if (!part) return '';
+      // Don't wrap block elements in <p>
+      if (/^<(h[1-6]|ul|ol|blockquote|hr|table|div|pre)/.test(part)) return part;
+      return `<p>${part.replace(/
+/g, '<br>')}</p>`;
+    }).filter(Boolean).join('
+');
+
+    return html;
+  }
+
+  function copyCodeBlock(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }
+
   function renderMessage(role, content, tokens) {
     const chat = document.getElementById('chatArea');
     const div = document.createElement('div');
     div.className = `message ${role}`;
     const avatarText = role === 'user' ? 'U' : '✦';
+
+    // User messages: plain text. Assistant: parsed markdown
+    const bubbleContent = role === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
+
     const meta = role === 'assistant' ? `
       <div class="message-meta">
         ${tokens !== undefined ? `<span class="message-tokens">~${tokens} tokens</span>` : ''}
@@ -2066,16 +2357,12 @@
       <div class="message-avatar">${avatarText}</div>
       <div class="message-content">
         <div class="message-role">${role}</div>
-        <div class="message-bubble">${escapeHtml(content)}</div>
+        <div class="message-bubble">${bubbleContent}</div>
         ${meta}
       </div>
     `;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
-  }
-
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   function escapeTemplate(str) {
@@ -2557,23 +2844,38 @@
     return '';
   }
 
+  function updateCmpKeyHint(side) {
+    const val = document.getElementById('cmp-model-' + side).value;
+    const provider = val.split(':')[0];
+    const label = document.getElementById('cmp-key-label-' + side);
+    const input = document.getElementById('cmp-key-' + side);
+    const hints = { gemini: 'API Key (Gemini)', openai: 'API Key (OpenAI)', openrouter: 'API Key (OpenRouter)' };
+    const placeholders = { gemini: 'AIza... or uses sidebar key', openai: 'sk-... or uses sidebar key', openrouter: 'sk-or-... or uses sidebar key' };
+    if (label) label.textContent = hints[provider] || 'API Key';
+    if (input) input.placeholder = placeholders[provider] || 'Uses sidebar key if empty';
+  }
+
+  function getCmpKey(side, provider) {
+    const perSideKey = document.getElementById('cmp-key-' + side)?.value.trim();
+    return perSideKey || getKey(provider);
+  }
+
   function startCompare() {
     const temp = parseFloat(document.getElementById('temperature').value);
     const maxTok = parseInt(document.getElementById('maxTokens').value);
     const sysPrompt = document.getElementById('systemPrompt').value.trim();
 
     if (compareType === 'models') {
-      const [provA, modA] = document.getElementById('cmp-model-a').value.split(':').reduce((a,v,i)=>i===0?[v,a[1]]:[a[0],a[1]?a[1]+':'+v:v],['',' '.trim().replace(' ','')]);
       const valA = document.getElementById('cmp-model-a').value;
       const valB = document.getElementById('cmp-model-b').value;
       const pA = valA.split(':')[0], mA = valA.slice(pA.length+1);
       const pB = valB.split(':')[0], mB = valB.slice(pB.length+1);
       cmpConfig = {
-        a: { provider: pA, model: mA, key: getKey(pA), temp, maxTok, system: sysPrompt },
-        b: { provider: pB, model: mB, key: getKey(pB), temp, maxTok, system: sysPrompt }
+        a: { provider: pA, model: mA, key: getCmpKey('a', pA), temp, maxTok, system: sysPrompt },
+        b: { provider: pB, model: mB, key: getCmpKey('b', pB), temp, maxTok, system: sysPrompt }
       };
-      document.getElementById('cmp-label-a').textContent = mA;
-      document.getElementById('cmp-label-b').textContent = mB;
+      document.getElementById('cmp-label-a').textContent = mA.split('/').pop();
+      document.getElementById('cmp-label-b').textContent = mB.split('/').pop();
     } else if (compareType === 'temperature') {
       const tA = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[0].value);
       const tB = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[1].value);
@@ -2652,7 +2954,7 @@
       <div class="message-avatar">${role==='user'?'U':'✦'}</div>
       <div class="message-content">
         <div class="message-role">${role}</div>
-        <div class="message-bubble">${escapeHtml(text)}</div>
+        <div class="message-bubble">${role === 'assistant' ? parseMarkdown(text) : escapeHtml(text)}</div>
         ${role==='assistant' ? `<div class="message-meta"><button class="copy-btn" onclick="copyText(this,\`${escapeTemplate(text)}\`)">Copy</button></div>` : ''}
       </div>`;
     chat.appendChild(div);
