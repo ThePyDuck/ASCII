@@ -3,8 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nexim — AI Prompt Playground</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- Primary Meta -->
+  <title>Nexim AI — Free Prompt Playground | Compare 30+ AI Models</title>
+  <meta name="description" content="Test and compare AI prompts across Gemini 2.5, DeepSeek R1, Llama 4 and 30+ models. Generate images, save prompts. Free, no login needed.">
+  <meta name="keywords" content="AI prompt playground, compare AI models, Gemini 2.5, GPT-4o, DeepSeek R1, Llama 4, free AI tool">
+  <meta name="author" content="Nexim AI">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://neximai.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://neximai.vercel.app/">
+  <meta property="og:site_name" content="Nexim AI">
+  <meta property="og:title" content="Nexim AI — Free AI Prompt Playground">
+  <meta property="og:description" content="Test and compare AI prompts across Gemini 2.5, DeepSeek R1, Llama 4 and 30+ models. Free, no login needed.">
+  <meta property="og:image" content="https://neximai.vercel.app/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nexim AI — Free AI Prompt Playground">
+  <meta name="twitter:description" content="Test and compare AI prompts across Gemini 2.5, DeepSeek R1, Llama 4 and 30+ models. Free, no login needed.">
+  <meta name="twitter:image" content="https://neximai.vercel.app/og-image.png">
+
+  <!-- Theme & Mobile -->
+  <meta name="theme-color" content="#1a1916">
+
+  <!-- Favicon — inline SVG, no external file needed -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a1916'/%3E%3Cline x1='6' y1='8' x2='6' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='6' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.45'/%3E%3Cline x1='16' y1='8' x2='26' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Cline x1='26' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Ccircle cx='27' cy='8' r='2.5' fill='%23e8e4dc'/%3E%3C/svg%3E">
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a1916'/%3E%3Cline x1='6' y1='8' x2='6' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='6' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.45'/%3E%3Cline x1='16' y1='8' x2='26' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Cline x1='26' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Ccircle cx='27' cy='8' r='2.5' fill='%23e8e4dc'/%3E%3C/svg%3E">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nexim AI",
+    "url": "https://neximai.vercel.app",
+    "description": "Free AI prompt playground for testing and comparing 30+ AI models including Gemini 2.5, DeepSeek R1, and Llama 4",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["AI prompt testing", "Model comparison", "Image generation", "Prompt saving"],
+    "screenshot": "https://neximai.vercel.app/og-image.png"
+  }
+  </script>
+
+  <!-- Fonts (non-blocking) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -3037,5 +3085,26 @@
     document.getElementById('mobile-gemini-model').value = this.value;
   });
 </script>
+<!-- SEO: semantic footer with internal links and h2/h3 headings for crawlers -->
+<footer style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+  <h2>Nexim AI Prompt Playground Features</h2>
+  <nav aria-label="Features">
+    <h3><a href="#chat">AI Chat &amp; Prompt Testing</a></h3>
+    <p>Test prompts with Gemini 2.5 Pro, Gemini 2.5 Flash, DeepSeek R1, Llama 4 Maverick and more.</p>
+    <h3><a href="#compare">Side-by-Side Model Comparison</a></h3>
+    <p>Compare two AI models, temperatures, or system prompts simultaneously.</p>
+    <h3><a href="#image">AI Image Generation</a></h3>
+    <p>Generate images using FLUX, DALL-E 3, Gemini Imagen, Stable Diffusion and more.</p>
+  </nav>
+  <h2>Supported AI Providers</h2>
+  <ul>
+    <li>Google Gemini — Gemini 2.5 Pro, Gemini 2.5 Flash</li>
+    <li>OpenRouter — DeepSeek R1, Llama 4, Mistral, Qwen3, NVIDIA Nemotron</li>
+    <li>OpenAI — GPT-4o, GPT-4o Mini, o3</li>
+    <li>Image: Puter.js (FLUX free), fal.ai, Stability AI, Replicate</li>
+  </ul>
+  <h2>About Nexim</h2>
+  <p>Nexim is a free, open AI prompt playground built for developers, researchers and AI enthusiasts. No login, no tracking, API keys stored only in your browser.</p>
+</footer>
 </body>
 </html>
