@@ -2300,13 +2300,23 @@
 
     if (provider === 'pollinations' || provider === 'puter') {
       const encodedPrompt = encodeURIComponent(prompt);
-      // Use flux model (most stable) and fetch as blob so image displays + downloads properly
-      const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Math.floor(Math.random()*99999999)}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Pollinations error: ${res.status}`);
-      const blob = await res.blob();
-      const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
-      return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
+      const seed = Math.floor(Math.random() * 99999999);
+      // Try flux first, fallback to turbo if 500
+      const models = ['flux', 'turbo', 'flux-realism'];
+      let lastErr = '';
+      for (const model of models) {
+        try {
+          const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=${model}&seed=${seed}`;
+          const res = await fetch(url);
+          if (!res.ok) { lastErr = `${model} error ${res.status}`; continue; }
+          const contentType = res.headers.get('content-type') || '';
+          if (!contentType.startsWith('image/')) { lastErr = `${model} returned non-image`; continue; }
+          const blob = await res.blob();
+          const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+          return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
+        } catch(e) { lastErr = e.message; }
+      }
+      throw new Error(`Pollinations failed on all models. Last error: ${lastErr}`);
     }
 
     if (provider === 'gemini-flash-img') {
@@ -2445,13 +2455,6 @@
 
   function renderImageMessage(prompt, imgResult, errorMsg) {
     const chat = document.getElementById('chatArea');
-    hideWelcome();
-
-    // User message
-    const userDiv = document.createElement('div');
-    userDiv.className = 'message user';
-    userDiv.innerHTML = `<div class="message-avatar">U</div><div class="message-content"><div class="message-role">user</div><div class="message-bubble">🖼 ${escapeHtml(prompt)}</div></div>`;
-    chat.appendChild(userDiv);
 
     // Assistant message
     const aDiv = document.createElement('div');
