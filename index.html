@@ -3,75 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <!-- Primary Meta Tags - FIXED lengths -->
-  <title>Nexim — AI Prompt Playground | Test 30+ AI Models</title>
-  <meta name="title" content="Nexim AI — Compare AI Models Side by Side">
-  <meta name="description" content="Free AI prompt playground to test and compare 100+ models including Gemini 2.5, GPT-4o, and Claude 3.7. No login required.">
-  <meta name="keywords" content="AI prompts, prompt playground, Gemini 2.5, GPT-4o, Claude 3.7, compare AI models">
-  <meta name="author" content="Nexim AI">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://neximai.vercel.app" />
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://neximai.vercel.app">
-  <meta property="og:site_name" content="Nexim AI">
-  <meta property="og:title" content="Nexim AI — Prompt Playground">
-  <meta property="og:description" content="Test and compare AI prompts across 100+ models">
-  <meta property="og:image" content="https://neximai.vercel.app/og-image.png">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@neximai">
-  <meta name="twitter:title" content="Nexim AI — Prompt Playground">
-  <meta name="twitter:description" content="Test and compare AI prompts across 100+ models">
-  <meta name="twitter:image" content="https://neximai.vercel.app/twitter-image.png">
-  
-  <!-- Theme -->
-  <meta name="theme-color" content="#1a1916">
-  
-  <!-- Google Search Console - ADD YOUR CODE -->
-  <meta name="google-site-verification" content="YOUR_CODE_HERE" />
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Nexim AI",
-    "url": "https://neximai.vercel.app",
-    "description": "Free AI prompt playground for testing and comparing 100+ AI models",
-    "applicationCategory": "AI Tool",
-    "operatingSystem": "Web",
-    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
-  }
-  </script>
-  
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Website",
-    "name": "Nexim AI",
-    "url": "https://neximai.vercel.app",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://neximai.vercel.app/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-  
+  <title>Nexim — AI Prompt Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1450,7 +1383,7 @@
 </header>
 
 <!-- APP -->
-<div class="app">
+<div class="app" id="chat">
 
   <!-- SIDEBAR LEFT -->
   <aside class="sidebar-left">
@@ -1674,20 +1607,20 @@
             <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
           </svg>
         </div>
-        <div class="welcome-title">Nexim</div>
-        <div class="welcome-sub">Test, compare and refine AI prompts across every major model.</div>
+        <h1 class="welcome-title">Nexim <span style="font-size:16px;font-family:'DM Sans',sans-serif;font-weight:400;font-style:normal;color:var(--text3);letter-spacing:0;">AI Prompt Playground</span></h1>
+        <p class="welcome-sub">Test, compare and refine AI prompts across Gemini 2.5, GPT-4o, DeepSeek, Llama 4 and 30+ more models — free, no login required.</p>
         <div class="welcome-steps">
           <div class="welcome-step">
             <span class="step-num">1</span>
-            <span>Pick your API provider from the left sidebar (Gemini is free to start)</span>
+            <span><strong>Choose a provider</strong> — Gemini, OpenRouter (free models), or OpenAI</span>
           </div>
           <div class="welcome-step">
             <span class="step-num">2</span>
-            <span>Paste your API key — it's stored only in your browser, never sent anywhere else</span>
+            <span><strong>Add your API key</strong> — stored only in your browser, never on our servers</span>
           </div>
           <div class="welcome-step">
             <span class="step-num">3</span>
-            <span>Type a prompt below and hit Send. Tweak temperature & tokens to experiment!</span>
+            <span><strong>Send a prompt</strong> — tweak temperature, compare models, or generate images</span>
           </div>
         </div>
       </div>
@@ -2085,6 +2018,26 @@
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- SEO FOOTER (hidden visually but visible to crawlers) -->
+<footer style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;" aria-hidden="true">
+  <nav aria-label="Site sections">
+    <h2>Features</h2>
+    <ul>
+      <li><a href="#chat">AI Chat Playground</a></li>
+      <li><a href="#compare">Side-by-Side Model Comparison</a></li>
+      <li><a href="#image">AI Image Generation</a></li>
+    </ul>
+    <h2>Supported AI Models</h2>
+    <ul>
+      <li><a href="#gemini">Google Gemini 2.5 Pro &amp; Flash</a></li>
+      <li><a href="#openrouter">DeepSeek R1, Llama 4, Mistral via OpenRouter</a></li>
+      <li><a href="#openai">GPT-4o, o3 via OpenAI</a></li>
+    </ul>
+    <h2>About Nexim</h2>
+    <p>Nexim is a free AI prompt playground for developers and researchers. Compare AI model outputs side by side, generate images, and save your best prompts — no login required.</p>
+  </nav>
+</footer>
 
 <script>
   // STATE
@@ -2495,8 +2448,8 @@
             <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
           </svg>
         </div>
-      <div class="welcome-title">Nexim</div>
-      <div class="welcome-sub">Test, compare and refine AI prompts across every major model.</div>
+      <h1 class="welcome-title">Nexim <span style="font-size:16px;font-family:'DM Sans',sans-serif;font-weight:400;font-style:normal;color:var(--text3);letter-spacing:0;">AI Prompt Playground</span></h1>
+      <p class="welcome-sub">Test, compare and refine AI prompts across Gemini 2.5, GPT-4o, DeepSeek, Llama 4 and 30+ more models — free, no login required.</p>
       <div class="welcome-steps">
         <div class="welcome-step"><span class="step-num">1</span><span>Pick your API provider from the left sidebar (Gemini is free to start)</span></div>
         <div class="welcome-step"><span class="step-num">2</span><span>Paste your API key — it's stored only in your browser, never sent anywhere else</span></div>
