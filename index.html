@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>Nexim — AI Prompt Playground</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -1430,32 +1429,51 @@
         <div class="input-group">
           <div class="input-label">Model</div>
           <select class="input-field" id="openrouter-model">
-            <optgroup label="── Meta Llama">
-              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
-              <option value="meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
-              <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
+            <optgroup label="── Auto Router">
+              <option value="openrouter/free">OpenRouter Auto (picks best free)</option>
             </optgroup>
-            <optgroup label="── Mistral">
-              <option value="mistralai/mistral-large">Mistral Large</option>
-              <option value="mistralai/mistral-7b-instruct:free">Mistral 7B</option>
-              <option value="mistralai/codestral-latest">Codestral (Code)</option>
+            <optgroup label="── Meta Llama">
+              <option value="meta-llama/llama-4-maverick:free">Llama 4 Maverick</option>
+              <option value="meta-llama/llama-4-scout:free">Llama 4 Scout</option>
+              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+              <option value="meta-llama/llama-3.1-405b-instruct:free">Llama 3.1 405B</option>
             </optgroup>
             <optgroup label="── DeepSeek">
-              <option value="deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
+              <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 (Mar 2024)</option>
               <option value="deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
-              <option value="deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+              <option value="deepseek/deepseek-r1-zero:free">DeepSeek R1 Zero</option>
+              <option value="deepseek/deepseek-v3-base:free">DeepSeek V3 Base</option>
             </optgroup>
             <optgroup label="── Google">
-              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+              <option value="google/gemini-2.5-pro-exp-03-25:free">Gemini 2.5 Pro Exp</option>
               <option value="google/gemma-3-27b-it:free">Gemma 3 27B</option>
             </optgroup>
-            <optgroup label="── Anthropic">
+            <optgroup label="── Mistral">
+              <option value="mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B</option>
+            </optgroup>
+            <optgroup label="── NVIDIA">
+              <option value="nvidia/llama-3.1-nemotron-nano-8b-v1:free">NVIDIA Nemotron Nano 8B</option>
+            </optgroup>
+            <optgroup label="── Qwen">
+              <option value="qwen/qwen2.5-vl-3b-instruct:free">Qwen 2.5 VL 3B</option>
+              <option value="qwen/qwen3-235b-a22b:free">Qwen3 235B</option>
+            </optgroup>
+            <optgroup label="── OpenRouter Experimental">
+              <option value="openrouter/optimus-alpha">Optimus Alpha</option>
+              <option value="openrouter/quasar-alpha">Quasar Alpha</option>
+            </optgroup>
+            <optgroup label="── Paid: Anthropic">
               <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
               <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+              <option value="anthropic/claude-3.7-sonnet">Claude 3.7 Sonnet</option>
             </optgroup>
-            <optgroup label="── Others">
-              <option value="qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
-              <option value="microsoft/phi-4">Microsoft Phi-4</option>
+            <optgroup label="── Paid: OpenAI via OR">
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+            </optgroup>
+            <optgroup label="── Paid: Mistral">
+              <option value="mistralai/mistral-large">Mistral Large</option>
+              <option value="mistralai/codestral-2501">Codestral 2501</option>
             </optgroup>
           </select>
         </div>
@@ -1702,57 +1720,58 @@
             <div class="input-group" style="margin:0">
               <div class="input-label">Model</div>
               <select class="input-field" id="cmp-model-a" onchange="updateCmpKeyHint('a')">
-                              <optgroup label="── Gemini 3.x">
+              <optgroup label="── OpenRouter Auto">
+                <option value="openrouter:openrouter/free">OpenRouter Auto Free</option>
+              </optgroup>
+              <optgroup label="── Gemini 3.x">
                 <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
                 <option value="gemini:gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
-                <option value="gemini:gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
-                <option value="gemini:gemini-3-pro-preview">Gemini 3 Pro Preview</option>
                 <option value="gemini:gemini-3-flash">Gemini 3 Flash</option>
               </optgroup>
               <optgroup label="── Gemini 2.5">
                 <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
                 <option value="gemini:gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
-                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
               </optgroup>
               <optgroup label="── OpenAI GPT">
                 <option value="openai:gpt-4o">GPT-4o</option>
                 <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
                 <option value="openai:gpt-4.5-preview">GPT-4.5 Preview</option>
-                <option value="openai:gpt-4-turbo">GPT-4 Turbo</option>
-                <option value="openai:gpt-3.5-turbo">GPT-3.5 Turbo</option>
               </optgroup>
               <optgroup label="── OpenAI Reasoning">
                 <option value="openai:o3">o3</option>
                 <option value="openai:o3-mini">o3 Mini</option>
                 <option value="openai:o1">o1</option>
-                <option value="openai:o1-mini">o1 Mini</option>
               </optgroup>
-              <optgroup label="── Meta Llama (OpenRouter)">
+              <optgroup label="── Meta Llama (OR)">
+                <option value="openrouter:meta-llama/llama-4-maverick:free">Llama 4 Maverick</option>
+                <option value="openrouter:meta-llama/llama-4-scout:free">Llama 4 Scout</option>
                 <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
-                <option value="openrouter:meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
-                <option value="openrouter:meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
               </optgroup>
-              <optgroup label="── DeepSeek (OpenRouter)">
-                <option value="openrouter:deepseek/deepseek-chat:free">DeepSeek V3</option>
-                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
-                <option value="openrouter:deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+              <optgroup label="── DeepSeek (OR)">
+                <option value="openrouter:deepseek/deepseek-chat-v3-0324:free">DeepSeek V3</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
               </optgroup>
-              <optgroup label="── Mistral (OpenRouter)">
-                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
-                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
-                <option value="openrouter:mistralai/codestral-latest">Codestral (Code)</option>
-              </optgroup>
-              <optgroup label="── Anthropic (OpenRouter)">
-                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
-                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
-              </optgroup>
-              <optgroup label="── Google via OpenRouter">
-                <option value="openrouter:google/gemini-2.5-pro">Gemini 2.5 Pro (OR)</option>
+              <optgroup label="── Google via OR">
+                <option value="openrouter:google/gemini-2.5-pro-exp-03-25:free">Gemini 2.5 Pro Exp (OR)</option>
                 <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B</option>
               </optgroup>
-              <optgroup label="── Other (OpenRouter)">
-                <option value="openrouter:qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
-                <option value="openrouter:microsoft/phi-4">Microsoft Phi-4</option>
+              <optgroup label="── Mistral (OR)">
+                <option value="openrouter:mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B</option>
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
+                <option value="openrouter:mistralai/codestral-2501">Codestral 2501</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OR)">
+                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+                <option value="openrouter:anthropic/claude-3.7-sonnet">Claude 3.7 Sonnet</option>
+                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+              </optgroup>
+              <optgroup label="── NVIDIA / Qwen (OR)">
+                <option value="openrouter:nvidia/llama-3.1-nemotron-nano-8b-v1:free">NVIDIA Nemotron 8B</option>
+                <option value="openrouter:qwen/qwen3-235b-a22b:free">Qwen3 235B</option>
+              </optgroup>
+              <optgroup label="── OpenRouter Exp">
+                <option value="openrouter:openrouter/optimus-alpha">Optimus Alpha</option>
+                <option value="openrouter:openrouter/quasar-alpha">Quasar Alpha</option>
               </optgroup>
               </select>
             </div>
@@ -1769,57 +1788,58 @@
             <div class="input-group" style="margin:0">
               <div class="input-label">Model</div>
               <select class="input-field" id="cmp-model-b" onchange="updateCmpKeyHint('b')">
-                              <optgroup label="── Gemini 3.x">
+              <optgroup label="── OpenRouter Auto">
+                <option value="openrouter:openrouter/free">OpenRouter Auto Free</option>
+              </optgroup>
+              <optgroup label="── Gemini 3.x">
                 <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
                 <option value="gemini:gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
-                <option value="gemini:gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
-                <option value="gemini:gemini-3-pro-preview">Gemini 3 Pro Preview</option>
                 <option value="gemini:gemini-3-flash">Gemini 3 Flash</option>
               </optgroup>
               <optgroup label="── Gemini 2.5">
                 <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
                 <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
-                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
               </optgroup>
               <optgroup label="── OpenAI GPT">
                 <option value="openai:gpt-4o">GPT-4o</option>
                 <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
                 <option value="openai:gpt-4.5-preview">GPT-4.5 Preview</option>
-                <option value="openai:gpt-4-turbo">GPT-4 Turbo</option>
-                <option value="openai:gpt-3.5-turbo">GPT-3.5 Turbo</option>
               </optgroup>
               <optgroup label="── OpenAI Reasoning">
                 <option value="openai:o3">o3</option>
                 <option value="openai:o3-mini">o3 Mini</option>
                 <option value="openai:o1">o1</option>
-                <option value="openai:o1-mini">o1 Mini</option>
               </optgroup>
-              <optgroup label="── Meta Llama (OpenRouter)">
+              <optgroup label="── Meta Llama (OR)">
+                <option value="openrouter:meta-llama/llama-4-maverick:free">Llama 4 Maverick</option>
+                <option value="openrouter:meta-llama/llama-4-scout:free">Llama 4 Scout</option>
                 <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
-                <option value="openrouter:meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
-                <option value="openrouter:meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
               </optgroup>
-              <optgroup label="── DeepSeek (OpenRouter)">
-                <option value="openrouter:deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
-                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
-                <option value="openrouter:deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+              <optgroup label="── DeepSeek (OR)">
+                <option value="openrouter:deepseek/deepseek-chat-v3-0324:free" selected>DeepSeek V3</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
               </optgroup>
-              <optgroup label="── Mistral (OpenRouter)">
-                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
-                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
-                <option value="openrouter:mistralai/codestral-latest">Codestral (Code)</option>
-              </optgroup>
-              <optgroup label="── Anthropic (OpenRouter)">
-                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
-                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
-              </optgroup>
-              <optgroup label="── Google via OpenRouter">
-                <option value="openrouter:google/gemini-2.5-pro">Gemini 2.5 Pro (OR)</option>
+              <optgroup label="── Google via OR">
+                <option value="openrouter:google/gemini-2.5-pro-exp-03-25:free">Gemini 2.5 Pro Exp (OR)</option>
                 <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B</option>
               </optgroup>
-              <optgroup label="── Other (OpenRouter)">
-                <option value="openrouter:qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
-                <option value="openrouter:microsoft/phi-4">Microsoft Phi-4</option>
+              <optgroup label="── Mistral (OR)">
+                <option value="openrouter:mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B</option>
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
+                <option value="openrouter:mistralai/codestral-2501">Codestral 2501</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OR)">
+                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+                <option value="openrouter:anthropic/claude-3.7-sonnet">Claude 3.7 Sonnet</option>
+                <option value="openrouter:anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+              </optgroup>
+              <optgroup label="── NVIDIA / Qwen (OR)">
+                <option value="openrouter:nvidia/llama-3.1-nemotron-nano-8b-v1:free">NVIDIA Nemotron 8B</option>
+                <option value="openrouter:qwen/qwen3-235b-a22b:free">Qwen3 235B</option>
+              </optgroup>
+              <optgroup label="── OpenRouter Exp">
+                <option value="openrouter:openrouter/optimus-alpha">Optimus Alpha</option>
+                <option value="openrouter:openrouter/quasar-alpha">Quasar Alpha</option>
               </optgroup>
               </select>
             </div>
