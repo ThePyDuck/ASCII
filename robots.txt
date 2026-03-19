@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neximai.vercel.app/sitemap.xml
