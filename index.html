@@ -1,107 +1,2232 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>SoomaptoGIFs</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexim — AI Prompt Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    :root {
+      --bg: #f9f8f6;
+      --surface: #ffffff;
+      --surface2: #f2f1ef;
+      --border: #e4e2de;
+      --border2: #d0cdc8;
+      --text: #1a1916;
+      --text2: #6b6860;
+      --text3: #a09e99;
+      --accent: #1a1916;
+      --accent-soft: #f0ede8;
+      --green: #2d6a4f;
+      --green-bg: #eef7f2;
+      --red: #c0392b;
+      --red-bg: #fdf0ee;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+    }
 
-<style>
+    body.dark {
+      --bg: #111110;
+      --surface: #1c1c1a;
+      --surface2: #252523;
+      --border: #2e2e2b;
+      --border2: #3a3a36;
+      --text: #f0ede8;
+      --text2: #a09e99;
+      --text3: #5a5855;
+      --accent: #f0ede8;
+      --accent-soft: #252523;
+      --green: #4ade80;
+      --green-bg: #0f2a1a;
+      --red: #f87171;
+      --red-bg: #2a0f0f;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+    body.dark .btn-primary { background: #f0ede8; color: #111110; }
+    body.dark .message.user .message-bubble { background: #f0ede8; color: #111110; border-color: #f0ede8; }
+    body.dark .logo-mark svg rect { fill: #f0ede8; }
+    body.dark .logo-mark svg line { stroke: #111110; }
+    body.dark .logo-mark svg circle { fill: #555; }
 
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:#0f172a;
-font-family:'Poppins',sans-serif;
-overflow:hidden;
-}
+    /* Dark mode toggle */
+    .dark-toggle {
+      width: 36px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--border2);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .dark-toggle::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--surface);
+      top: 3px;
+      left: 3px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    body.dark .dark-toggle { background: #f0ede8; }
+    body.dark .dark-toggle::after { transform: translateX(16px); background: #111110; }
 
-/* animated gradient background */
+    .dark-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text2);
+    }
 
-body::before{
-content:"";
-position:absolute;
-width:200%;
-height:200%;
-background:linear-gradient(60deg,#00d4ff,#7c3aed,#ff006e,#00d4ff);
-background-size:400% 400%;
-animation:bg 15s linear infinite;
-opacity:0.25;
-}
+    /* COMPARE MODE */
+    .compare-mode-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .compare-mode-btn:hover { background: var(--border); color: var(--text); }
+    .compare-mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
-@keyframes bg{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
+    /* Compare overlay */
+    .compare-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .compare-overlay.show { opacity: 1; pointer-events: all; }
 
-/* glass card */
+    .compare-modal {
+      background: var(--surface);
+      border-radius: var(--radius);
+      width: min(92vw, 520px);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transform: translateY(16px);
+      transition: transform 0.2s;
+    }
+    .compare-overlay.show .compare-modal { transform: translateY(0); }
 
-.container{
-position:relative;
-text-align:center;
-padding:40px;
-border-radius:20px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-box-shadow:0 10px 40px rgba(0,0,0,0.6);
-}
+    .compare-modal-header {
+      padding: 20px 24px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+    .compare-modal-header h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .compare-modal-header p { font-size: 12px; color: var(--text3); }
 
-/* fancy title */
+    .compare-modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
 
-.title{
-font-size:80px;
-color:white;
-letter-spacing:4px;
-text-shadow:
-0 0 10px #00d4ff,
-0 0 20px #7c3aed,
-0 0 40px #ff006e;
-animation:fade 2s ease;
-margin-bottom:30px;
-}
+    .compare-type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .compare-type-card {
+      padding: 12px 10px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      background: var(--bg);
+    }
+    .compare-type-card:hover { border-color: var(--border2); }
+    .compare-type-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+    .compare-type-card .card-icon { font-size: 18px; margin-bottom: 4px; }
+    .compare-type-card .card-label { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.3; }
 
-@keyframes fade{
-0%{
-opacity:0;
-transform:translateY(40px);
-}
-100%{
-opacity:1;
-transform:translateY(0);
-}
-}
+    .compare-config { display: none; }
+    .compare-config.show { display: flex; flex-direction: column; gap: 10px; }
 
-/* Bongobondhu image */
+    .compare-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-img{
-width:180px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
-}
+    .compare-modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
 
-</style>
+    /* Compare results view */
+    .compare-results {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 56px);
+    }
+    .compare-results.show { display: grid; }
+
+    .compare-pane {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .compare-pane:last-child { border-right: none; }
+
+    .compare-pane-header {
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .compare-pane-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .compare-pane-model {
+      font-size: 12px;
+      color: var(--text2);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .compare-chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--bg);
+    }
+
+    .compare-input-area {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .compare-prompt-shared {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      grid-column: 1 / -1;
+    }
+
+    /* Wrap compare results + shared input */
+    .compare-layout {
+      display: none;
+      flex-direction: column;
+      height: calc(100vh - 56px);
+    }
+    .compare-layout.show { display: flex; }
+
+    .compare-panes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .compare-shared-input {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .logo-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .logo-tag {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-danger {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid #f5c6c0;
+    }
+    .btn-danger:hover { background: #fce4e1; }
+
+    /* LAYOUT */
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      height: calc(100vh - 56px);
+    }
+
+    /* SIDEBAR LEFT */
+    .sidebar-left {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 12px;
+    }
+
+    /* API Config */
+    .api-provider-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      background: var(--surface2);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    .provider-tab {
+      flex: 1;
+      padding: 5px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 5px;
+      cursor: pointer;
+      color: var(--text2);
+      transition: all 0.15s;
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .provider-tab.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    .input-label {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      transition: border 0.15s;
+      outline: none;
+    }
+
+    .input-field:focus { border-color: var(--accent); }
+
+    .input-field.password { letter-spacing: 2px; }
+    .input-field.password::placeholder { letter-spacing: 0; }
+
+    select.input-field { cursor: pointer; }
+
+    /* Sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type=range] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--text2);
+      min-width: 32px;
+      text-align: right;
+    }
+
+    /* Saved Prompts */
+    .saved-prompts {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .saved-prompt-item {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--surface);
+    }
+
+    .saved-prompt-item:hover { border-color: var(--border2); background: var(--surface2); }
+
+    .saved-prompt-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-prompt-preview {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-prompt-actions {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .mini-btn {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.1s;
+    }
+
+    .mini-btn:hover { background: var(--surface2); }
+    .mini-btn.del:hover { background: var(--red-bg); color: var(--red); border-color: #f5c6c0; }
+
+    .empty-state {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--text3);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* MAIN */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* System Prompt */
+    .system-prompt-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .system-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding-top: 8px;
+      white-space: nowrap;
+    }
+
+    textarea.system-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text2);
+      background: transparent;
+      resize: none;
+      line-height: 1.5;
+      min-height: 32px;
+      max-height: 80px;
+    }
+
+    textarea.system-input::placeholder { color: var(--text3); }
+
+    /* Chat area */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.2s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .message.user .message-avatar {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .message.assistant .message-avatar {
+      background: var(--surface2);
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+
+    .message-content {
+      flex: 1;
+      max-width: calc(100% - 40px);
+    }
+
+    .message-role {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .message-bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message.user .message-bubble {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .message-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .message-tokens {
+      font-size: 11px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .copy-btn {
+      font-size: 11px;
+      color: var(--text3);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.1s;
+    }
+
+    .copy-btn:hover { color: var(--text); }
+    .copy-btn.copied { color: var(--green); }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.2s ease;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text3);
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+
+    /* Input area */
+    .input-area {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      transition: border 0.15s;
+    }
+
+    .input-wrapper:focus-within { border-color: var(--border2); }
+
+    textarea#promptInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      background: transparent;
+      color: var(--text);
+      resize: none;
+      min-height: 24px;
+      max-height: 160px;
+      line-height: 1.5;
+    }
+
+    textarea#promptInput::placeholder { color: var(--text3); }
+
+    .input-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding: 0 2px;
+    }
+
+    .input-hints {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .input-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* SIDEBAR RIGHT - Stats */
+    .sidebar-right {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-family: 'DM Serif Display', serif;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .history-item {
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      font-size: 12px;
+      background: var(--bg);
+    }
+
+    .history-item-time {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 2px;
+    }
+
+    .history-item-text {
+      color: var(--text2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-item-tokens {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      margin-top: 3px;
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .status-badge.ok { background: var(--green-bg); color: var(--green); }
+    .status-badge.err { background: var(--red-bg); color: var(--red); }
+    .status-badge.idle { background: var(--surface2); color: var(--text3); }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      opacity: 0;
+      transition: all 0.25s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Save modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      width: 360px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Provider panels */
+    .provider-panel { display: none; }
+    .provider-panel.active { display: block; }
+
+    .welcome-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 40px;
+      gap: 12px;
+    }
+
+    .welcome-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--text);
+    }
+
+    .welcome-sub {
+      font-size: 14px;
+      color: var(--text2);
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .welcome-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      text-align: left;
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .welcome-step {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 240px 1fr; }
+      .sidebar-right { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .app { grid-template-columns: 1fr; height: calc(100vh - 56px); }
+      .sidebar-left { display: none; }
+      .sidebar-right { display: none; }
+
+      header { padding: 0 14px; }
+      .logo-tag { display: none; }
+      .header-actions { gap: 6px; }
+      .btn-ghost { display: none; }
+      .btn-danger { padding: 6px 10px; font-size: 12px; }
+      #statusBadge { font-size: 10px; padding: 3px 6px; }
+
+      .system-prompt-bar { padding: 8px 12px; }
+      .chat-area { padding: 14px 12px; gap: 12px; }
+
+      .message-bubble { font-size: 13px; padding: 10px 12px; }
+
+      .input-area { padding: 10px 12px; }
+      .input-wrapper { padding: 8px 12px; }
+      textarea#promptInput { font-size: 14px; }
+      .input-footer { display: none; }
+      .btn-primary { padding: 8px 14px; font-size: 13px; }
+
+      .welcome-screen { padding: 24px 16px; }
+      .welcome-title { font-size: 22px; }
+      .welcome-sub { font-size: 13px; }
+      .welcome-steps { padding: 14px 16px; }
+    }
+
+    /* Mobile bottom sheet for settings */
+    .mobile-settings-btn {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .mobile-settings-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        pointer-events: none;
+      }
+
+      .mobile-drawer.open {
+        pointer-events: all;
+      }
+
+      .mobile-drawer-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.25);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      .mobile-drawer.open .mobile-drawer-overlay {
+        opacity: 1;
+      }
+
+      .mobile-drawer-panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-radius: 20px 20px 0 0;
+        padding: 20px 20px 32px;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      .mobile-drawer.open .mobile-drawer-panel {
+        transform: translateY(0);
+      }
+
+      .drawer-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--border2);
+        border-radius: 2px;
+        margin: 0 auto 20px;
+      }
+
+      .drawer-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: var(--text);
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#1a1916"/>
+        <!-- N strokes -->
+        <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+        <!-- X strokes overlapping, offset right, semi-transparent blend -->
+        <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+        <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+        <!-- Accent dot -->
+        <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+      </svg>
+    </div>
+    <span class="logo-name">Nexim</span>
+    <span class="logo-tag">AI Playground</span>
+  </div>
+  <div class="header-actions">
+    <span id="statusBadge" class="status-badge idle">
+      <span class="status-dot"></span> Ready
+    </span>
+    <div class="dark-toggle-wrap">
+      <span>🌙</span>
+      <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode"></button>
+    </div>
+    <button class="compare-mode-btn" id="compareModeBtn" onclick="openCompareModal()">⚡ Compare</button>
+    <button class="mobile-settings-btn" onclick="openDrawer()">⚙️ Settings</button>
+    <button class="btn btn-ghost" onclick="openSaveModal()">💾 Save Prompt</button>
+    <button class="btn btn-danger" onclick="clearChat()">Clear</button>
+  </div>
+</header>
 
-<div class="title">SoomaptoGIFs</div>
+<!-- APP -->
+<div class="app">
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtxiHWwG1TLv6u3Tss2-kB9C5Reqg8qyHL0BcK3AG6Hw&s=10">
+  <!-- SIDEBAR LEFT -->
+  <aside class="sidebar-left">
+    <div class="sidebar-section">
+      <div class="sidebar-label">API Provider</div>
+      <div class="api-provider-tabs">
+        <button class="provider-tab active" onclick="switchProvider('gemini')">Gemini</button>
+        <button class="provider-tab" onclick="switchProvider('openrouter')">OpenRouter</button>
+        <button class="provider-tab" onclick="switchProvider('openai')">OpenAI</button>
+      </div>
 
+      <!-- Gemini -->
+      <div class="provider-panel active" id="panel-gemini">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="gemini-key" placeholder="AIza..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="gemini-model">
+            <optgroup label="── Gemini 3.x (Latest)">
+              <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+              <option value="gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+              <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+              <option value="gemini-3-pro-preview">Gemini 3 Pro Preview</option>
+              <option value="gemini-3-flash">Gemini 3 Flash</option>
+            </optgroup>
+            <optgroup label="── Gemini 2.5">
+              <option value="gemini-2.5-pro" selected>Gemini 2.5 Pro</option>
+              <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+              <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- OpenRouter -->
+      <div class="provider-panel" id="panel-openrouter">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="openrouter-key" placeholder="sk-or-..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="openrouter-model">
+            <optgroup label="── Meta Llama">
+              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+              <option value="meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
+              <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B</option>
+            </optgroup>
+            <optgroup label="── Mistral">
+              <option value="mistralai/mistral-large">Mistral Large</option>
+              <option value="mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+              <option value="mistralai/codestral-latest">Codestral (Code)</option>
+            </optgroup>
+            <optgroup label="── DeepSeek">
+              <option value="deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
+              <option value="deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning)</option>
+              <option value="deepseek/deepseek-r1-distill-llama-70b:free">DeepSeek R1 Distill 70B</option>
+            </optgroup>
+            <optgroup label="── Google">
+              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+              <option value="google/gemma-3-27b-it:free">Gemma 3 27B</option>
+            </optgroup>
+            <optgroup label="── Anthropic">
+              <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+              <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+            </optgroup>
+            <optgroup label="── Others">
+              <option value="qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B</option>
+              <option value="microsoft/phi-4">Microsoft Phi-4</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- OpenAI -->
+      <div class="provider-panel" id="panel-openai">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="openai-key" placeholder="sk-..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="openai-model">
+            <optgroup label="── GPT-4o">
+              <option value="gpt-4o" selected>GPT-4o</option>
+              <option value="gpt-4o-mini">GPT-4o Mini</option>
+            </optgroup>
+            <optgroup label="── o-series (Reasoning)">
+              <option value="o3">o3</option>
+              <option value="o3-mini">o3 Mini</option>
+              <option value="o1">o1</option>
+              <option value="o1-mini">o1 Mini</option>
+            </optgroup>
+            <optgroup label="── GPT-4.5 / Legacy">
+              <option value="gpt-4.5-preview">GPT-4.5 Preview</option>
+              <option value="gpt-4-turbo">GPT-4 Turbo</option>
+              <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Parameters</div>
+      <div class="input-group">
+        <div class="input-label">
+          <span>Temperature</span>
+          <span class="slider-val" id="temp-val">0.7</span>
+        </div>
+        <input type="range" min="0" max="2" step="0.05" value="0.7" id="temperature"
+          oninput="document.getElementById('temp-val').textContent = this.value" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">
+          <span>Max Tokens</span>
+          <span class="slider-val" id="tokens-val">1024</span>
+        </div>
+        <input type="range" min="64" max="4096" step="64" value="1024" id="maxTokens"
+          oninput="document.getElementById('tokens-val').textContent = this.value" />
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="flex-shrink:0;">
+      <div class="sidebar-label">Saved Prompts</div>
+    </div>
+    <div class="saved-prompts" id="savedPromptsList">
+      <div class="empty-state">No saved prompts yet.<br/>Hit <strong>Save Prompt</strong> after a good run!</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="system-prompt-bar">
+      <span class="system-label">System</span>
+      <textarea class="system-input" id="systemPrompt" rows="1"
+        placeholder="Set a system prompt (e.g. You are a helpful assistant...)"
+        oninput="autoResize(this)"></textarea>
+    </div>
+
+    <div class="chat-area" id="chatArea">
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-icon">
+          <svg width="56" height="56" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#1a1916"/>
+            <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+            <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+          </svg>
+        </div>
+        <div class="welcome-title">Nexim</div>
+        <div class="welcome-sub">Test, compare and refine AI prompts across every major model.</div>
+        <div class="welcome-steps">
+          <div class="welcome-step">
+            <span class="step-num">1</span>
+            <span>Pick your API provider from the left sidebar (Gemini is free to start)</span>
+          </div>
+          <div class="welcome-step">
+            <span class="step-num">2</span>
+            <span>Paste your API key — it's stored only in your browser, never sent anywhere else</span>
+          </div>
+          <div class="welcome-step">
+            <span class="step-num">3</span>
+            <span>Type a prompt below and hit Send. Tweak temperature & tokens to experiment!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea id="promptInput" rows="1" placeholder="Type your prompt here... (Shift+Enter for newline)"
+          oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+        <button class="btn btn-primary" id="sendBtn" onclick="sendPrompt()">Send ↑</button>
+      </div>
+      <div class="input-footer">
+        <span class="input-hints" id="charCount">0 chars · ~0 tokens</span>
+        <div class="input-actions">
+          <button class="btn btn-ghost" onclick="clearInput()" style="padding:5px 10px;font-size:12px;">Clear input</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR RIGHT -->
+  <aside class="sidebar-right">
+    <div class="sidebar-label" style="margin-bottom:12px;">Session Stats</div>
+
+    <div class="stat-card">
+      <div class="stat-label">Total Messages</div>
+      <div class="stat-value" id="statMessages">0</div>
+      <div class="stat-sub">in this session</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Est. Tokens Used</div>
+      <div class="stat-value" id="statTokens">0</div>
+      <div class="stat-sub">approximate count</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Avg Response Time</div>
+      <div class="stat-value" id="statAvgTime">—</div>
+      <div class="stat-sub">seconds</div>
+    </div>
+
+    <div style="margin-top:20px; margin-bottom:10px;" class="sidebar-label">Prompt History</div>
+    <div id="historyList">
+      <div class="empty-state" style="font-size:11px;">Your sent prompts will appear here.</div>
+    </div>
+  </aside>
 </div>
 
+<!-- SAVE MODAL -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal">
+    <h3>Save Prompt</h3>
+    <div class="input-group">
+      <div class="input-label">Name this prompt</div>
+      <input type="text" class="input-field" id="savePromptName" placeholder="e.g. Code reviewer, Story starter..." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeSaveModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCurrentPrompt()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div class="compare-overlay" id="compareOverlay">
+  <div class="compare-modal">
+    <div class="compare-modal-header">
+      <h3>⚡ Compare Mode</h3>
+      <p>Send the same prompt and compare results side by side</p>
+    </div>
+    <div class="compare-modal-body">
+      <div>
+        <div class="sidebar-label" style="margin-bottom:8px;">What to compare</div>
+        <div class="compare-type-grid">
+          <div class="compare-type-card selected" onclick="selectCompareType('models', this)">
+            <div class="card-icon">🤖</div>
+            <div class="card-label">Two Models</div>
+          </div>
+          <div class="compare-type-card" onclick="selectCompareType('temperature', this)">
+            <div class="card-icon">🌡️</div>
+            <div class="card-label">Two Temps</div>
+          </div>
+          <div class="compare-type-card" onclick="selectCompareType('system', this)">
+            <div class="card-icon">💬</div>
+            <div class="card-label">Two System Prompts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Models config -->
+      <div class="compare-config show" id="config-models">
+        <div class="compare-two-col">
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Model A</div>
+            <select class="input-field" id="cmp-model-a">
+              <optgroup label="── Gemini">
+                <option value="gemini:gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
+                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+              </optgroup>
+              <optgroup label="── OpenRouter">
+                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+                <option value="openrouter:deepseek/deepseek-chat:free">DeepSeek V3</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
+                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+              </optgroup>
+              <optgroup label="── OpenAI">
+                <option value="openai:gpt-4o">GPT-4o</option>
+                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
+                <option value="openai:o3-mini">o3 Mini</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Model B</div>
+            <select class="input-field" id="cmp-model-b">
+              <optgroup label="── Gemini">
+                <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
+                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+              </optgroup>
+              <optgroup label="── OpenRouter">
+                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+                <option value="openrouter:deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
+                <option value="openrouter:mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+                <option value="openrouter:anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+              </optgroup>
+              <optgroup label="── OpenAI">
+                <option value="openai:gpt-4o">GPT-4o</option>
+                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
+                <option value="openai:o3-mini">o3 Mini</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temperature config -->
+      <div class="compare-config" id="config-temperature">
+        <div class="compare-two-col">
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Temperature A <span class="slider-val" id="cmp-temp-a-val">0.2</span></div>
+            <input type="range" min="0" max="2" step="0.1" value="0.2" oninput="document.getElementById('cmp-temp-a-val').textContent=this.value" />
+          </div>
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Temperature B <span class="slider-val" id="cmp-temp-b-val">1.2</span></div>
+            <input type="range" min="0" max="2" step="0.1" value="1.2" oninput="document.getElementById('cmp-temp-b-val').textContent=this.value" />
+          </div>
+        </div>
+      </div>
+
+      <!-- System prompt config -->
+      <div class="compare-config" id="config-system">
+        <div class="input-group" style="margin:0">
+          <div class="input-label">System Prompt A</div>
+          <textarea class="input-field" id="cmp-sys-a" rows="2" style="resize:none;font-family:'DM Sans',sans-serif;" placeholder="e.g. You are a concise assistant"></textarea>
+        </div>
+        <div class="input-group" style="margin:0">
+          <div class="input-label">System Prompt B</div>
+          <textarea class="input-field" id="cmp-sys-b" rows="2" style="resize:none;font-family:'DM Sans',sans-serif;" placeholder="e.g. You are a verbose storyteller"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="compare-modal-footer">
+      <button class="btn btn-ghost" onclick="closeCompareModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="startCompare()">Start Comparing →</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE LAYOUT -->
+<div class="compare-layout" id="compareLayout">
+  <div class="compare-panes">
+    <div class="compare-pane">
+      <div class="compare-pane-header">
+        <span class="compare-pane-label">Side A</span>
+        <span class="compare-pane-model" id="cmp-label-a">—</span>
+      </div>
+      <div class="compare-chat" id="cmp-chat-a"></div>
+    </div>
+    <div class="compare-pane">
+      <div class="compare-pane-header">
+        <span class="compare-pane-label">Side B</span>
+        <span class="compare-pane-model" id="cmp-label-b">—</span>
+      </div>
+      <div class="compare-chat" id="cmp-chat-b"></div>
+    </div>
+  </div>
+  <div class="compare-shared-input">
+    <textarea id="comparePromptInput" rows="1" class="input-field"
+      style="flex:1;border:none;outline:none;font-size:14px;font-family:'DM Sans',sans-serif;background:transparent;resize:none;min-height:24px;max-height:120px;line-height:1.5;"
+      placeholder="Type a prompt to send to both sides... (Enter to send)"
+      oninput="autoResize(this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCompare();}"></textarea>
+    <button class="btn btn-primary" onclick="sendCompare()">Send to Both ↑</button>
+    <button class="btn btn-ghost" onclick="exitCompare()">✕ Exit</button>
+  </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="mobile-drawer-panel">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title">Settings</div>
+
+    <div class="input-group">
+      <div class="sidebar-label">API Provider</div>
+      <div class="api-provider-tabs" style="margin-bottom:14px;">
+        <button class="provider-tab active" onclick="switchProvider('gemini');updateMobileTabs(this)">Gemini</button>
+        <button class="provider-tab" onclick="switchProvider('openrouter');updateMobileTabs(this)">OpenRouter</button>
+        <button class="provider-tab" onclick="switchProvider('openai');updateMobileTabs(this)">OpenAI</button>
+      </div>
+    </div>
+
+    <div id="mobile-panel-gemini" class="mobile-provider-panel">
+      <div class="input-group">
+        <div class="input-label">Gemini API Key</div>
+        <input type="password" class="input-field password" id="mobile-gemini-key" placeholder="AIza..." oninput="syncKey('gemini-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-gemini-model" onchange="document.getElementById('gemini-model').value=this.value">
+          <optgroup label="── Gemini 3.x (Latest)">
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+            <option value="gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+            <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+            <option value="gemini-3-pro-preview">Gemini 3 Pro Preview</option>
+            <option value="gemini-3-flash">Gemini 3 Flash</option>
+          </optgroup>
+          <optgroup label="── Gemini 2.5">
+            <option value="gemini-2.5-pro" selected>Gemini 2.5 Pro</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <div id="mobile-panel-openrouter" class="mobile-provider-panel" style="display:none">
+      <div class="input-group">
+        <div class="input-label">OpenRouter API Key</div>
+        <input type="password" class="input-field password" id="mobile-openrouter-key" placeholder="sk-or-..." oninput="syncKey('openrouter-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-openrouter-model" onchange="document.getElementById('openrouter-model').value=this.value">
+          <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+          <option value="deepseek/deepseek-chat:free" selected>DeepSeek V3</option>
+          <option value="deepseek/deepseek-r1:free">DeepSeek R1</option>
+          <option value="mistralai/mistral-7b-instruct:free">Mistral 7B</option>
+          <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+          <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="mobile-panel-openai" class="mobile-provider-panel" style="display:none">
+      <div class="input-group">
+        <div class="input-label">OpenAI API Key</div>
+        <input type="password" class="input-field password" id="mobile-openai-key" placeholder="sk-..." oninput="syncKey('openai-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-openai-model" onchange="document.getElementById('openai-model').value=this.value">
+          <option value="gpt-4o" selected>GPT-4o</option>
+          <option value="gpt-4o-mini">GPT-4o Mini</option>
+          <option value="o3">o3</option>
+          <option value="o3-mini">o3 Mini</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group" style="margin-top:16px;">
+      <div class="input-label">
+        <span>Temperature</span>
+        <span class="slider-val" id="mobile-temp-val">0.7</span>
+      </div>
+      <input type="range" min="0" max="2" step="0.05" value="0.7" id="mobile-temperature"
+        oninput="document.getElementById('temperature').value=this.value;document.getElementById('temp-val').textContent=this.value;document.getElementById('mobile-temp-val').textContent=this.value" />
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Max Tokens</span>
+        <span class="slider-val" id="mobile-tokens-val">1024</span>
+      </div>
+      <input type="range" min="64" max="4096" step="64" value="1024" id="mobile-maxTokens"
+        oninput="document.getElementById('maxTokens').value=this.value;document.getElementById('tokens-val').textContent=this.value;document.getElementById('mobile-tokens-val').textContent=this.value" />
+    </div>
+
+    <div class="input-group" style="margin-top:4px;">
+      <div class="input-label">System Prompt</div>
+      <textarea class="input-field" rows="3" style="resize:none;font-family:'DM Sans',sans-serif;"
+        placeholder="You are a helpful assistant..."
+        oninput="document.getElementById('systemPrompt').value=this.value"></textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;" onclick="closeDrawer()">Done</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // STATE
+  let messages = [];
+  let currentProvider = 'gemini';
+  let savedPrompts = JSON.parse(localStorage.getItem('nexim_saved') || '[]');
+  let sessionStats = { messages: 0, tokens: 0, times: [] };
+
+  // PROVIDER SWITCH
+  function switchProvider(p) {
+    currentProvider = p;
+    document.querySelectorAll('.provider-tab').forEach((t, i) => {
+      t.classList.toggle('active', ['gemini','openrouter','openai'][i] === p);
+    });
+    document.querySelectorAll('.provider-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === `panel-${p}`);
+    });
+  }
+
+  // AUTO RESIZE TEXTAREA
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+    if (el.id === 'promptInput') updateCharCount();
+  }
+
+  function updateCharCount() {
+    const val = document.getElementById('promptInput').value;
+    const chars = val.length;
+    const tokens = Math.ceil(chars / 4);
+    document.getElementById('charCount').textContent = `${chars} chars · ~${tokens} tokens`;
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendPrompt();
+    }
+  }
+
+  function clearInput() {
+    const el = document.getElementById('promptInput');
+    el.value = '';
+    autoResize(el);
+  }
+
+  // GET API CONFIG
+  function getConfig() {
+    if (currentProvider === 'gemini') {
+      return {
+        key: document.getElementById('gemini-key').value.trim(),
+        model: document.getElementById('gemini-model').value,
+      };
+    } else if (currentProvider === 'openrouter') {
+      return {
+        key: document.getElementById('openrouter-key').value.trim(),
+        model: document.getElementById('openrouter-model').value,
+      };
+    } else {
+      return {
+        key: document.getElementById('openai-key').value.trim(),
+        model: document.getElementById('openai-model').value,
+      };
+    }
+  }
+
+  // SEND PROMPT
+  async function sendPrompt() {
+    const input = document.getElementById('promptInput').value.trim();
+    if (!input) return;
+
+    const config = getConfig();
+    if (!config.key) {
+      showToast('⚠️ Please enter your API key in the sidebar first!');
+      return;
+    }
+
+    const userMsg = { role: 'user', content: input };
+    messages.push(userMsg);
+
+    hideWelcome();
+    renderMessage('user', input);
+    clearInput();
+
+    const typingEl = showTyping();
+    setStatus('thinking');
+
+    const startTime = Date.now();
+
+    try {
+      const temp = parseFloat(document.getElementById('temperature').value);
+      const maxTok = parseInt(document.getElementById('maxTokens').value);
+      const systemPrompt = document.getElementById('systemPrompt').value.trim();
+
+      let responseText = '';
+
+      if (currentProvider === 'gemini') {
+        responseText = await callGemini(config, messages, systemPrompt, temp, maxTok);
+      } else if (currentProvider === 'openrouter') {
+        responseText = await callOpenRouter(config, messages, systemPrompt, temp, maxTok);
+      } else {
+        responseText = await callOpenAI(config, messages, systemPrompt, temp, maxTok);
+      }
+
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      const estTokens = Math.ceil(responseText.length / 4);
+
+      messages.push({ role: 'assistant', content: responseText });
+      typingEl.remove();
+      renderMessage('assistant', responseText, estTokens);
+      setStatus('ok');
+
+      // Update stats
+      sessionStats.messages += 2;
+      sessionStats.tokens += Math.ceil(input.length / 4) + estTokens;
+      sessionStats.times.push(parseFloat(elapsed));
+      updateStats();
+      addToHistory(input, estTokens);
+
+    } catch (err) {
+      typingEl.remove();
+      renderMessage('assistant', `❌ Error: ${err.message}`, 0);
+      setStatus('err');
+      messages.pop();
+    }
+  }
+
+  // GEMINI API
+  async function callGemini(config, msgs, system, temp, maxTok) {
+    const contents = msgs.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    const body = {
+      contents,
+      generationConfig: { temperature: temp, maxOutputTokens: maxTok }
+    };
+
+    if (system) {
+      body.systemInstruction = { parts: [{ text: system }] };
+    }
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1/models/${config.model}:generateContent?key=${config.key}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Gemini API error');
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
+  }
+
+  // OPENROUTER API
+  async function callOpenRouter(config, msgs, system, temp, maxTok) {
+    const openMsgs = [];
+    if (system) openMsgs.push({ role: 'system', content: system });
+    msgs.forEach(m => openMsgs.push({ role: m.role, content: m.content }));
+
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.key}`,
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Nexim'
+      },
+      body: JSON.stringify({ model: config.model, messages: openMsgs, temperature: temp, max_tokens: maxTok })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'OpenRouter API error');
+    return data.choices?.[0]?.message?.content || 'No response';
+  }
+
+  // OPENAI API
+  async function callOpenAI(config, msgs, system, temp, maxTok) {
+    const openMsgs = [];
+    if (system) openMsgs.push({ role: 'system', content: system });
+    msgs.forEach(m => openMsgs.push({ role: m.role, content: m.content }));
+
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.key}`
+      },
+      body: JSON.stringify({ model: config.model, messages: openMsgs, temperature: temp, max_tokens: maxTok })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'OpenAI API error');
+    return data.choices?.[0]?.message?.content || 'No response';
+  }
+
+  // RENDER MESSAGE
+  function renderMessage(role, content, tokens) {
+    const chat = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    const avatarText = role === 'user' ? 'U' : '✦';
+    const meta = role === 'assistant' ? `
+      <div class="message-meta">
+        ${tokens !== undefined ? `<span class="message-tokens">~${tokens} tokens</span>` : ''}
+        <button class="copy-btn" onclick="copyText(this, \`${escapeTemplate(content)}\`)">Copy</button>
+      </div>
+    ` : '';
+
+    div.innerHTML = `
+      <div class="message-avatar">${avatarText}</div>
+      <div class="message-content">
+        <div class="message-role">${role}</div>
+        <div class="message-bubble">${escapeHtml(content)}</div>
+        ${meta}
+      </div>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function escapeTemplate(str) {
+    return str.replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  }
+
+  function showTyping() {
+    const chat = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = `
+      <div class="message-avatar" style="background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;">✦</div>
+      <div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function hideWelcome() {
+    const w = document.getElementById('welcomeScreen');
+    if (w) w.remove();
+  }
+
+  // COPY
+  async function copyText(btn, text) {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }
+
+  // STATUS
+  function setStatus(state) {
+    const badge = document.getElementById('statusBadge');
+    const labels = { ok: '✓ Connected', err: '✗ Error', thinking: '⟳ Thinking', idle: 'Ready' };
+    badge.className = `status-badge ${state}`;
+    badge.innerHTML = `<span class="status-dot"></span> ${labels[state] || 'Ready'}`;
+  }
+
+  // CLEAR CHAT
+  function clearChat() {
+    messages = [];
+    const chat = document.getElementById('chatArea');
+    chat.innerHTML = '';
+    const welcome = document.createElement('div');
+    welcome.id = 'welcomeScreen';
+    welcome.className = 'welcome-screen';
+    welcome.innerHTML = `
+      <div class="welcome-icon">
+          <svg width="56" height="56" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#1a1916"/>
+            <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+            <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+          </svg>
+        </div>
+      <div class="welcome-title">Nexim</div>
+      <div class="welcome-sub">Test, compare and refine AI prompts across every major model.</div>
+      <div class="welcome-steps">
+        <div class="welcome-step"><span class="step-num">1</span><span>Pick your API provider from the left sidebar (Gemini is free to start)</span></div>
+        <div class="welcome-step"><span class="step-num">2</span><span>Paste your API key — it's stored only in your browser, never sent anywhere else</span></div>
+        <div class="welcome-step"><span class="step-num">3</span><span>Type a prompt below and hit Send. Tweak temperature & tokens to experiment!</span></div>
+      </div>
+    `;
+    chat.appendChild(welcome);
+    setStatus('idle');
+    showToast('Chat cleared');
+  }
+
+  // STATS
+  function updateStats() {
+    document.getElementById('statMessages').textContent = sessionStats.messages;
+    document.getElementById('statTokens').textContent = sessionStats.tokens.toLocaleString();
+    if (sessionStats.times.length > 0) {
+      const avg = (sessionStats.times.reduce((a,b)=>a+b,0) / sessionStats.times.length).toFixed(1);
+      document.getElementById('statAvgTime').textContent = avg + 's';
+    }
+  }
+
+  function addToHistory(prompt, tokens) {
+    const list = document.getElementById('historyList');
+    const empties = list.querySelectorAll('.empty-state');
+    empties.forEach(e => e.remove());
+
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    const now = new Date();
+    item.innerHTML = `
+      <div class="history-item-time">${now.toLocaleTimeString()}</div>
+      <div class="history-item-text">${escapeHtml(prompt)}</div>
+      <div class="history-item-tokens">~${tokens} tokens returned</div>
+    `;
+    list.insertBefore(item, list.firstChild);
+
+    // Keep only last 10
+    const items = list.querySelectorAll('.history-item');
+    if (items.length > 10) items[items.length - 1].remove();
+  }
+
+  // SAVE PROMPT
+  function openSaveModal() {
+    const input = document.getElementById('promptInput').value.trim();
+    if (!input) { showToast('Type a prompt first!'); return; }
+    document.getElementById('saveModal').classList.add('show');
+    document.getElementById('savePromptName').focus();
+  }
+
+  function closeSaveModal() {
+    document.getElementById('saveModal').classList.remove('show');
+    document.getElementById('savePromptName').value = '';
+  }
+
+  function saveCurrentPrompt() {
+    const name = document.getElementById('savePromptName').value.trim() || 'Unnamed';
+    const prompt = document.getElementById('promptInput').value.trim();
+    if (!prompt) { showToast('No prompt to save!'); return; }
+
+    savedPrompts.unshift({ id: Date.now(), name, prompt });
+    localStorage.setItem('nexim_saved', JSON.stringify(savedPrompts));
+    renderSavedPrompts();
+    closeSaveModal();
+    showToast('Prompt saved!');
+  }
+
+  function renderSavedPrompts() {
+    const list = document.getElementById('savedPromptsList');
+    if (savedPrompts.length === 0) {
+      list.innerHTML = '<div class="empty-state">No saved prompts yet.<br/>Hit <strong>Save Prompt</strong> after a good run!</div>';
+      return;
+    }
+    list.innerHTML = savedPrompts.map(p => `
+      <div class="saved-prompt-item">
+        <div class="saved-prompt-title">${escapeHtml(p.name)}</div>
+        <div class="saved-prompt-preview">${escapeHtml(p.prompt)}</div>
+        <div class="saved-prompt-actions">
+          <button class="mini-btn" onclick="loadPrompt(${p.id})">Load</button>
+          <button class="mini-btn del" onclick="deletePrompt(${p.id})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function loadPrompt(id) {
+    const p = savedPrompts.find(x => x.id === id);
+    if (!p) return;
+    const el = document.getElementById('promptInput');
+    el.value = p.prompt;
+    autoResize(el);
+    el.focus();
+    showToast('Prompt loaded!');
+  }
+
+  function deletePrompt(id) {
+    savedPrompts = savedPrompts.filter(x => x.id !== id);
+    localStorage.setItem('nexim_saved', JSON.stringify(savedPrompts));
+    renderSavedPrompts();
+    showToast('Deleted');
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Modal close on overlay click
+  document.getElementById('saveModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSaveModal();
+  });
+
+  // Save name enter key
+  document.getElementById('savePromptName').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') saveCurrentPrompt();
+  });
+
+  // INIT
+  renderSavedPrompts();
+
+  // DARK MODE
+  function toggleDark() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('nexim_dark', document.body.classList.contains('dark') ? '1' : '0');
+  }
+  if (localStorage.getItem('nexim_dark') === '1') document.body.classList.add('dark');
+
+  // ── COMPARE MODE ──
+  let compareType = 'models';
+  let cmpConfig = {};
+  let cmpMessages = { a: [], b: [] };
+
+  function openCompareModal() {
+    document.getElementById('compareOverlay').classList.add('show');
+  }
+
+  function closeCompareModal() {
+    document.getElementById('compareOverlay').classList.remove('show');
+  }
+
+  function selectCompareType(type, el) {
+    compareType = type;
+    document.querySelectorAll('.compare-type-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.querySelectorAll('.compare-config').forEach(c => c.classList.remove('show'));
+    document.getElementById('config-' + type).classList.add('show');
+  }
+
+  function getKey(provider) {
+    if (provider === 'gemini') return document.getElementById('gemini-key').value.trim();
+    if (provider === 'openrouter') return document.getElementById('openrouter-key').value.trim();
+    if (provider === 'openai') return document.getElementById('openai-key').value.trim();
+    return '';
+  }
+
+  function startCompare() {
+    const temp = parseFloat(document.getElementById('temperature').value);
+    const maxTok = parseInt(document.getElementById('maxTokens').value);
+    const sysPrompt = document.getElementById('systemPrompt').value.trim();
+
+    if (compareType === 'models') {
+      const [provA, modA] = document.getElementById('cmp-model-a').value.split(':').reduce((a,v,i)=>i===0?[v,a[1]]:[a[0],a[1]?a[1]+':'+v:v],['',' '.trim().replace(' ','')]);
+      const valA = document.getElementById('cmp-model-a').value;
+      const valB = document.getElementById('cmp-model-b').value;
+      const pA = valA.split(':')[0], mA = valA.slice(pA.length+1);
+      const pB = valB.split(':')[0], mB = valB.slice(pB.length+1);
+      cmpConfig = {
+        a: { provider: pA, model: mA, key: getKey(pA), temp, maxTok, system: sysPrompt },
+        b: { provider: pB, model: mB, key: getKey(pB), temp, maxTok, system: sysPrompt }
+      };
+      document.getElementById('cmp-label-a').textContent = mA;
+      document.getElementById('cmp-label-b').textContent = mB;
+    } else if (compareType === 'temperature') {
+      const tA = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[0].value);
+      const tB = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[1].value);
+      const p = currentProvider, m = document.getElementById(p+'-model').value;
+      cmpConfig = {
+        a: { provider: p, model: m, key: getKey(p), temp: tA, maxTok, system: sysPrompt },
+        b: { provider: p, model: m, key: getKey(p), temp: tB, maxTok, system: sysPrompt }
+      };
+      document.getElementById('cmp-label-a').textContent = 'temp=' + tA;
+      document.getElementById('cmp-label-b').textContent = 'temp=' + tB;
+    } else if (compareType === 'system') {
+      const sA = document.getElementById('cmp-sys-a').value.trim();
+      const sB = document.getElementById('cmp-sys-b').value.trim();
+      const p = currentProvider, m = document.getElementById(p+'-model').value;
+      cmpConfig = {
+        a: { provider: p, model: m, key: getKey(p), temp, maxTok, system: sA },
+        b: { provider: p, model: m, key: getKey(p), temp, maxTok, system: sB }
+      };
+      document.getElementById('cmp-label-a').textContent = sA.slice(0,20) || 'System A';
+      document.getElementById('cmp-label-b').textContent = sB.slice(0,20) || 'System B';
+    }
+
+    cmpMessages = { a: [], b: [] };
+    document.getElementById('cmp-chat-a').innerHTML = '';
+    document.getElementById('cmp-chat-b').innerHTML = '';
+
+    closeCompareModal();
+    // Hide main app, show compare
+    document.querySelector('.app').style.display = 'none';
+    document.getElementById('compareLayout').classList.add('show');
+    document.getElementById('compareModeBtn').classList.add('active');
+    document.getElementById('comparePromptInput').focus();
+  }
+
+  async function sendCompare() {
+    const input = document.getElementById('comparePromptInput').value.trim();
+    if (!input) return;
+    document.getElementById('comparePromptInput').value = '';
+
+    // Render user messages
+    renderCmpMessage('a', 'user', input);
+    renderCmpMessage('b', 'user', input);
+    cmpMessages.a.push({ role:'user', content: input });
+    cmpMessages.b.push({ role:'user', content: input });
+
+    const typA = showCmpTyping('a');
+    const typB = showCmpTyping('b');
+
+    const [resA, resB] = await Promise.allSettled([
+      callProvider(cmpConfig.a, [...cmpMessages.a], cmpConfig.a.system),
+      callProvider(cmpConfig.b, [...cmpMessages.b], cmpConfig.b.system)
+    ]);
+
+    typA.remove(); typB.remove();
+
+    const textA = resA.status === 'fulfilled' ? resA.value : '❌ ' + resA.reason.message;
+    const textB = resB.status === 'fulfilled' ? resB.value : '❌ ' + resB.reason.message;
+
+    renderCmpMessage('a', 'assistant', textA);
+    renderCmpMessage('b', 'assistant', textB);
+    cmpMessages.a.push({ role:'assistant', content: textA });
+    cmpMessages.b.push({ role:'assistant', content: textB });
+  }
+
+  async function callProvider(cfg, msgs, system) {
+    if (cfg.provider === 'gemini') return await callGemini({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+    if (cfg.provider === 'openrouter') return await callOpenRouter({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+    if (cfg.provider === 'openai') return await callOpenAI({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+  }
+
+  function renderCmpMessage(side, role, text) {
+    const chat = document.getElementById('cmp-chat-' + side);
+    const div = document.createElement('div');
+    div.className = 'message ' + role;
+    div.innerHTML = `
+      <div class="message-avatar">${role==='user'?'U':'✦'}</div>
+      <div class="message-content">
+        <div class="message-role">${role}</div>
+        <div class="message-bubble">${escapeHtml(text)}</div>
+        ${role==='assistant' ? `<div class="message-meta"><button class="copy-btn" onclick="copyText(this,\`${escapeTemplate(text)}\`)">Copy</button></div>` : ''}
+      </div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function showCmpTyping(side) {
+    const chat = document.getElementById('cmp-chat-' + side);
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;">✦</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function exitCompare() {
+    document.getElementById('compareLayout').classList.remove('show');
+    document.querySelector('.app').style.display = '';
+    document.getElementById('compareModeBtn').classList.remove('active');
+  }
+
+  document.getElementById('compareOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeCompareModal();
+  });
+
+  // MOBILE DRAWER
+  function openDrawer() {
+    document.getElementById('mobileDrawer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    document.getElementById('mobileDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function syncKey(targetId, value) {
+    document.getElementById(targetId).value = value;
+  }
+
+  function updateMobileTabs(clickedTab) {
+    const tabs = clickedTab.closest('.api-provider-tabs').querySelectorAll('.provider-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    clickedTab.classList.add('active');
+    const providers = ['gemini', 'openrouter', 'openai'];
+    const idx = Array.from(tabs).indexOf(clickedTab);
+    document.querySelectorAll('.mobile-provider-panel').forEach((p, i) => {
+      p.style.display = i === idx ? 'block' : 'none';
+    });
+  }
+
+  // Sync desktop model selects to mobile on change
+  document.getElementById('gemini-model').addEventListener('change', function() {
+    document.getElementById('mobile-gemini-model').value = this.value;
+  });
+</script>
 </body>
-
 </html>
-
