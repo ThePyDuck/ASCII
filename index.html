@@ -2238,22 +2238,18 @@
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  // Full markdown parser
   function parseMarkdown(md) {
     let html = escapeHtml(md);
 
-    // Code blocks (``` ... ```) — must be before inline code
-    html = html.replace(/```(\w*)
-?([\s\S]*?)```/g, (_, lang, code) => {
-      const id = 'cb-' + Math.random().toString(36).slice(2,8);
-      const escapedCode = code.trimEnd();
-      const langLabel = lang || 'code';
-      return `<div class="code-block"><div class="code-block-header"><span>${langLabel}</span><button class="code-copy-btn" onclick="copyCodeBlock('${id}',this)">Copy</button></div><pre id="${id}">${escapedCode}</pre></div>`;
+    // Code blocks must come first before inline code
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, function(_, lang, code) {
+      var id = 'cb-' + Math.random().toString(36).slice(2,8);
+      var label = lang || 'code';
+      return '<div class="code-block"><div class="code-block-header"><span>' + label + '</span><button class="code-copy-btn" onclick="copyCodeBlock(\'' + id + '\',this)">Copy</button></div><pre id="' + id + '">' + code.trimEnd() + '</pre></div>';
     });
 
     // Inline code
-    html = html.replace(/`([^`
-]+)`/g, '<code>$1</code>');
+    html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
 
     // Headers
     html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
@@ -2263,72 +2259,60 @@
     html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
     html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
 
-    // Blockquotes
+    // Blockquote
     html = html.replace(/^&gt;\s+(.+)$/gm, '<blockquote>$1</blockquote>');
 
     // Bold + italic
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
-    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+    html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+    html = html.replace(/_([^_\n]+)_/g, '<em>$1</em>');
 
     // Strikethrough
     html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
 
-    // Horizontal rule
+    // HR
     html = html.replace(/^(-{3,}|\*{3,})$/gm, '<hr>');
 
     // Tables
-    html = html.replace(/(\|.+\|
-\|[-| :]+\|
-(?:\|.+\|
-?)+)/g, (table) => {
-      const rows = table.trim().split('
-');
-      const header = rows[0].split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
-      const body = rows.slice(2).map(r =>
-        '<tr>' + r.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('') + '</tr>'
-      ).join('');
-      return `<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+    html = html.replace(/(\|.+\|\n\|[-| :]+\|\n(?:\|.+\|\n?)+)/g, function(table) {
+      var rows = table.trim().split('\n');
+      var header = rows[0].split('|').filter(function(c){return c.trim();}).map(function(c){return '<th>' + c.trim() + '</th>';}).join('');
+      var body = rows.slice(2).map(function(r){
+        return '<tr>' + r.split('|').filter(function(c){return c.trim();}).map(function(c){return '<td>' + c.trim() + '</td>';}).join('') + '</tr>';
+      }).join('');
+      return '<table><thead><tr>' + header + '</tr></thead><tbody>' + body + '</tbody></table>';
     });
 
-    // Unordered lists
-    html = html.replace(/((?:^[*\-+]\s.+
-?)+)/gm, (block) => {
-      const items = block.trim().split('
-').map(l => `<li>${l.replace(/^[*\-+]\s/, '')}</li>`).join('');
-      return `<ul>${items}</ul>`;
+    // Unordered list
+    html = html.replace(/((?:^[*\-+] .+\n?)+)/gm, function(block) {
+      var items = block.trim().split('\n').map(function(l){ return '<li>' + l.replace(/^[*\-+] /, '') + '</li>'; }).join('');
+      return '<ul>' + items + '</ul>';
     });
 
-    // Ordered lists
-    html = html.replace(/((?:^\d+\.\s.+
-?)+)/gm, (block) => {
-      const items = block.trim().split('
-').map(l => `<li>${l.replace(/^\d+\.\s/, '')}</li>`).join('');
-      return `<ol>${items}</ol>`;
+    // Ordered list
+    html = html.replace(/((?:^\d+\. .+\n?)+)/gm, function(block) {
+      var items = block.trim().split('\n').map(function(l){ return '<li>' + l.replace(/^\d+\. /, '') + '</li>'; }).join('');
+      return '<ol>' + items + '</ol>';
     });
 
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-    // Line breaks — double newline = paragraph
-    const parts = html.split(/
-{2,}/);
-    html = parts.map(part => {
+    // Paragraphs — split on double newline
+    var parts = html.split(/\n{2,}/);
+    html = parts.map(function(part) {
       part = part.trim();
       if (!part) return '';
-      // Don't wrap block elements in <p>
-      if (/^<(h[1-6]|ul|ol|blockquote|hr|table|div|pre)/.test(part)) return part;
-      return `<p>${part.replace(/
-/g, '<br>')}</p>`;
-    }).filter(Boolean).join('
-');
+      if (/^<(h[1-6]|ul|ol|blockquote|hr|table|div|pre|code-block)/.test(part)) return part;
+      return '<p>' + part.replace(/\n/g, '<br>') + '</p>';
+    }).filter(Boolean).join('\n');
 
     return html;
   }
 
-  function copyCodeBlock(id, btn) {
+    function copyCodeBlock(id, btn) {
     const el = document.getElementById(id);
     if (!el) return;
     navigator.clipboard.writeText(el.textContent);
