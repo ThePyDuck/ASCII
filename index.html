@@ -1439,6 +1439,7 @@
         <optgroup label="── Free / No Key">
           <option value="pollinations">Pollinations AI (Free, No Key)</option>
           <option value="pollinations2">Pollinations AI — FLUX Anime (Free)</option>
+          <option value="puter">Puter.js — FLUX/DALL-E/Gemini (Free, loads SDK)</option>
         </optgroup>
         <optgroup label="── Google (Gemini Key)">
           <option value="gemini-imagen">Gemini — Imagen 4 Fast ($0.02/img)</option>
@@ -2313,37 +2314,63 @@
     const apiKey = document.getElementById('imgApiKey').value.trim() || document.getElementById('gemini-key').value.trim();
     const [w, h] = size.split('x');
 
-    if (provider === 'pollinations' || provider === 'puter' || provider === 'pollinations2') {
+    if (provider === 'pollinations' || provider === 'pollinations2') {
+      // New unified endpoint as of 2026
       const encodedPrompt = encodeURIComponent(prompt);
       const seed = Math.floor(Math.random() * 99999999);
       const sleep = ms => new Promise(r => setTimeout(r, ms));
-      // Multiple models to try with delays between 429s
-      const models = ['flux', 'turbo', 'flux-realism', 'flux-anime', 'flux-3d', 'any-dark'];
+      const models = provider === 'pollinations2'
+        ? ['flux-anime', 'flux-realism', 'flux']
+        : ['flux', 'turbo', 'flux-realism'];
       let lastErr = '';
       for (let i = 0; i < models.length; i++) {
+        if (i > 0) await sleep(3000);
         const model = models[i];
         try {
-          // Wait 2s between retries to avoid hammering rate limits
-          if (i > 0) await sleep(2000);
+          // Try new endpoint first
+          const newUrl = `https://gen.pollinations.ai/image/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=${model}&seed=${seed}`;
           const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 60000); // 60s timeout
-          const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=${model}&seed=${seed}&enhance=true`;
-          const res = await fetch(url, { signal: controller.signal });
+          const timeout = setTimeout(() => controller.abort(), 90000);
+          const res = await fetch(newUrl, { signal: controller.signal });
           clearTimeout(timeout);
-          if (res.status === 429) { lastErr = `${model} rate limited (429), trying next...`; continue; }
-          if (res.status === 500) { lastErr = `${model} server error (500), trying next...`; continue; }
+          if (res.status === 429 || res.status === 500) { lastErr = `${model} ${res.status}`; continue; }
           if (!res.ok) { lastErr = `${model} error ${res.status}`; continue; }
           const contentType = res.headers.get('content-type') || '';
-          if (!contentType.startsWith('image/')) { lastErr = `${model} returned non-image`; continue; }
+          if (!contentType.startsWith('image/')) { lastErr = `${model} non-image`; continue; }
           const blob = await res.blob();
           const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
           return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
         } catch(e) {
-          if (e.name === 'AbortError') { lastErr = `${model} timed out after 60s`; }
-          else { lastErr = e.message; }
+          lastErr = e.name === 'AbortError' ? `${model} timed out` : e.message;
         }
       }
-      throw new Error(`All Pollinations models failed. Try again in a minute or use a paid provider. Last: ${lastErr}`);
+      throw new Error(`Pollinations failed. Last error: ${lastErr}. Try again in a moment.`);
+    }
+
+    if (provider === 'puter') {
+      // Puter.js — completely free, no key, runs user-side
+      // Load Puter SDK dynamically if not loaded
+      if (!window.puter) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://js.puter.com/v2/';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('Failed to load Puter.js SDK'));
+          document.head.appendChild(s);
+        });
+        await new Promise(r => setTimeout(r, 1000)); // wait for init
+      }
+      try {
+        const result = await puter.ai.txt2img(prompt);
+        if (!result || !result.src) throw new Error('No image returned from Puter');
+        // Fetch the blob from the result src
+        const res = await fetch(result.src);
+        const blob = await res.blob();
+        const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+        return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
+      } catch(e) {
+        throw new Error('Puter.js error: ' + e.message);
+      }
     }
 
     if (provider === 'gemini-flash-img') {
