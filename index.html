@@ -1120,6 +1120,135 @@
         color: var(--text);
       }
     }
+
+    /* IMAGE MODE */
+    .img-mode-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .img-mode-btn:hover { background: var(--border); color: var(--text); }
+    .img-mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    .img-provider-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .img-provider-bar.show { display: flex; }
+
+    .img-provider-bar label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .img-model-select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; cursor: pointer; outline: none; }
+
+    .img-size-select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; cursor: pointer; outline: none; }
+
+    .img-note { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+    /* Generated image in chat */
+    .message-image {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin-top: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .img-generating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text2);
+      font-size: 13px;
+    }
+
+    .img-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .img-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 6px;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .img-download-btn:hover { background: var(--border); color: var(--text); }
+
+    /* IMAGE MODE */
+    .img-toggle-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "DM Sans", sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .img-toggle-btn:hover { background: var(--border); color: var(--text); }
+    .img-toggle-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    .img-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .img-bar.show { display: flex; }
+    .img-bar label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .img-bar select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: "DM Mono", monospace; cursor: pointer; outline: none; }
+    .img-bar-note { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+    .generated-img { max-width: 100%; max-height: 400px; border-radius: var(--radius-sm); display: block; margin-top: 8px; border: 1px solid var(--border); }
+    .img-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .img-dl-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); color: var(--text2); cursor: pointer; text-decoration: none; margin-top: 6px; font-family: "DM Sans", sans-serif; transition: all 0.15s; }
+    .img-dl-btn:hover { background: var(--border); color: var(--text); }
   </style>
 </head>
 <body>
@@ -1153,6 +1282,7 @@
       <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode"></button>
     </div>
     <button class="compare-mode-btn" id="compareModeBtn" onclick="openCompareModal()">⚡ Compare</button>
+    <button class="img-toggle-btn" id="imgToggleBtn" onclick="toggleImgMode()">🖼 Image Gen</button>
     <button class="mobile-settings-btn" onclick="openDrawer()">⚙️ Settings</button>
     <button class="btn btn-ghost" onclick="openSaveModal()">💾 Save Prompt</button>
     <button class="btn btn-danger" onclick="clearChat()">Clear</button>
@@ -1301,6 +1431,54 @@
       <textarea class="system-input" id="systemPrompt" rows="1"
         placeholder="Set a system prompt (e.g. You are a helpful assistant...)"
         oninput="autoResize(this)"></textarea>
+    </div>
+
+    <!-- IMAGE GEN BAR -->
+    <div class="img-bar" id="imgBar">
+      <label>Provider</label>
+      <select id="imgProvider" onchange="updateImgModels()">
+        <optgroup label="── Free / No Key">
+          <option value="pollinations">Pollinations AI (Free, No Key)</option>
+          <option value="puter">Puter.js (Free, No Key)</option>
+        </optgroup>
+        <optgroup label="── Google (Gemini Key)">
+          <option value="gemini-imagen">Gemini — Imagen 4 Fast ($0.02/img)</option>
+          <option value="gemini-flash-img">Gemini — 2.5 Flash Image (Free tier)</option>
+          <option value="gemini-nano-pro">Gemini — Nano Banana Pro ($0.134/img)</option>
+        </optgroup>
+        <optgroup label="── OpenAI Key">
+          <option value="openai-dalle3">OpenAI — DALL·E 3 ($0.04–0.12/img)</option>
+          <option value="openai-dalle2">OpenAI — DALL·E 2 ($0.016–0.02/img)</option>
+          <option value="openai-gptimg1">OpenAI — GPT Image 1 ($0.011–0.167/img)</option>
+          <option value="openai-gptimg1-mini">OpenAI — GPT Image 1 Mini ($0.005/img)</option>
+        </optgroup>
+        <optgroup label="── Stability AI Key">
+          <option value="stability-core">Stability — Stable Image Core ($0.03/img)</option>
+          <option value="stability-ultra">Stability — Stable Image Ultra ($0.08/img)</option>
+          <option value="stability-sd3">Stability — SD3.5 Large ($0.065/img)</option>
+        </optgroup>
+        <optgroup label="── fal.ai Key">
+          <option value="fal-flux-schnell">fal — FLUX.1 Schnell (fastest, cheap)</option>
+          <option value="fal-flux-pro">fal — FLUX.2 Pro (best quality)</option>
+          <option value="fal-seedream">fal — Seedream V4.5</option>
+          <option value="fal-recraft">fal — Recraft V3 (vector/design)</option>
+          <option value="fal-ideogram">fal — Ideogram V3 (text in images)</option>
+        </optgroup>
+        <optgroup label="── Replicate Key">
+          <option value="replicate-sdxl">Replicate — Stable Diffusion XL</option>
+          <option value="replicate-flux-schnell">Replicate — FLUX.1 Schnell</option>
+        </optgroup>
+      </select>
+      <label>Size</label>
+      <select id="imgSize">
+        <option value="1024x1024">1024×1024</option>
+        <option value="1024x1792">1024×1792 (portrait)</option>
+        <option value="1792x1024">1792×1024 (landscape)</option>
+        <option value="512x512">512×512 (fast)</option>
+      </select>
+      <label>API Key</label>
+      <input type="password" id="imgApiKey" class="input-field password" style="width:160px;padding:5px 8px;font-size:12px;" placeholder="Not needed for free providers" />
+      <span class="img-bar-note" id="imgBarNote">No API key needed</span>
     </div>
 
     <div class="chat-area" id="chatArea">
@@ -1706,6 +1884,32 @@
     const input = document.getElementById('promptInput').value.trim();
     if (!input) return;
 
+    // IMAGE MODE
+    if (imgModeActive) {
+      clearInput();
+      hideWelcome();
+      const chat = document.getElementById('chatArea');
+      // Show spinner
+      const userDiv = document.createElement('div');
+      userDiv.className = 'message user';
+      userDiv.innerHTML = `<div class="message-avatar">U</div><div class="message-content"><div class="message-role">user</div><div class="message-bubble">🖼 ${escapeHtml(input)}</div></div>`;
+      chat.appendChild(userDiv);
+      const loadDiv = document.createElement('div');
+      loadDiv.className = 'message assistant';
+      loadDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant · image</div><div class="message-bubble"><span class="img-spinner"></span> Generating image...</div></div>`;
+      chat.appendChild(loadDiv);
+      chat.scrollTop = chat.scrollHeight;
+      try {
+        const result = await generateImage(input);
+        loadDiv.remove();
+        renderImageMessage(input, result, null);
+      } catch(err) {
+        loadDiv.remove();
+        renderImageMessage(input, null, err.message);
+      }
+      return;
+    }
+
     const config = getConfig();
     if (!config.key) {
       showToast('⚠️ Please enter your API key in the sidebar first!');
@@ -2040,6 +2244,239 @@
 
   // INIT
   renderSavedPrompts();
+
+  // ── IMAGE GENERATION MODE ──
+  let imgModeActive = false;
+
+  function toggleImgMode() {
+    imgModeActive = !imgModeActive;
+    document.getElementById('imgBar').classList.toggle('show', imgModeActive);
+    document.getElementById('imgToggleBtn').classList.toggle('active', imgModeActive);
+    const hint = document.getElementById('promptInput');
+    hint.placeholder = imgModeActive
+      ? 'Describe an image to generate... (Enter to send)'
+      : 'Type your prompt here... (Shift+Enter for newline)';
+  }
+
+  function updateImgModels() {
+    const provider = document.getElementById('imgProvider').value;
+    const keyInput = document.getElementById('imgApiKey');
+    const note = document.getElementById('imgBarNote');
+    const freeProviders = ['pollinations', 'puter'];
+    if (freeProviders.includes(provider)) {
+      keyInput.placeholder = 'Not needed for free providers';
+      keyInput.disabled = true;
+      keyInput.style.opacity = '0.4';
+      note.textContent = '✓ No API key needed';
+    } else {
+      keyInput.disabled = false;
+      keyInput.style.opacity = '1';
+      if (provider.startsWith('gemini')) {
+        keyInput.placeholder = 'AIza... (Gemini key)';
+        note.textContent = 'Uses your Gemini API key';
+      } else if (provider.startsWith('openai')) {
+        keyInput.placeholder = 'sk-... (OpenAI key)';
+        note.textContent = 'Uses your OpenAI API key';
+      } else if (provider.startsWith('stability')) {
+        keyInput.placeholder = 'sk-... (Stability AI key)';
+        note.textContent = 'Get key at platform.stability.ai';
+      } else if (provider.startsWith('fal')) {
+        keyInput.placeholder = 'fal key...';
+        note.textContent = 'Get key at fal.ai/keys';
+      } else if (provider.startsWith('replicate')) {
+        keyInput.placeholder = 'r8_... (Replicate key)';
+        note.textContent = 'Get key at replicate.com';
+      }
+    }
+  }
+  // init
+  document.getElementById('imgApiKey').disabled = true;
+  document.getElementById('imgApiKey').style.opacity = '0.4';
+
+  async function generateImage(prompt) {
+    const provider = document.getElementById('imgProvider').value;
+    const size = document.getElementById('imgSize').value;
+    const apiKey = document.getElementById('imgApiKey').value.trim() || document.getElementById('gemini-key').value.trim();
+    const [w, h] = size.split('x');
+
+    if (provider === 'pollinations') {
+      const encodedPrompt = encodeURIComponent(prompt);
+      return { type: 'url', url: `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&seed=${Date.now()}` };
+    }
+
+    if (provider === 'puter') {
+      // Puter generates via their JS SDK but since we can't load it dynamically, fallback to pollinations
+      const encodedPrompt = encodeURIComponent(prompt);
+      return { type: 'url', url: `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Date.now()}` };
+    }
+
+    if (provider === 'gemini-flash-img') {
+      const key = apiKey || document.getElementById('gemini-key').value.trim();
+      if (!key) throw new Error('Gemini API key required');
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'Gemini image error');
+      const imgPart = data.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+      if (!imgPart) throw new Error('No image returned');
+      return { type: 'base64', data: imgPart.inlineData.data, mime: imgPart.inlineData.mimeType };
+    }
+
+    if (provider === 'gemini-imagen' || provider === 'gemini-nano-pro') {
+      const key = apiKey || document.getElementById('gemini-key').value.trim();
+      if (!key) throw new Error('Gemini API key required');
+      const model = provider === 'gemini-imagen' ? 'imagen-4.0-generate-preview-05-20' : 'imagen-4.0-ultra-generate-preview-05-20';
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1 } })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'Imagen error');
+      const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+      if (!b64) throw new Error('No image returned');
+      return { type: 'base64', data: b64, mime: 'image/png' };
+    }
+
+    if (provider.startsWith('openai')) {
+      const key = apiKey || document.getElementById('openai-key').value.trim();
+      if (!key) throw new Error('OpenAI API key required');
+      const modelMap = {
+        'openai-dalle3': 'dall-e-3',
+        'openai-dalle2': 'dall-e-2',
+        'openai-gptimg1': 'gpt-image-1',
+        'openai-gptimg1-mini': 'gpt-image-1'
+      };
+      const body = { model: modelMap[provider], prompt, n: 1, size };
+      if (provider === 'openai-gptimg1-mini') body.quality = 'low';
+      const res = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'OpenAI image error');
+      const imgData = data.data?.[0];
+      if (imgData?.url) return { type: 'url', url: imgData.url };
+      if (imgData?.b64_json) return { type: 'base64', data: imgData.b64_json, mime: 'image/png' };
+      throw new Error('No image in response');
+    }
+
+    if (provider.startsWith('stability')) {
+      const key = apiKey;
+      if (!key) throw new Error('Stability AI API key required');
+      const engineMap = {
+        'stability-core': 'stable-image-core',
+        'stability-ultra': 'stable-image-ultra',
+        'stability-sd3': 'sd3.5-large'
+      };
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+      formData.append('output_format', 'png');
+      const endpoint = provider === 'stability-sd3'
+        ? 'https://api.stability.ai/v2beta/stable-diffusion/generate'
+        : `https://api.stability.ai/v2beta/stable-image/generate/${engineMap[provider]}`;
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Accept': 'image/*' },
+        body: formData
+      });
+      if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.errors?.[0] || 'Stability error'); }
+      const blob = await res.blob();
+      const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+      return { type: 'base64', data: b64, mime: 'image/png' };
+    }
+
+    if (provider.startsWith('fal')) {
+      const key = apiKey;
+      if (!key) throw new Error('fal.ai API key required');
+      const endpointMap = {
+        'fal-flux-schnell': 'fal-ai/flux/schnell',
+        'fal-flux-pro': 'fal-ai/flux-pro/v1.1',
+        'fal-seedream': 'fal-ai/seedream-v4',
+        'fal-recraft': 'fal-ai/recraft-v3',
+        'fal-ideogram': 'fal-ai/ideogram/v3'
+      };
+      const res = await fetch(`https://fal.run/${endpointMap[provider]}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Key ${key}` },
+        body: JSON.stringify({ prompt, image_size: { width: parseInt(w), height: parseInt(h) }, num_images: 1 })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'fal.ai error');
+      const url = data.images?.[0]?.url;
+      if (!url) throw new Error('No image from fal.ai');
+      return { type: 'url', url };
+    }
+
+    if (provider.startsWith('replicate')) {
+      const key = apiKey;
+      if (!key) throw new Error('Replicate API key required');
+      const modelMap = {
+        'replicate-sdxl': 'stability-ai/sdxl:39ed52f2319f9a4b081fef3ffe28cdb86f056bab787e0f0a4c3de8a3e5e2c94f',
+        'replicate-flux-schnell': 'black-forest-labs/flux-schnell'
+      };
+      const res = await fetch('https://api.replicate.com/v1/predictions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ version: modelMap[provider], input: { prompt, width: parseInt(w), height: parseInt(h) } })
+      });
+      const pred = await res.json();
+      if (!res.ok) throw new Error(pred.detail || 'Replicate error');
+      // Poll for result
+      let result = pred;
+      for (let i = 0; i < 30; i++) {
+        await new Promise(r => setTimeout(r, 2000));
+        const poll = await fetch(`https://api.replicate.com/v1/predictions/${result.id}`, { headers: { 'Authorization': `Bearer ${key}` } });
+        result = await poll.json();
+        if (result.status === 'succeeded') return { type: 'url', url: result.output?.[0] };
+        if (result.status === 'failed') throw new Error(result.error || 'Replicate failed');
+      }
+      throw new Error('Replicate timed out');
+    }
+
+    throw new Error('Unknown provider');
+  }
+
+  function renderImageMessage(prompt, imgResult, errorMsg) {
+    const chat = document.getElementById('chatArea');
+    hideWelcome();
+
+    // User message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'message user';
+    userDiv.innerHTML = `<div class="message-avatar">U</div><div class="message-content"><div class="message-role">user</div><div class="message-bubble">🖼 ${escapeHtml(prompt)}</div></div>`;
+    chat.appendChild(userDiv);
+
+    // Assistant message
+    const aDiv = document.createElement('div');
+    aDiv.className = 'message assistant';
+    if (errorMsg) {
+      aDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant</div><div class="message-bubble">❌ ${escapeHtml(errorMsg)}</div></div>`;
+    } else {
+      let imgSrc = imgResult.type === 'url' ? imgResult.url : `data:${imgResult.mime};base64,${imgResult.data}`;
+      aDiv.innerHTML = `
+        <div class="message-avatar">✦</div>
+        <div class="message-content">
+          <div class="message-role">assistant · image</div>
+          <div class="message-bubble" style="padding:10px;">
+            <img src="${imgSrc}" class="generated-img" alt="${escapeHtml(prompt)}" />
+            <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+              <a class="img-dl-btn" href="${imgSrc}" download="nexim-${Date.now()}.png">⬇ Download</a>
+              <span style="font-size:11px;color:var(--text3);">${document.getElementById('imgProvider').options[document.getElementById('imgProvider').selectedIndex].text.split('—')[1]?.trim() || 'Generated'}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+    chat.appendChild(aDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }
 
   // DARK MODE
   function toggleDark() {
