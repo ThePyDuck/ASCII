@@ -1438,7 +1438,7 @@
       <select id="imgProvider" onchange="updateImgModels()">
         <optgroup label="── Free / No Key">
           <option value="pollinations">Pollinations AI (Free, No Key)</option>
-          <option value="puter">Puter.js (Free, No Key)</option>
+          <option value="pollinations2">Pollinations AI — FLUX Anime (Free)</option>
         </optgroup>
         <optgroup label="── Google (Gemini Key)">
           <option value="gemini-imagen">Gemini — Imagen 4 Fast ($0.02/img)</option>
@@ -1895,14 +1895,29 @@
       chat.appendChild(userDiv);
       const loadDiv = document.createElement('div');
       loadDiv.className = 'message assistant';
-      loadDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant · image</div><div class="message-bubble"><span class="img-spinner"></span> Generating image...</div></div>`;
+      loadDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant · image</div><div class="message-bubble" id="imgLoadMsg"><span class="img-spinner"></span> Generating image — this may take up to 60s on free providers...</div></div>`;
       chat.appendChild(loadDiv);
       chat.scrollTop = chat.scrollHeight;
+      // Update status periodically so user knows it's working
+      const statusMsgs = [
+        'Generating image — contacting provider...',
+        'Still working — free providers can be slow...',
+        'Almost there — waiting for response...',
+        'Taking longer than usual — hang tight...'
+      ];
+      let msgIdx = 0;
+      const statusInterval = setInterval(() => {
+        msgIdx = Math.min(msgIdx + 1, statusMsgs.length - 1);
+        const el = document.getElementById('imgLoadMsg');
+        if (el) el.innerHTML = `<span class="img-spinner"></span> ${statusMsgs[msgIdx]}`;
+      }, 12000);
       try {
         const result = await generateImage(input);
+        clearInterval(statusInterval);
         loadDiv.remove();
         renderImageMessage(input, result, null);
       } catch(err) {
+        clearInterval(statusInterval);
         loadDiv.remove();
         renderImageMessage(input, null, err.message);
       }
@@ -2298,25 +2313,37 @@
     const apiKey = document.getElementById('imgApiKey').value.trim() || document.getElementById('gemini-key').value.trim();
     const [w, h] = size.split('x');
 
-    if (provider === 'pollinations' || provider === 'puter') {
+    if (provider === 'pollinations' || provider === 'puter' || provider === 'pollinations2') {
       const encodedPrompt = encodeURIComponent(prompt);
       const seed = Math.floor(Math.random() * 99999999);
-      // Try flux first, fallback to turbo if 500
-      const models = ['flux', 'turbo', 'flux-realism'];
+      const sleep = ms => new Promise(r => setTimeout(r, ms));
+      // Multiple models to try with delays between 429s
+      const models = ['flux', 'turbo', 'flux-realism', 'flux-anime', 'flux-3d', 'any-dark'];
       let lastErr = '';
-      for (const model of models) {
+      for (let i = 0; i < models.length; i++) {
+        const model = models[i];
         try {
-          const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=${model}&seed=${seed}`;
-          const res = await fetch(url);
+          // Wait 2s between retries to avoid hammering rate limits
+          if (i > 0) await sleep(2000);
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 60000); // 60s timeout
+          const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${w}&height=${h}&nologo=true&model=${model}&seed=${seed}&enhance=true`;
+          const res = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeout);
+          if (res.status === 429) { lastErr = `${model} rate limited (429), trying next...`; continue; }
+          if (res.status === 500) { lastErr = `${model} server error (500), trying next...`; continue; }
           if (!res.ok) { lastErr = `${model} error ${res.status}`; continue; }
           const contentType = res.headers.get('content-type') || '';
           if (!contentType.startsWith('image/')) { lastErr = `${model} returned non-image`; continue; }
           const blob = await res.blob();
           const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
           return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
-        } catch(e) { lastErr = e.message; }
+        } catch(e) {
+          if (e.name === 'AbortError') { lastErr = `${model} timed out after 60s`; }
+          else { lastErr = e.message; }
+        }
       }
-      throw new Error(`Pollinations failed on all models. Last error: ${lastErr}`);
+      throw new Error(`All Pollinations models failed. Try again in a minute or use a paid provider. Last: ${lastErr}`);
     }
 
     if (provider === 'gemini-flash-img') {
