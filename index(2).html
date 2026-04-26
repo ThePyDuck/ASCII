@@ -1,0 +1,3224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Primary Meta -->
+  <title>Nexim AI — Free Prompt Playground | Compare 30+ AI Models</title>
+  <meta name="description" content="Test and compare AI prompts across Gemini 3.1, GPT-4.1, DeepSeek R1, Llama 4, Qwen3 and 50+ models. Generate images, save prompts. Free, no login needed.">
+  <meta name="keywords" content="AI prompt playground, compare AI models, Gemini 3.1, GPT-4.1, DeepSeek R1, Llama 4, Qwen3, free AI tool">
+  <meta name="author" content="Nexim AI">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://neximai.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://neximai.vercel.app/">
+  <meta property="og:site_name" content="Nexim AI">
+  <meta property="og:title" content="Nexim AI — Free AI Prompt Playground">
+  <meta property="og:description" content="Test and compare AI prompts across Gemini 2.5, DeepSeek R1, Llama 4 and 30+ models. Free, no login needed.">
+  <meta property="og:image" content="https://neximai.vercel.app/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nexim AI — Free AI Prompt Playground">
+  <meta name="twitter:description" content="Test and compare AI prompts across Gemini 2.5, DeepSeek R1, Llama 4 and 30+ models. Free, no login needed.">
+  <meta name="twitter:image" content="https://neximai.vercel.app/og-image.png">
+
+  <!-- Theme & Mobile -->
+  <meta name="theme-color" content="#1a1916">
+
+  <!-- Favicon — inline SVG, no external file needed -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a1916'/%3E%3Cline x1='6' y1='8' x2='6' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='6' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.45'/%3E%3Cline x1='16' y1='8' x2='26' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Cline x1='26' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Ccircle cx='27' cy='8' r='2.5' fill='%23e8e4dc'/%3E%3C/svg%3E">
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a1916'/%3E%3Cline x1='6' y1='8' x2='6' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='6' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.45'/%3E%3Cline x1='16' y1='8' x2='26' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Cline x1='26' y1='8' x2='16' y2='24' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-opacity='.75'/%3E%3Ccircle cx='27' cy='8' r='2.5' fill='%23e8e4dc'/%3E%3C/svg%3E">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nexim AI",
+    "url": "https://neximai.vercel.app",
+    "description": "Free AI prompt playground for testing and comparing 30+ AI models including Gemini 2.5, DeepSeek R1, and Llama 4",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["AI prompt testing", "Model comparison", "Image generation", "Prompt saving"],
+    "screenshot": "https://neximai.vercel.app/og-image.png"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Nexim AI",
+    "alternateName": "Nexim",
+    "url": "https://neximai.vercel.app"
+  }
+  </script>
+
+  <!-- Favicon file (upload favicon.svg to your Vercel root) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <!-- Fonts (non-blocking) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f8f6;
+      --surface: #ffffff;
+      --surface2: #f2f1ef;
+      --border: #e4e2de;
+      --border2: #d0cdc8;
+      --text: #1a1916;
+      --text2: #6b6860;
+      --text3: #a09e99;
+      --accent: #1a1916;
+      --accent-soft: #f0ede8;
+      --green: #2d6a4f;
+      --green-bg: #eef7f2;
+      --red: #c0392b;
+      --red-bg: #fdf0ee;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    body.dark {
+      --bg: #111110;
+      --surface: #1c1c1a;
+      --surface2: #252523;
+      --border: #2e2e2b;
+      --border2: #3a3a36;
+      --text: #f0ede8;
+      --text2: #a09e99;
+      --text3: #5a5855;
+      --accent: #f0ede8;
+      --accent-soft: #252523;
+      --green: #4ade80;
+      --green-bg: #0f2a1a;
+      --red: #f87171;
+      --red-bg: #2a0f0f;
+    }
+
+    body.dark .btn-primary { background: #f0ede8; color: #111110; }
+    body.dark .message.user .message-bubble { background: #f0ede8; color: #111110; border-color: #f0ede8; }
+    body.dark .logo-mark svg rect { fill: #f0ede8; }
+    body.dark .logo-mark svg line { stroke: #111110; }
+    body.dark .logo-mark svg circle { fill: #555; }
+
+    /* Dark mode toggle */
+    .dark-toggle {
+      width: 36px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--border2);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .dark-toggle::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--surface);
+      top: 3px;
+      left: 3px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    body.dark .dark-toggle { background: #f0ede8; }
+    body.dark .dark-toggle::after { transform: translateX(16px); background: #111110; }
+
+    .dark-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* COMPARE MODE */
+    .compare-mode-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .compare-mode-btn:hover { background: var(--border); color: var(--text); }
+    .compare-mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    /* Compare overlay */
+    .compare-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .compare-overlay.show { opacity: 1; pointer-events: all; }
+
+    .compare-modal {
+      background: var(--surface);
+      border-radius: var(--radius);
+      width: min(92vw, 520px);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transform: translateY(16px);
+      transition: transform 0.2s;
+    }
+    .compare-overlay.show .compare-modal { transform: translateY(0); }
+
+    .compare-modal-header {
+      padding: 20px 24px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+    .compare-modal-header h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .compare-modal-header p { font-size: 12px; color: var(--text3); }
+
+    .compare-modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+    .compare-type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .compare-type-card {
+      padding: 12px 10px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      background: var(--bg);
+    }
+    .compare-type-card:hover { border-color: var(--border2); }
+    .compare-type-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+    .compare-type-card .card-icon { font-size: 18px; margin-bottom: 4px; }
+    .compare-type-card .card-label { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.3; }
+
+    .compare-config { display: none; }
+    .compare-config.show { display: flex; flex-direction: column; gap: 10px; }
+
+    .compare-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .compare-modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    /* Compare results view */
+    .compare-results {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 56px);
+    }
+    .compare-results.show { display: grid; }
+
+    .compare-pane {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .compare-pane:last-child { border-right: none; }
+
+    .compare-pane-header {
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .compare-pane-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .compare-pane-model {
+      font-size: 12px;
+      color: var(--text2);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .compare-chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--bg);
+    }
+
+    .compare-input-area {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .compare-prompt-shared {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      grid-column: 1 / -1;
+    }
+
+    /* Wrap compare results + shared input */
+    .compare-layout {
+      display: none;
+      flex-direction: column;
+      height: calc(100vh - 56px);
+    }
+    .compare-layout.show { display: flex; }
+
+    .compare-panes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .compare-shared-input {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .logo-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .logo-tag {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-danger {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid #f5c6c0;
+    }
+    .btn-danger:hover { background: #fce4e1; }
+
+    /* LAYOUT */
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      height: calc(100vh - 56px);
+    }
+
+    /* SIDEBAR LEFT */
+    .sidebar-left {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 12px;
+    }
+
+    /* API Config */
+    .api-provider-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      background: var(--surface2);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    .provider-tab {
+      flex: 1;
+      padding: 5px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 5px;
+      cursor: pointer;
+      color: var(--text2);
+      transition: all 0.15s;
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .provider-tab.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    .input-label {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      transition: border 0.15s;
+      outline: none;
+    }
+
+    .input-field:focus { border-color: var(--accent); }
+
+    .input-field.password { letter-spacing: 2px; }
+    .input-field.password::placeholder { letter-spacing: 0; }
+
+    select.input-field { cursor: pointer; }
+
+    /* Sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type=range] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--text2);
+      min-width: 32px;
+      text-align: right;
+    }
+
+    /* Saved Prompts */
+    .saved-prompts {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .saved-prompt-item {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--surface);
+    }
+
+    .saved-prompt-item:hover { border-color: var(--border2); background: var(--surface2); }
+
+    .saved-prompt-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-prompt-preview {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-prompt-actions {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .mini-btn {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.1s;
+    }
+
+    .mini-btn:hover { background: var(--surface2); }
+    .mini-btn.del:hover { background: var(--red-bg); color: var(--red); border-color: #f5c6c0; }
+
+    .empty-state {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--text3);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* MAIN */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* System Prompt */
+    .system-prompt-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .system-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding-top: 8px;
+      white-space: nowrap;
+    }
+
+    textarea.system-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text2);
+      background: transparent;
+      resize: none;
+      line-height: 1.5;
+      min-height: 32px;
+      max-height: 80px;
+    }
+
+    textarea.system-input::placeholder { color: var(--text3); }
+
+    /* Chat area */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.2s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .message.user .message-avatar {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .message.assistant .message-avatar {
+      background: var(--surface2);
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+
+    .message-content {
+      flex: 1;
+      max-width: calc(100% - 40px);
+    }
+
+    .message-role {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .message-bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message.user .message-bubble {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .message-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .message-tokens {
+      font-size: 11px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .copy-btn {
+      font-size: 11px;
+      color: var(--text3);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.1s;
+    }
+
+    .copy-btn:hover { color: var(--text); }
+    .copy-btn.copied { color: var(--green); }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.2s ease;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text3);
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+
+    /* Input area */
+    .input-area {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      transition: border 0.15s;
+    }
+
+    .input-wrapper:focus-within { border-color: var(--border2); }
+
+    textarea#promptInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      background: transparent;
+      color: var(--text);
+      resize: none;
+      min-height: 24px;
+      max-height: 160px;
+      line-height: 1.5;
+    }
+
+    textarea#promptInput::placeholder { color: var(--text3); }
+
+    .input-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding: 0 2px;
+    }
+
+    .input-hints {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .input-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* SIDEBAR RIGHT - Stats */
+    .sidebar-right {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-family: 'DM Serif Display', serif;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .history-item {
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      font-size: 12px;
+      background: var(--bg);
+    }
+
+    .history-item-time {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 2px;
+    }
+
+    .history-item-text {
+      color: var(--text2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-item-tokens {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      margin-top: 3px;
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .status-badge.ok { background: var(--green-bg); color: var(--green); }
+    .status-badge.err { background: var(--red-bg); color: var(--red); }
+    .status-badge.idle { background: var(--surface2); color: var(--text3); }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      opacity: 0;
+      transition: all 0.25s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Save modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      width: 360px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Provider panels */
+    .provider-panel { display: none; }
+    .provider-panel.active { display: block; }
+
+    .welcome-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 40px;
+      gap: 12px;
+    }
+
+    .welcome-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--text);
+    }
+
+    .welcome-sub {
+      font-size: 14px;
+      color: var(--text2);
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .welcome-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      text-align: left;
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .welcome-step {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 240px 1fr; }
+      .sidebar-right { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .app { grid-template-columns: 1fr; height: calc(100vh - 56px); }
+      .sidebar-left { display: none; }
+      .sidebar-right { display: none; }
+
+      header { padding: 0 14px; }
+      .logo-tag { display: none; }
+      .header-actions { gap: 6px; }
+      .btn-ghost { display: none; }
+      .btn-danger { padding: 6px 10px; font-size: 12px; }
+      #statusBadge { font-size: 10px; padding: 3px 6px; }
+
+      .system-prompt-bar { padding: 8px 12px; }
+      .chat-area { padding: 14px 12px; gap: 12px; }
+
+      .message-bubble { font-size: 13px; padding: 10px 12px; }
+
+      .input-area { padding: 10px 12px; }
+      .input-wrapper { padding: 8px 12px; }
+      textarea#promptInput { font-size: 14px; }
+      .input-footer { display: none; }
+      .btn-primary { padding: 8px 14px; font-size: 13px; }
+
+      .welcome-screen { padding: 24px 16px; }
+      .welcome-title { font-size: 22px; }
+      .welcome-sub { font-size: 13px; }
+      .welcome-steps { padding: 14px 16px; }
+    }
+
+    /* Mobile bottom sheet for settings */
+    .mobile-settings-btn {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .mobile-settings-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        pointer-events: none;
+      }
+
+      .mobile-drawer.open {
+        pointer-events: all;
+      }
+
+      .mobile-drawer-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.25);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      .mobile-drawer.open .mobile-drawer-overlay {
+        opacity: 1;
+      }
+
+      .mobile-drawer-panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-radius: 20px 20px 0 0;
+        padding: 20px 20px 32px;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      .mobile-drawer.open .mobile-drawer-panel {
+        transform: translateY(0);
+      }
+
+      .drawer-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--border2);
+        border-radius: 2px;
+        margin: 0 auto 20px;
+      }
+
+      .drawer-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: var(--text);
+      }
+    }
+
+    /* IMAGE MODE */
+    .img-mode-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .img-mode-btn:hover { background: var(--border); color: var(--text); }
+    .img-mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    .img-provider-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .img-provider-bar.show { display: flex; }
+
+    .img-provider-bar label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .img-model-select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; cursor: pointer; outline: none; }
+
+    .img-size-select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; cursor: pointer; outline: none; }
+
+    .img-note { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+    /* Generated image in chat */
+    .message-image {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin-top: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .img-generating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text2);
+      font-size: 13px;
+    }
+
+    .img-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .img-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 6px;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .img-download-btn:hover { background: var(--border); color: var(--text); }
+
+    /* IMAGE MODE */
+    .img-toggle-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "DM Sans", sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .img-toggle-btn:hover { background: var(--border); color: var(--text); }
+    .img-toggle-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    .img-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .img-bar.show { display: flex; }
+    .img-bar label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .img-bar select { font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: "DM Mono", monospace; cursor: pointer; outline: none; }
+    .img-bar-note { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+    .generated-img { max-width: 100%; max-height: 400px; border-radius: var(--radius-sm); display: block; margin-top: 8px; border: 1px solid var(--border); }
+    .img-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .img-dl-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); color: var(--text2); cursor: pointer; text-decoration: none; margin-top: 6px; font-family: "DM Sans", sans-serif; transition: all 0.15s; }
+    .img-dl-btn:hover { background: var(--border); color: var(--text); }
+
+    /* MARKDOWN RENDERING */
+    .message-bubble { white-space: normal !important; }
+    .message-bubble p { margin-bottom: 10px; line-height: 1.7; }
+    .message-bubble p:last-child { margin-bottom: 0; }
+    .message-bubble h1,.message-bubble h2,.message-bubble h3,.message-bubble h4 {
+      font-family: 'DM Serif Display', serif;
+      margin: 16px 0 8px;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .message-bubble h1 { font-size: 20px; }
+    .message-bubble h2 { font-size: 17px; }
+    .message-bubble h3 { font-size: 15px; }
+    .message-bubble h4 { font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+    .message-bubble strong { font-weight: 600; color: var(--text); }
+    .message-bubble em { font-style: italic; }
+    .message-bubble ul, .message-bubble ol { padding-left: 20px; margin-bottom: 10px; }
+    .message-bubble li { margin-bottom: 4px; line-height: 1.6; }
+    .message-bubble ul li { list-style-type: disc; }
+    .message-bubble ol li { list-style-type: decimal; }
+    .message-bubble blockquote {
+      border-left: 3px solid var(--border2);
+      padding: 6px 12px;
+      margin: 10px 0;
+      color: var(--text2);
+      font-style: italic;
+      background: var(--surface2);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .message-bubble a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+    .message-bubble hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+    .message-bubble table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 13px; }
+    .message-bubble th { background: var(--surface2); font-weight: 600; text-align: left; padding: 7px 10px; border: 1px solid var(--border); }
+    .message-bubble td { padding: 6px 10px; border: 1px solid var(--border); }
+    .message-bubble tr:nth-child(even) td { background: var(--surface2); }
+
+    /* Inline code */
+    .message-bubble code:not(.block-code) {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--text);
+    }
+    .message.user .message-bubble code:not(.block-code) {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    /* Code blocks */
+    .code-block {
+      margin: 10px 0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #1e1e1e;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background: #2d2d2d;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: #aaa;
+    }
+    .code-copy-btn {
+      background: transparent;
+      border: 1px solid #444;
+      color: #aaa;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .code-copy-btn:hover { background: #444; color: #fff; }
+    .code-copy-btn.copied { color: #4ade80; border-color: #4ade80; }
+    .code-block pre {
+      margin: 0;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e8e8e8;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#1a1916"/>
+        <!-- N strokes -->
+        <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+        <!-- X strokes overlapping, offset right, semi-transparent blend -->
+        <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+        <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+        <!-- Accent dot -->
+        <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+      </svg>
+    </div>
+    <span class="logo-name">Nexim</span>
+    <span class="logo-tag">AI Playground</span>
+  </div>
+  <div class="header-actions">
+    <span id="statusBadge" class="status-badge idle">
+      <span class="status-dot"></span> Ready
+    </span>
+    <div class="dark-toggle-wrap">
+      <span>🌙</span>
+      <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode"></button>
+    </div>
+    <button class="compare-mode-btn" id="compareModeBtn" onclick="openCompareModal()">⚡ Compare</button>
+    <button class="img-toggle-btn" id="imgToggleBtn" onclick="toggleImgMode()">🖼 Image Gen</button>
+    <button class="mobile-settings-btn" onclick="openDrawer()">⚙️ Settings</button>
+    <button class="btn btn-ghost" onclick="openSaveModal()">💾 Save Prompt</button>
+    <button class="btn btn-danger" onclick="clearChat()">Clear</button>
+  </div>
+</header>
+
+<!-- APP -->
+<div class="app" id="chat">
+
+  <!-- SIDEBAR LEFT -->
+  <aside class="sidebar-left">
+    <div class="sidebar-section">
+      <div class="sidebar-label">API Provider</div>
+      <div class="api-provider-tabs">
+        <button class="provider-tab active" onclick="switchProvider('gemini')">Gemini</button>
+        <button class="provider-tab" onclick="switchProvider('openrouter')">OpenRouter</button>
+        <button class="provider-tab" onclick="switchProvider('openai')">OpenAI</button>
+      </div>
+
+      <!-- Gemini -->
+      <div class="provider-panel active" id="panel-gemini">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="gemini-key" placeholder="AIza..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="gemini-model">
+            <optgroup label="── Gemini 3.x (Latest)">
+              <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview ✦</option>
+              <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash-Lite Preview</option>
+              <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+            </optgroup>
+            <optgroup label="── Gemini 2.5">
+              <option value="gemini-2.5-pro" selected>Gemini 2.5 Pro</option>
+              <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+              <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+            </optgroup>
+            <optgroup label="── Gemini 2.0 (Deprecated Jun 2026)">
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash ⚠️ Deprecated</option>
+              <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash-Lite ⚠️ Deprecated</option>
+            </optgroup>
+            <optgroup label="── Retired / Shut Down">
+              <option value="gemini-1.5-pro" disabled>Gemini 1.5 Pro 🚫 Retired</option>
+              <option value="gemini-1.5-flash" disabled>Gemini 1.5 Flash 🚫 Retired</option>
+              <option value="gemini-1.0-pro" disabled>Gemini 1.0 Pro 🚫 Retired</option>
+              <option value="gemini-3-pro-preview" disabled>Gemini 3 Pro Preview 🚫 Shut down Mar 2026</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- OpenRouter -->
+      <div class="provider-panel" id="panel-openrouter">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="openrouter-key" placeholder="sk-or-..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="openrouter-model">
+            <optgroup label="── Auto Router">
+              <option value="openrouter/free">OpenRouter Auto (picks best free)</option>
+            </optgroup>
+            <optgroup label="── Meta Llama (Free)">
+              <option value="meta-llama/llama-4-maverick:free">Llama 4 Maverick :free</option>
+              <option value="meta-llama/llama-4-scout:free">Llama 4 Scout :free</option>
+              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B :free</option>
+              <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B :free</option>
+            </optgroup>
+            <optgroup label="── DeepSeek (Free)">
+              <option value="deepseek/deepseek-r1:free">DeepSeek R1 (Reasoning) :free</option>
+              <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 Mar 2025 :free</option>
+            </optgroup>
+            <optgroup label="── Google / Gemma (Free)">
+              <option value="google/gemma-4-31b-it:free">Gemma 4 31B :free</option>
+              <option value="google/gemma-4-26b-a4b-it:free">Gemma 4 26B MoE :free</option>
+              <option value="google/gemma-3-27b-it:free">Gemma 3 27B :free</option>
+              <option value="google/gemma-3-12b-it:free">Gemma 3 12B :free</option>
+              <option value="google/gemma-3-4b-it:free">Gemma 3 4B :free</option>
+            </optgroup>
+            <optgroup label="── NVIDIA (Free)">
+              <option value="nvidia/nemotron-3-super-120b-a12b:free">NVIDIA Nemotron 3 Super 120B :free</option>
+              <option value="nvidia/nemotron-3-nano-30b-a3b:free">NVIDIA Nemotron 3 Nano 30B :free</option>
+              <option value="nvidia/nemotron-nano-12b-v2-vl:free">NVIDIA Nemotron Nano 12B VL :free</option>
+            </optgroup>
+            <optgroup label="── Qwen (Free)">
+              <option value="qwen/qwen3-coder:free">Qwen3 Coder 480B :free ⭐ Best Coding</option>
+              <option value="qwen/qwen3-235b-a22b:free">Qwen3 235B MoE :free</option>
+              <option value="qwen/qwen3-next-80b-a3b-instruct:free">Qwen3 Next 80B :free</option>
+            </optgroup>
+            <optgroup label="── OpenAI OSS (Free)">
+              <option value="openai/gpt-oss-120b:free">GPT OSS 120B :free</option>
+              <option value="openai/gpt-oss-20b:free">GPT OSS 20B :free</option>
+            </optgroup>
+            <optgroup label="── Mistral (Free)">
+              <option value="mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B :free</option>
+            </optgroup>
+            <optgroup label="── MiniMax (Free)">
+              <option value="minimax/minimax-m2.5:free">MiniMax M2.5 :free</option>
+            </optgroup>
+            <optgroup label="── OpenRouter Experimental">
+              <option value="openrouter/optimus-alpha">Optimus Alpha</option>
+              <option value="openrouter/quasar-alpha">Quasar Alpha</option>
+            </optgroup>
+            <optgroup label="── Paid: Anthropic">
+              <option value="anthropic/claude-opus-4-7">Claude Opus 4.7 ✦ Latest</option>
+              <option value="anthropic/claude-sonnet-4-6">Claude Sonnet 4.6</option>
+              <option value="anthropic/claude-haiku-4-5">Claude Haiku 4.5</option>
+              <option value="anthropic/claude-opus-4-6">Claude Opus 4.6 ⚠️ Deprecated Jun 2026</option>
+              <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+              <option value="anthropic/claude-3-7-sonnet">Claude 3.7 Sonnet 🚫 Retired Oct 2025</option>
+              <option value="anthropic/claude-3-5-sonnet">Claude 3.5 Sonnet 🚫 Retired Jan 2026</option>
+            </optgroup>
+            <optgroup label="── Paid: OpenAI">
+              <option value="openai/gpt-4.1">GPT-4.1</option>
+              <option value="openai/gpt-4.1-mini">GPT-4.1 Mini</option>
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+              <option value="openai/o3">o3</option>
+              <option value="openai/o3-pro">o3-pro</option>
+              <option value="openai/o4-mini">o4-mini ⚠️ Deprecated</option>
+            </optgroup>
+            <optgroup label="── Paid: Mistral">
+              <option value="mistralai/mistral-large">Mistral Large</option>
+              <option value="mistralai/mistral-medium-3.1">Mistral Medium 3.1</option>
+              <option value="mistralai/codestral-2501">Codestral 2501</option>
+            </optgroup>
+            <optgroup label="── Paid: xAI Grok">
+              <option value="x-ai/grok-3">Grok-3</option>
+              <option value="x-ai/grok-3-mini">Grok-3 Mini</option>
+            </optgroup>
+            <optgroup label="── Paid: Google Gemini (via OR)">
+              <option value="google/gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+              <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- OpenAI -->
+      <div class="provider-panel" id="panel-openai">
+        <div class="input-group">
+          <div class="input-label">API Key</div>
+          <input type="password" class="input-field password" id="openai-key" placeholder="sk-..." />
+        </div>
+        <div class="input-group">
+          <div class="input-label">Model</div>
+          <select class="input-field" id="openai-model">
+            <optgroup label="── GPT-4.1 (Current)">
+              <option value="gpt-4.1" selected>GPT-4.1 ✦ Best Coding</option>
+              <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
+              <option value="gpt-4.1-nano">GPT-4.1 Nano (fastest)</option>
+            </optgroup>
+            <optgroup label="── GPT-4o">
+              <option value="gpt-4o">GPT-4o</option>
+              <option value="gpt-4o-mini">GPT-4o Mini</option>
+            </optgroup>
+            <optgroup label="── o-series (Reasoning)">
+              <option value="o3">o3</option>
+              <option value="o3-pro">o3-pro</option>
+              <option value="o3-mini">o3-mini ⚠️ Deprecated</option>
+              <option value="o4-mini">o4-mini ⚠️ Deprecated</option>
+              <option value="o1">o1 ⚠️ Deprecated</option>
+              <option value="o1-mini">o1-mini ⚠️ Deprecated</option>
+            </optgroup>
+            <optgroup label="── Open Source (OSS)">
+              <option value="gpt-oss-120b">GPT OSS 120B (Apache 2.0)</option>
+              <option value="gpt-oss-20b">GPT OSS 20B</option>
+            </optgroup>
+            <optgroup label="── Legacy / Retired">
+              <option value="gpt-4.5-preview" disabled>GPT-4.5 Preview 🚫 Deprecated</option>
+              <option value="gpt-4-turbo" disabled>GPT-4 Turbo 🚫 Legacy</option>
+              <option value="gpt-3.5-turbo" disabled>GPT-3.5 Turbo 🚫 Legacy</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Parameters</div>
+      <div class="input-group">
+        <div class="input-label">
+          <span>Temperature</span>
+          <span class="slider-val" id="temp-val">0.7</span>
+        </div>
+        <input type="range" min="0" max="2" step="0.05" value="0.7" id="temperature"
+          oninput="document.getElementById('temp-val').textContent = this.value" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">
+          <span>Max Tokens</span>
+          <span class="slider-val" id="tokens-val">1024</span>
+        </div>
+        <input type="range" min="64" max="4096" step="64" value="1024" id="maxTokens"
+          oninput="document.getElementById('tokens-val').textContent = this.value" />
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="flex-shrink:0;">
+      <div class="sidebar-label">Saved Prompts</div>
+    </div>
+    <div class="saved-prompts" id="savedPromptsList">
+      <div class="empty-state">No saved prompts yet.<br/>Hit <strong>Save Prompt</strong> after a good run!</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="system-prompt-bar">
+      <span class="system-label">System</span>
+      <textarea class="system-input" id="systemPrompt" rows="1"
+        placeholder="Set a system prompt (e.g. You are a helpful assistant...)"
+        oninput="autoResize(this)"></textarea>
+    </div>
+
+    <!-- IMAGE GEN BAR -->
+    <div class="img-bar" id="imgBar">
+      <label>Provider</label>
+      <select id="imgProvider" onchange="updateImgModels()">
+        <optgroup label="── Free / No Key">
+          <option value="puter">Puter.js — FLUX (Free, recommended ✓)</option>
+          <option value="puter-dalle">Puter.js — DALL-E 3 (Free)</option>
+          <option value="puter-gemini">Puter.js — Gemini Imagen (Free)</option>
+        </optgroup>
+        <optgroup label="── Google (Gemini Key)">
+          <option value="gemini-imagen">Gemini — Imagen 4 Fast ($0.02/img)</option>
+          <option value="gemini-flash-img">Gemini — 2.5 Flash Image (GA, Gemini key)</option>
+          <option value="gemini-nano-pro">Gemini — Nano Banana Pro ($0.134/img)</option>
+        </optgroup>
+        <optgroup label="── OpenAI Key">
+          <option value="openai-dalle3">OpenAI — DALL·E 3 ($0.04–0.12/img)</option>
+          <option value="openai-dalle2">OpenAI — DALL·E 2 ($0.016–0.02/img)</option>
+          <option value="openai-gptimg1">OpenAI — GPT Image 1 ($0.011–0.167/img)</option>
+          <option value="openai-gptimg1-mini">OpenAI — GPT Image 1 Mini ($0.005/img)</option>
+        </optgroup>
+        <optgroup label="── Stability AI Key">
+          <option value="stability-core">Stability — Stable Image Core ($0.03/img)</option>
+          <option value="stability-ultra">Stability — Stable Image Ultra ($0.08/img)</option>
+          <option value="stability-sd3">Stability — SD3.5 Large ($0.065/img)</option>
+        </optgroup>
+        <optgroup label="── fal.ai Key">
+          <option value="fal-flux-schnell">fal — FLUX.1 Schnell (fastest, cheap)</option>
+          <option value="fal-flux-pro">fal — FLUX.2 Pro (best quality)</option>
+          <option value="fal-seedream">fal — Seedream V4.5</option>
+          <option value="fal-recraft">fal — Recraft V3 (vector/design)</option>
+          <option value="fal-ideogram">fal — Ideogram V3 (text in images)</option>
+        </optgroup>
+        <optgroup label="── Replicate Key">
+          <option value="replicate-sdxl">Replicate — Stable Diffusion XL</option>
+          <option value="replicate-flux-schnell">Replicate — FLUX.1 Schnell</option>
+        </optgroup>
+      </select>
+      <label>Size</label>
+      <select id="imgSize">
+        <option value="1024x1024">1024×1024</option>
+        <option value="1024x1792">1024×1792 (portrait)</option>
+        <option value="1792x1024">1792×1024 (landscape)</option>
+        <option value="512x512">512×512 (fast)</option>
+      </select>
+      <label>API Key</label>
+      <input type="password" id="imgApiKey" class="input-field password" style="width:160px;padding:5px 8px;font-size:12px;" placeholder="Not needed for free providers" />
+      <span class="img-bar-note" id="imgBarNote">No API key needed</span>
+    </div>
+
+    <div class="chat-area" id="chatArea">
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-icon">
+          <svg width="56" height="56" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#1a1916"/>
+            <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+            <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+          </svg>
+        </div>
+        <h1 class="welcome-title">Nexim <span style="font-size:16px;font-family:'DM Sans',sans-serif;font-weight:400;font-style:normal;color:var(--text3);letter-spacing:0;">AI Prompt Playground</span></h1>
+        <p class="welcome-sub">Test, compare and refine AI prompts across Gemini 3.1, GPT-4.1, DeepSeek R1, Llama 4, Qwen3 and 50+ more models — free, no login required.</p>
+        <div class="welcome-steps">
+          <div class="welcome-step">
+            <span class="step-num">1</span>
+            <span><strong>Choose a provider</strong> — Gemini, OpenRouter (free models), or OpenAI</span>
+          </div>
+          <div class="welcome-step">
+            <span class="step-num">2</span>
+            <span><strong>Add your API key</strong> — stored only in your browser, never on our servers</span>
+          </div>
+          <div class="welcome-step">
+            <span class="step-num">3</span>
+            <span><strong>Send a prompt</strong> — tweak temperature, compare models, or generate images</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea id="promptInput" rows="1" placeholder="Type your prompt here... (Shift+Enter for newline)"
+          oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+        <button class="btn btn-primary" id="sendBtn" onclick="sendPrompt()">Send ↑</button>
+      </div>
+      <div class="input-footer">
+        <span class="input-hints" id="charCount">0 chars · ~0 tokens</span>
+        <div class="input-actions">
+          <button class="btn btn-ghost" onclick="clearInput()" style="padding:5px 10px;font-size:12px;">Clear input</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR RIGHT -->
+  <aside class="sidebar-right">
+    <div class="sidebar-label" style="margin-bottom:12px;">Session Stats</div>
+
+    <div class="stat-card">
+      <div class="stat-label">Total Messages</div>
+      <div class="stat-value" id="statMessages">0</div>
+      <div class="stat-sub">in this session</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Est. Tokens Used</div>
+      <div class="stat-value" id="statTokens">0</div>
+      <div class="stat-sub">approximate count</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Avg Response Time</div>
+      <div class="stat-value" id="statAvgTime">—</div>
+      <div class="stat-sub">seconds</div>
+    </div>
+
+    <div style="margin-top:20px; margin-bottom:10px;" class="sidebar-label">Prompt History</div>
+    <div id="historyList">
+      <div class="empty-state" style="font-size:11px;">Your sent prompts will appear here.</div>
+    </div>
+  </aside>
+</div>
+
+<!-- SAVE MODAL -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal">
+    <h3>Save Prompt</h3>
+    <div class="input-group">
+      <div class="input-label">Name this prompt</div>
+      <input type="text" class="input-field" id="savePromptName" placeholder="e.g. Code reviewer, Story starter..." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeSaveModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCurrentPrompt()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div class="compare-overlay" id="compareOverlay">
+  <div class="compare-modal">
+    <div class="compare-modal-header">
+      <h3>⚡ Compare Mode</h3>
+      <p>Send the same prompt and compare results side by side</p>
+    </div>
+    <div class="compare-modal-body">
+      <div>
+        <div class="sidebar-label" style="margin-bottom:8px;">What to compare</div>
+        <div class="compare-type-grid">
+          <div class="compare-type-card selected" onclick="selectCompareType('models', this)">
+            <div class="card-icon">🤖</div>
+            <div class="card-label">Two Models</div>
+          </div>
+          <div class="compare-type-card" onclick="selectCompareType('temperature', this)">
+            <div class="card-icon">🌡️</div>
+            <div class="card-label">Two Temps</div>
+          </div>
+          <div class="compare-type-card" onclick="selectCompareType('system', this)">
+            <div class="card-icon">💬</div>
+            <div class="card-label">Two System Prompts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Models config -->
+      <div class="compare-config show" id="config-models">
+        <!-- Side A -->
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Side A</div>
+          <div class="compare-two-col" style="gap:8px;">
+            <div class="input-group" style="margin:0">
+              <div class="input-label">Model</div>
+              <select class="input-field" id="cmp-model-a" onchange="updateCmpKeyHint('a')">
+              <optgroup label="── OpenRouter Auto">
+                <option value="openrouter:openrouter/free">OpenRouter Auto Free</option>
+              </optgroup>
+              <optgroup label="── Gemini 3.x">
+                <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                <option value="gemini:gemini-3.1-flash-lite-preview">Gemini 3.1 Flash-Lite Preview</option>
+                <option value="gemini:gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+              </optgroup>
+              <optgroup label="── Gemini 2.5">
+                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+                <option value="gemini:gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
+                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+              </optgroup>
+              <optgroup label="── OpenAI GPT-4.1">
+                <option value="openai:gpt-4.1">GPT-4.1 ✦</option>
+                <option value="openai:gpt-4.1-mini">GPT-4.1 Mini</option>
+                <option value="openai:gpt-4.1-nano">GPT-4.1 Nano</option>
+              </optgroup>
+              <optgroup label="── OpenAI GPT-4o">
+                <option value="openai:gpt-4o">GPT-4o</option>
+                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
+              </optgroup>
+              <optgroup label="── OpenAI Reasoning">
+                <option value="openai:o3">o3</option>
+                <option value="openai:o3-pro">o3-pro</option>
+                <option value="openai:o3-mini">o3-mini ⚠️</option>
+                <option value="openai:o4-mini">o4-mini ⚠️</option>
+              </optgroup>
+              <optgroup label="── OpenAI OSS">
+                <option value="openai:gpt-oss-120b">GPT OSS 120B</option>
+                <option value="openai:gpt-oss-20b">GPT OSS 20B</option>
+              </optgroup>
+              <optgroup label="── Meta Llama (OR)">
+                <option value="openrouter:meta-llama/llama-4-maverick:free">Llama 4 Maverick</option>
+                <option value="openrouter:meta-llama/llama-4-scout:free">Llama 4 Scout</option>
+                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+              </optgroup>
+              <optgroup label="── DeepSeek (OR)">
+                <option value="openrouter:deepseek/deepseek-r1:free">DeepSeek R1</option>
+                <option value="openrouter:deepseek/deepseek-chat-v3-0324:free">DeepSeek V3</option>
+              </optgroup>
+              <optgroup label="── Qwen (OR)">
+                <option value="openrouter:qwen/qwen3-coder:free">Qwen3 Coder 480B :free</option>
+                <option value="openrouter:qwen/qwen3-235b-a22b:free">Qwen3 235B :free</option>
+              </optgroup>
+              <optgroup label="── NVIDIA (OR)">
+                <option value="openrouter:nvidia/nemotron-3-super-120b-a12b:free">NVIDIA Nemotron 3 Super</option>
+              </optgroup>
+              <optgroup label="── Google / Gemma (OR)">
+                <option value="openrouter:google/gemma-4-31b-it:free">Gemma 4 31B :free</option>
+                <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B :free</option>
+              </optgroup>
+              <optgroup label="── Mistral (OR)">
+                <option value="openrouter:mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B :free</option>
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
+                <option value="openrouter:mistralai/mistral-medium-3.1">Mistral Medium 3.1</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OR)">
+                <option value="openrouter:anthropic/claude-opus-4-7">Claude Opus 4.7 ✦</option>
+                <option value="openrouter:anthropic/claude-sonnet-4-6">Claude Sonnet 4.6</option>
+                <option value="openrouter:anthropic/claude-haiku-4-5">Claude Haiku 4.5</option>
+              </optgroup>
+              <optgroup label="── xAI Grok (OR)">
+                <option value="openrouter:x-ai/grok-3">Grok-3</option>
+                <option value="openrouter:x-ai/grok-3-mini">Grok-3 Mini</option>
+              </optgroup>
+              <optgroup label="── OpenRouter Exp">
+                <option value="openrouter:openrouter/optimus-alpha">Optimus Alpha</option>
+                <option value="openrouter:openrouter/quasar-alpha">Quasar Alpha</option>
+              </optgroup>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0">
+              <div class="input-label" id="cmp-key-label-a">API Key (Gemini)</div>
+              <input type="password" class="input-field password" id="cmp-key-a" placeholder="Uses sidebar key if empty" style="font-size:12px;" />
+            </div>
+          </div>
+        </div>
+        <!-- Side B -->
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Side B</div>
+          <div class="compare-two-col" style="gap:8px;">
+            <div class="input-group" style="margin:0">
+              <div class="input-label">Model</div>
+              <select class="input-field" id="cmp-model-b" onchange="updateCmpKeyHint('b')">
+              <optgroup label="── OpenRouter Auto">
+                <option value="openrouter:openrouter/free">OpenRouter Auto Free</option>
+              </optgroup>
+              <optgroup label="── Gemini 3.x">
+                <option value="gemini:gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                <option value="gemini:gemini-3.1-flash-lite-preview">Gemini 3.1 Flash-Lite Preview</option>
+                <option value="gemini:gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+              </optgroup>
+              <optgroup label="── Gemini 2.5">
+                <option value="gemini:gemini-2.5-pro">Gemini 2.5 Pro</option>
+                <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
+                <option value="gemini:gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+              </optgroup>
+              <optgroup label="── OpenAI GPT-4.1">
+                <option value="openai:gpt-4.1">GPT-4.1 ✦</option>
+                <option value="openai:gpt-4.1-mini">GPT-4.1 Mini</option>
+                <option value="openai:gpt-4.1-nano">GPT-4.1 Nano</option>
+              </optgroup>
+              <optgroup label="── OpenAI GPT-4o">
+                <option value="openai:gpt-4o">GPT-4o</option>
+                <option value="openai:gpt-4o-mini">GPT-4o Mini</option>
+              </optgroup>
+              <optgroup label="── OpenAI Reasoning">
+                <option value="openai:o3">o3</option>
+                <option value="openai:o3-pro">o3-pro</option>
+                <option value="openai:o3-mini">o3-mini ⚠️</option>
+                <option value="openai:o4-mini">o4-mini ⚠️</option>
+              </optgroup>
+              <optgroup label="── OpenAI OSS">
+                <option value="openai:gpt-oss-120b">GPT OSS 120B</option>
+                <option value="openai:gpt-oss-20b">GPT OSS 20B</option>
+              </optgroup>
+              <optgroup label="── Meta Llama (OR)">
+                <option value="openrouter:meta-llama/llama-4-maverick:free">Llama 4 Maverick</option>
+                <option value="openrouter:meta-llama/llama-4-scout:free">Llama 4 Scout</option>
+                <option value="openrouter:meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+              </optgroup>
+              <optgroup label="── DeepSeek (OR)">
+                <option value="openrouter:deepseek/deepseek-r1:free" selected>DeepSeek R1</option>
+                <option value="openrouter:deepseek/deepseek-chat-v3-0324:free">DeepSeek V3</option>
+              </optgroup>
+              <optgroup label="── Qwen (OR)">
+                <option value="openrouter:qwen/qwen3-coder:free">Qwen3 Coder 480B :free</option>
+                <option value="openrouter:qwen/qwen3-235b-a22b:free">Qwen3 235B :free</option>
+              </optgroup>
+              <optgroup label="── NVIDIA (OR)">
+                <option value="openrouter:nvidia/nemotron-3-super-120b-a12b:free">NVIDIA Nemotron 3 Super</option>
+              </optgroup>
+              <optgroup label="── Google / Gemma (OR)">
+                <option value="openrouter:google/gemma-4-31b-it:free">Gemma 4 31B :free</option>
+                <option value="openrouter:google/gemma-3-27b-it:free">Gemma 3 27B :free</option>
+              </optgroup>
+              <optgroup label="── Mistral (OR)">
+                <option value="openrouter:mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B :free</option>
+                <option value="openrouter:mistralai/mistral-large">Mistral Large</option>
+                <option value="openrouter:mistralai/mistral-medium-3.1">Mistral Medium 3.1</option>
+              </optgroup>
+              <optgroup label="── Anthropic (OR)">
+                <option value="openrouter:anthropic/claude-opus-4-7">Claude Opus 4.7 ✦</option>
+                <option value="openrouter:anthropic/claude-sonnet-4-6">Claude Sonnet 4.6</option>
+                <option value="openrouter:anthropic/claude-haiku-4-5">Claude Haiku 4.5</option>
+              </optgroup>
+              <optgroup label="── xAI Grok (OR)">
+                <option value="openrouter:x-ai/grok-3">Grok-3</option>
+                <option value="openrouter:x-ai/grok-3-mini">Grok-3 Mini</option>
+              </optgroup>
+              <optgroup label="── OpenRouter Exp">
+                <option value="openrouter:openrouter/optimus-alpha">Optimus Alpha</option>
+                <option value="openrouter:openrouter/quasar-alpha">Quasar Alpha</option>
+              </optgroup>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0">
+              <div class="input-label" id="cmp-key-label-b">API Key (OpenRouter)</div>
+              <input type="password" class="input-field password" id="cmp-key-b" placeholder="Uses sidebar key if empty" style="font-size:12px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temperature config -->
+      <div class="compare-config" id="config-temperature">
+        <div class="compare-two-col">
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Temperature A <span class="slider-val" id="cmp-temp-a-val">0.2</span></div>
+            <input type="range" min="0" max="2" step="0.1" value="0.2" oninput="document.getElementById('cmp-temp-a-val').textContent=this.value" />
+          </div>
+          <div class="input-group" style="margin:0">
+            <div class="input-label">Temperature B <span class="slider-val" id="cmp-temp-b-val">1.2</span></div>
+            <input type="range" min="0" max="2" step="0.1" value="1.2" oninput="document.getElementById('cmp-temp-b-val').textContent=this.value" />
+          </div>
+        </div>
+      </div>
+
+      <!-- System prompt config -->
+      <div class="compare-config" id="config-system">
+        <div class="input-group" style="margin:0">
+          <div class="input-label">System Prompt A</div>
+          <textarea class="input-field" id="cmp-sys-a" rows="2" style="resize:none;font-family:'DM Sans',sans-serif;" placeholder="e.g. You are a concise assistant"></textarea>
+        </div>
+        <div class="input-group" style="margin:0">
+          <div class="input-label">System Prompt B</div>
+          <textarea class="input-field" id="cmp-sys-b" rows="2" style="resize:none;font-family:'DM Sans',sans-serif;" placeholder="e.g. You are a verbose storyteller"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="compare-modal-footer">
+      <button class="btn btn-ghost" onclick="closeCompareModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="startCompare()">Start Comparing →</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE LAYOUT -->
+<div class="compare-layout" id="compareLayout">
+  <div class="compare-panes">
+    <div class="compare-pane">
+      <div class="compare-pane-header">
+        <span class="compare-pane-label">Side A</span>
+        <span class="compare-pane-model" id="cmp-label-a">—</span>
+      </div>
+      <div class="compare-chat" id="cmp-chat-a"></div>
+    </div>
+    <div class="compare-pane">
+      <div class="compare-pane-header">
+        <span class="compare-pane-label">Side B</span>
+        <span class="compare-pane-model" id="cmp-label-b">—</span>
+      </div>
+      <div class="compare-chat" id="cmp-chat-b"></div>
+    </div>
+  </div>
+  <div class="compare-shared-input">
+    <textarea id="comparePromptInput" rows="1" class="input-field"
+      style="flex:1;border:none;outline:none;font-size:14px;font-family:'DM Sans',sans-serif;background:transparent;resize:none;min-height:24px;max-height:120px;line-height:1.5;"
+      placeholder="Type a prompt to send to both sides... (Enter to send)"
+      oninput="autoResize(this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCompare();}"></textarea>
+    <button class="btn btn-primary" onclick="sendCompare()">Send to Both ↑</button>
+    <button class="btn btn-ghost" onclick="exitCompare()">✕ Exit</button>
+  </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="mobile-drawer-panel">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title">Settings</div>
+
+    <div class="input-group">
+      <div class="sidebar-label">API Provider</div>
+      <div class="api-provider-tabs" style="margin-bottom:14px;">
+        <button class="provider-tab active" onclick="switchProvider('gemini');updateMobileTabs(this)">Gemini</button>
+        <button class="provider-tab" onclick="switchProvider('openrouter');updateMobileTabs(this)">OpenRouter</button>
+        <button class="provider-tab" onclick="switchProvider('openai');updateMobileTabs(this)">OpenAI</button>
+      </div>
+    </div>
+
+    <div id="mobile-panel-gemini" class="mobile-provider-panel">
+      <div class="input-group">
+        <div class="input-label">Gemini API Key</div>
+        <input type="password" class="input-field password" id="mobile-gemini-key" placeholder="AIza..." oninput="syncKey('gemini-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-gemini-model" onchange="document.getElementById('gemini-model').value=this.value">
+          <optgroup label="── Gemini 3.x (Latest)">
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview ✦</option>
+            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash-Lite Preview</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+          </optgroup>
+          <optgroup label="── Gemini 2.5">
+            <option value="gemini-2.5-pro" selected>Gemini 2.5 Pro</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+          </optgroup>
+          <optgroup label="── Deprecated">
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash ⚠️</option>
+            <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash-Lite ⚠️</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <div id="mobile-panel-openrouter" class="mobile-provider-panel" style="display:none">
+      <div class="input-group">
+        <div class="input-label">OpenRouter API Key</div>
+        <input type="password" class="input-field password" id="mobile-openrouter-key" placeholder="sk-or-..." oninput="syncKey('openrouter-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-openrouter-model" onchange="document.getElementById('openrouter-model').value=this.value">
+          <option value="openrouter/free">OpenRouter Auto Free</option>
+          <option value="meta-llama/llama-4-maverick:free">Llama 4 Maverick :free</option>
+          <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B :free</option>
+          <option value="deepseek/deepseek-r1:free" selected>DeepSeek R1 :free</option>
+          <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 :free</option>
+          <option value="qwen/qwen3-coder:free">Qwen3 Coder 480B :free</option>
+          <option value="qwen/qwen3-235b-a22b:free">Qwen3 235B :free</option>
+          <option value="nvidia/nemotron-3-super-120b-a12b:free">NVIDIA Nemotron 3 Super :free</option>
+          <option value="google/gemma-4-31b-it:free">Gemma 4 31B :free</option>
+          <option value="google/gemma-3-27b-it:free">Gemma 3 27B :free</option>
+          <option value="openai/gpt-oss-120b:free">GPT OSS 120B :free</option>
+          <option value="mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 24B :free</option>
+          <option value="anthropic/claude-opus-4-7">Claude Opus 4.7 (paid)</option>
+          <option value="anthropic/claude-sonnet-4-6">Claude Sonnet 4.6 (paid)</option>
+          <option value="openai/gpt-4.1">GPT-4.1 (paid)</option>
+          <option value="openai/gpt-4o">GPT-4o (paid)</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="mobile-panel-openai" class="mobile-provider-panel" style="display:none">
+      <div class="input-group">
+        <div class="input-label">OpenAI API Key</div>
+        <input type="password" class="input-field password" id="mobile-openai-key" placeholder="sk-..." oninput="syncKey('openai-key', this.value)" />
+      </div>
+      <div class="input-group">
+        <div class="input-label">Model</div>
+        <select class="input-field" id="mobile-openai-model" onchange="document.getElementById('openai-model').value=this.value">
+          <option value="gpt-4.1" selected>GPT-4.1 ✦</option>
+          <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
+          <option value="gpt-4.1-nano">GPT-4.1 Nano</option>
+          <option value="gpt-4o">GPT-4o</option>
+          <option value="gpt-4o-mini">GPT-4o Mini</option>
+          <option value="o3">o3</option>
+          <option value="o3-pro">o3-pro</option>
+          <option value="gpt-oss-120b">GPT OSS 120B</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group" style="margin-top:16px;">
+      <div class="input-label">
+        <span>Temperature</span>
+        <span class="slider-val" id="mobile-temp-val">0.7</span>
+      </div>
+      <input type="range" min="0" max="2" step="0.05" value="0.7" id="mobile-temperature"
+        oninput="document.getElementById('temperature').value=this.value;document.getElementById('temp-val').textContent=this.value;document.getElementById('mobile-temp-val').textContent=this.value" />
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Max Tokens</span>
+        <span class="slider-val" id="mobile-tokens-val">1024</span>
+      </div>
+      <input type="range" min="64" max="4096" step="64" value="1024" id="mobile-maxTokens"
+        oninput="document.getElementById('maxTokens').value=this.value;document.getElementById('tokens-val').textContent=this.value;document.getElementById('mobile-tokens-val').textContent=this.value" />
+    </div>
+
+    <div class="input-group" style="margin-top:4px;">
+      <div class="input-label">System Prompt</div>
+      <textarea class="input-field" rows="3" style="resize:none;font-family:'DM Sans',sans-serif;"
+        placeholder="You are a helpful assistant..."
+        oninput="document.getElementById('systemPrompt').value=this.value"></textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;" onclick="closeDrawer()">Done</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SEO FOOTER (hidden visually but visible to crawlers) -->
+<footer style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;" aria-hidden="true">
+  <nav aria-label="Site sections">
+    <h2>Features</h2>
+    <ul>
+      <li><a href="#chat">AI Chat Playground</a></li>
+      <li><a href="#compare">Side-by-Side Model Comparison</a></li>
+      <li><a href="#image">AI Image Generation</a></li>
+    </ul>
+    <h2>Supported AI Models</h2>
+    <ul>
+      <li><a href="#gemini">Google Gemini 2.5 Pro, Gemini 3.1 Pro Preview &amp; Flash</a></li>
+      <li><a href="#openrouter">DeepSeek R1, Llama 4, Qwen3, NVIDIA Nemotron via OpenRouter</a></li>
+      <li><a href="#openai">GPT-4.1, GPT-4o, o3 via OpenAI</a></li>
+    </ul>
+    <h2>About Nexim</h2>
+    <p>Nexim is a free AI prompt playground for developers and researchers. Compare AI model outputs side by side, generate images, and save your best prompts — no login required.</p>
+  </nav>
+</footer>
+
+<script>
+  // STATE
+  let messages = [];
+  let currentProvider = 'gemini';
+  let savedPrompts = JSON.parse(localStorage.getItem('nexim_saved') || '[]');
+  let sessionStats = { messages: 0, tokens: 0, times: [] };
+
+  // PROVIDER SWITCH
+  function switchProvider(p) {
+    currentProvider = p;
+    document.querySelectorAll('.provider-tab').forEach((t, i) => {
+      t.classList.toggle('active', ['gemini','openrouter','openai'][i] === p);
+    });
+    document.querySelectorAll('.provider-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === `panel-${p}`);
+    });
+  }
+
+  // AUTO RESIZE TEXTAREA
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+    if (el.id === 'promptInput') updateCharCount();
+  }
+
+  function updateCharCount() {
+    const val = document.getElementById('promptInput').value;
+    const chars = val.length;
+    const tokens = Math.ceil(chars / 4);
+    document.getElementById('charCount').textContent = `${chars} chars · ~${tokens} tokens`;
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendPrompt();
+    }
+  }
+
+  function clearInput() {
+    const el = document.getElementById('promptInput');
+    el.value = '';
+    autoResize(el);
+  }
+
+  // GET API CONFIG
+  function getConfig() {
+    if (currentProvider === 'gemini') {
+      return {
+        key: document.getElementById('gemini-key').value.trim(),
+        model: document.getElementById('gemini-model').value,
+      };
+    } else if (currentProvider === 'openrouter') {
+      return {
+        key: document.getElementById('openrouter-key').value.trim(),
+        model: document.getElementById('openrouter-model').value,
+      };
+    } else {
+      return {
+        key: document.getElementById('openai-key').value.trim(),
+        model: document.getElementById('openai-model').value,
+      };
+    }
+  }
+
+  // SEND PROMPT
+  async function sendPrompt() {
+    const input = document.getElementById('promptInput').value.trim();
+    if (!input) return;
+
+    // IMAGE MODE
+    if (imgModeActive) {
+      clearInput();
+      hideWelcome();
+      const chat = document.getElementById('chatArea');
+      // Show spinner
+      const userDiv = document.createElement('div');
+      userDiv.className = 'message user';
+      userDiv.innerHTML = `<div class="message-avatar">U</div><div class="message-content"><div class="message-role">user</div><div class="message-bubble">🖼 ${escapeHtml(input)}</div></div>`;
+      chat.appendChild(userDiv);
+      const loadDiv = document.createElement('div');
+      loadDiv.className = 'message assistant';
+      loadDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant · image</div><div class="message-bubble" id="imgLoadMsg"><span class="img-spinner"></span> Generating image — this may take up to 60s on free providers...</div></div>`;
+      chat.appendChild(loadDiv);
+      chat.scrollTop = chat.scrollHeight;
+      // Update status periodically so user knows it's working
+      const statusMsgs = [
+        'Generating image — contacting provider...',
+        'Still working — free providers can be slow...',
+        'Almost there — waiting for response...',
+        'Taking longer than usual — hang tight...'
+      ];
+      let msgIdx = 0;
+      const statusInterval = setInterval(() => {
+        msgIdx = Math.min(msgIdx + 1, statusMsgs.length - 1);
+        const el = document.getElementById('imgLoadMsg');
+        if (el) el.innerHTML = `<span class="img-spinner"></span> ${statusMsgs[msgIdx]}`;
+      }, 12000);
+      try {
+        const result = await generateImage(input);
+        clearInterval(statusInterval);
+        loadDiv.remove();
+        renderImageMessage(input, result, null);
+      } catch(err) {
+        clearInterval(statusInterval);
+        loadDiv.remove();
+        renderImageMessage(input, null, err.message);
+      }
+      return;
+    }
+
+    const config = getConfig();
+    if (!config.key) {
+      showToast('⚠️ Please enter your API key in the sidebar first!');
+      return;
+    }
+
+    const userMsg = { role: 'user', content: input };
+    messages.push(userMsg);
+
+    hideWelcome();
+    renderMessage('user', input);
+    clearInput();
+
+    const typingEl = showTyping();
+    setStatus('thinking');
+
+    const startTime = Date.now();
+
+    try {
+      const temp = parseFloat(document.getElementById('temperature').value);
+      const maxTok = parseInt(document.getElementById('maxTokens').value);
+      const systemPrompt = document.getElementById('systemPrompt').value.trim();
+
+      let responseText = '';
+
+      if (currentProvider === 'gemini') {
+        responseText = await callGemini(config, messages, systemPrompt, temp, maxTok);
+      } else if (currentProvider === 'openrouter') {
+        responseText = await callOpenRouter(config, messages, systemPrompt, temp, maxTok);
+      } else {
+        responseText = await callOpenAI(config, messages, systemPrompt, temp, maxTok);
+      }
+
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      const estTokens = Math.ceil(responseText.length / 4);
+
+      messages.push({ role: 'assistant', content: responseText });
+      typingEl.remove();
+      renderMessage('assistant', responseText, estTokens);
+      setStatus('ok');
+
+      // Update stats
+      sessionStats.messages += 2;
+      sessionStats.tokens += Math.ceil(input.length / 4) + estTokens;
+      sessionStats.times.push(parseFloat(elapsed));
+      updateStats();
+      addToHistory(input, estTokens);
+
+    } catch (err) {
+      typingEl.remove();
+      renderMessage('assistant', `❌ Error: ${err.message}`, 0);
+      setStatus('err');
+      messages.pop();
+    }
+  }
+
+  // GEMINI API
+  async function callGemini(config, msgs, system, temp, maxTok) {
+    const contents = msgs.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    const body = {
+      contents,
+      generationConfig: { temperature: temp, maxOutputTokens: maxTok }
+    };
+
+    if (system) {
+      body.systemInstruction = { parts: [{ text: system }] };
+    }
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.key}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Gemini API error');
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
+  }
+
+  // OPENROUTER API
+  async function callOpenRouter(config, msgs, system, temp, maxTok) {
+    const openMsgs = [];
+    if (system) openMsgs.push({ role: 'system', content: system });
+    msgs.forEach(m => openMsgs.push({ role: m.role, content: m.content }));
+
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.key}`,
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Nexim'
+      },
+      body: JSON.stringify({ model: config.model, messages: openMsgs, temperature: temp, max_tokens: maxTok })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'OpenRouter API error');
+    return data.choices?.[0]?.message?.content || 'No response';
+  }
+
+  // OPENAI API
+  async function callOpenAI(config, msgs, system, temp, maxTok) {
+    const openMsgs = [];
+    if (system) openMsgs.push({ role: 'system', content: system });
+    msgs.forEach(m => openMsgs.push({ role: m.role, content: m.content }));
+
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.key}`
+      },
+      body: JSON.stringify({ model: config.model, messages: openMsgs, temperature: temp, max_tokens: maxTok })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'OpenAI API error');
+    return data.choices?.[0]?.message?.content || 'No response';
+  }
+
+  // RENDER MESSAGE
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function parseMarkdown(md) {
+    let html = escapeHtml(md);
+
+    // Code blocks must come first before inline code
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, function(_, lang, code) {
+      var id = 'cb-' + Math.random().toString(36).slice(2,8);
+      var label = lang || 'code';
+      return '<div class="code-block"><div class="code-block-header"><span>' + label + '</span><button class="code-copy-btn" onclick="copyCodeBlock(\'' + id + '\',this)">Copy</button></div><pre id="' + id + '">' + code.trimEnd() + '</pre></div>';
+    });
+
+    // Inline code
+    html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
+    // Headers
+    html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+
+    // Blockquote
+    html = html.replace(/^&gt;\s+(.+)$/gm, '<blockquote>$1</blockquote>');
+
+    // Bold + italic
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+    html = html.replace(/_([^_\n]+)_/g, '<em>$1</em>');
+
+    // Strikethrough
+    html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+    // HR
+    html = html.replace(/^(-{3,}|\*{3,})$/gm, '<hr>');
+
+    // Tables
+    html = html.replace(/(\|.+\|\n\|[-| :]+\|\n(?:\|.+\|\n?)+)/g, function(table) {
+      var rows = table.trim().split('\n');
+      var header = rows[0].split('|').filter(function(c){return c.trim();}).map(function(c){return '<th>' + c.trim() + '</th>';}).join('');
+      var body = rows.slice(2).map(function(r){
+        return '<tr>' + r.split('|').filter(function(c){return c.trim();}).map(function(c){return '<td>' + c.trim() + '</td>';}).join('') + '</tr>';
+      }).join('');
+      return '<table><thead><tr>' + header + '</tr></thead><tbody>' + body + '</tbody></table>';
+    });
+
+    // Unordered list
+    html = html.replace(/((?:^[*\-+] .+\n?)+)/gm, function(block) {
+      var items = block.trim().split('\n').map(function(l){ return '<li>' + l.replace(/^[*\-+] /, '') + '</li>'; }).join('');
+      return '<ul>' + items + '</ul>';
+    });
+
+    // Ordered list
+    html = html.replace(/((?:^\d+\. .+\n?)+)/gm, function(block) {
+      var items = block.trim().split('\n').map(function(l){ return '<li>' + l.replace(/^\d+\. /, '') + '</li>'; }).join('');
+      return '<ol>' + items + '</ol>';
+    });
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+    // Paragraphs — split on double newline
+    var parts = html.split(/\n{2,}/);
+    html = parts.map(function(part) {
+      part = part.trim();
+      if (!part) return '';
+      if (/^<(h[1-6]|ul|ol|blockquote|hr|table|div|pre|code-block)/.test(part)) return part;
+      return '<p>' + part.replace(/\n/g, '<br>') + '</p>';
+    }).filter(Boolean).join('\n');
+
+    return html;
+  }
+
+  function copyCodeBlock(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }
+
+  function renderMessage(role, content, tokens) {
+    const chat = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    const avatarText = role === 'user' ? 'U' : '✦';
+
+    // User messages: plain text. Assistant: parsed markdown
+    const bubbleContent = role === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
+
+    const meta = role === 'assistant' ? `
+      <div class="message-meta">
+        ${tokens !== undefined ? `<span class="message-tokens">~${tokens} tokens</span>` : ''}
+        <button class="copy-btn" onclick="copyText(this, \`${escapeTemplate(content)}\`)">Copy</button>
+      </div>
+    ` : '';
+
+    div.innerHTML = `
+      <div class="message-avatar">${avatarText}</div>
+      <div class="message-content">
+        <div class="message-role">${role}</div>
+        <div class="message-bubble">${bubbleContent}</div>
+        ${meta}
+      </div>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function escapeTemplate(str) {
+    return str.replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  }
+
+  function showTyping() {
+    const chat = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = `
+      <div class="message-avatar" style="background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;">✦</div>
+      <div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function hideWelcome() {
+    const w = document.getElementById('welcomeScreen');
+    if (w) w.remove();
+  }
+
+  // COPY
+  async function copyText(btn, text) {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }
+
+  // STATUS
+  function setStatus(state) {
+    const badge = document.getElementById('statusBadge');
+    const labels = { ok: '✓ Connected', err: '✗ Error', thinking: '⟳ Thinking', idle: 'Ready' };
+    badge.className = `status-badge ${state}`;
+    badge.innerHTML = `<span class="status-dot"></span> ${labels[state] || 'Ready'}`;
+  }
+
+  // CLEAR CHAT
+  function clearChat() {
+    messages = [];
+    const chat = document.getElementById('chatArea');
+    chat.innerHTML = '';
+    const welcome = document.createElement('div');
+    welcome.id = 'welcomeScreen';
+    welcome.className = 'welcome-screen';
+    welcome.innerHTML = `
+      <div class="welcome-icon">
+          <svg width="56" height="56" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#1a1916"/>
+            <line x1="6" y1="8" x2="6" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="6" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="16" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.45"/>
+            <line x1="16" y1="8" x2="26" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <line x1="26" y1="8" x2="16" y2="24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75"/>
+            <circle cx="27" cy="8" r="2.5" fill="#e8e4dc"/>
+          </svg>
+        </div>
+      <h1 class="welcome-title">Nexim <span style="font-size:16px;font-family:'DM Sans',sans-serif;font-weight:400;font-style:normal;color:var(--text3);letter-spacing:0;">AI Prompt Playground</span></h1>
+      <p class="welcome-sub">Test, compare and refine AI prompts across Gemini 3.1, GPT-4.1, DeepSeek R1, Llama 4, Qwen3 and 50+ more models — free, no login required.</p>
+      <div class="welcome-steps">
+        <div class="welcome-step"><span class="step-num">1</span><span>Pick your API provider from the left sidebar (Gemini is free to start)</span></div>
+        <div class="welcome-step"><span class="step-num">2</span><span>Paste your API key — it's stored only in your browser, never sent anywhere else</span></div>
+        <div class="welcome-step"><span class="step-num">3</span><span>Type a prompt below and hit Send. Tweak temperature & tokens to experiment!</span></div>
+      </div>
+    `;
+    chat.appendChild(welcome);
+    setStatus('idle');
+    showToast('Chat cleared');
+  }
+
+  // STATS
+  function updateStats() {
+    document.getElementById('statMessages').textContent = sessionStats.messages;
+    document.getElementById('statTokens').textContent = sessionStats.tokens.toLocaleString();
+    if (sessionStats.times.length > 0) {
+      const avg = (sessionStats.times.reduce((a,b)=>a+b,0) / sessionStats.times.length).toFixed(1);
+      document.getElementById('statAvgTime').textContent = avg + 's';
+    }
+  }
+
+  function addToHistory(prompt, tokens) {
+    const list = document.getElementById('historyList');
+    const empties = list.querySelectorAll('.empty-state');
+    empties.forEach(e => e.remove());
+
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    const now = new Date();
+    item.innerHTML = `
+      <div class="history-item-time">${now.toLocaleTimeString()}</div>
+      <div class="history-item-text">${escapeHtml(prompt)}</div>
+      <div class="history-item-tokens">~${tokens} tokens returned</div>
+    `;
+    list.insertBefore(item, list.firstChild);
+
+    // Keep only last 10
+    const items = list.querySelectorAll('.history-item');
+    if (items.length > 10) items[items.length - 1].remove();
+  }
+
+  // SAVE PROMPT
+  function openSaveModal() {
+    const input = document.getElementById('promptInput').value.trim();
+    if (!input) { showToast('Type a prompt first!'); return; }
+    document.getElementById('saveModal').classList.add('show');
+    document.getElementById('savePromptName').focus();
+  }
+
+  function closeSaveModal() {
+    document.getElementById('saveModal').classList.remove('show');
+    document.getElementById('savePromptName').value = '';
+  }
+
+  function saveCurrentPrompt() {
+    const name = document.getElementById('savePromptName').value.trim() || 'Unnamed';
+    const prompt = document.getElementById('promptInput').value.trim();
+    if (!prompt) { showToast('No prompt to save!'); return; }
+
+    savedPrompts.unshift({ id: Date.now(), name, prompt });
+    localStorage.setItem('nexim_saved', JSON.stringify(savedPrompts));
+    renderSavedPrompts();
+    closeSaveModal();
+    showToast('Prompt saved!');
+  }
+
+  function renderSavedPrompts() {
+    const list = document.getElementById('savedPromptsList');
+    if (savedPrompts.length === 0) {
+      list.innerHTML = '<div class="empty-state">No saved prompts yet.<br/>Hit <strong>Save Prompt</strong> after a good run!</div>';
+      return;
+    }
+    list.innerHTML = savedPrompts.map(p => `
+      <div class="saved-prompt-item">
+        <div class="saved-prompt-title">${escapeHtml(p.name)}</div>
+        <div class="saved-prompt-preview">${escapeHtml(p.prompt)}</div>
+        <div class="saved-prompt-actions">
+          <button class="mini-btn" onclick="loadPrompt(${p.id})">Load</button>
+          <button class="mini-btn del" onclick="deletePrompt(${p.id})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function loadPrompt(id) {
+    const p = savedPrompts.find(x => x.id === id);
+    if (!p) return;
+    const el = document.getElementById('promptInput');
+    el.value = p.prompt;
+    autoResize(el);
+    el.focus();
+    showToast('Prompt loaded!');
+  }
+
+  function deletePrompt(id) {
+    savedPrompts = savedPrompts.filter(x => x.id !== id);
+    localStorage.setItem('nexim_saved', JSON.stringify(savedPrompts));
+    renderSavedPrompts();
+    showToast('Deleted');
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Modal close on overlay click
+  document.getElementById('saveModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSaveModal();
+  });
+
+  // Save name enter key
+  document.getElementById('savePromptName').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') saveCurrentPrompt();
+  });
+
+  // INIT
+  renderSavedPrompts();
+
+  // ── IMAGE GENERATION MODE ──
+  let imgModeActive = false;
+
+  function toggleImgMode() {
+    imgModeActive = !imgModeActive;
+    document.getElementById('imgBar').classList.toggle('show', imgModeActive);
+    document.getElementById('imgToggleBtn').classList.toggle('active', imgModeActive);
+    const hint = document.getElementById('promptInput');
+    hint.placeholder = imgModeActive
+      ? 'Describe an image to generate... (Enter to send)'
+      : 'Type your prompt here... (Shift+Enter for newline)';
+  }
+
+  function updateImgModels() {
+    const provider = document.getElementById('imgProvider').value;
+    const keyInput = document.getElementById('imgApiKey');
+    const note = document.getElementById('imgBarNote');
+    const freeProviders = ['puter', 'puter-dalle', 'puter-gemini'];
+    if (freeProviders.includes(provider)) {
+      keyInput.placeholder = 'Not needed for free providers';
+      keyInput.disabled = true;
+      keyInput.style.opacity = '0.4';
+      note.textContent = '✓ No API key needed';
+    } else {
+      keyInput.disabled = false;
+      keyInput.style.opacity = '1';
+      if (provider.startsWith('gemini')) {
+        keyInput.placeholder = 'AIza... (Gemini key)';
+        note.textContent = 'Uses your Gemini API key';
+      } else if (provider.startsWith('openai')) {
+        keyInput.placeholder = 'sk-... (OpenAI key)';
+        note.textContent = 'Uses your OpenAI API key';
+      } else if (provider.startsWith('stability')) {
+        keyInput.placeholder = 'sk-... (Stability AI key)';
+        note.textContent = 'Get key at platform.stability.ai';
+      } else if (provider.startsWith('fal')) {
+        keyInput.placeholder = 'fal key...';
+        note.textContent = 'Get key at fal.ai/keys';
+      } else if (provider.startsWith('replicate')) {
+        keyInput.placeholder = 'r8_... (Replicate key)';
+        note.textContent = 'Get key at replicate.com';
+      }
+    }
+  }
+  // init
+  document.getElementById('imgApiKey').disabled = true;
+  document.getElementById('imgApiKey').style.opacity = '0.4';
+
+  async function generateImage(prompt) {
+    const provider = document.getElementById('imgProvider').value;
+    const size = document.getElementById('imgSize').value;
+    const apiKey = document.getElementById('imgApiKey').value.trim() || document.getElementById('gemini-key').value.trim();
+    const [w, h] = size.split('x');
+
+    if (provider === 'puter' || provider === 'puter-dalle' || provider === 'puter-gemini') {
+      // Load Puter SDK dynamically if not loaded
+      if (!window.puter) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://js.puter.com/v2/';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('Failed to load Puter.js SDK'));
+          document.head.appendChild(s);
+        });
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      try {
+        let result;
+        if (provider === 'puter-dalle') {
+          result = await puter.ai.txt2img(prompt, { model: 'dall-e-3' });
+        } else if (provider === 'puter-gemini') {
+          result = await puter.ai.txt2img(prompt, { model: 'gemini' });
+        } else {
+          result = await puter.ai.txt2img(prompt);
+        }
+        if (!result || !result.src) throw new Error('No image returned from Puter');
+        const res = await fetch(result.src);
+        const blob = await res.blob();
+        const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+        return { type: 'base64', data: b64, mime: blob.type || 'image/jpeg' };
+      } catch(e) {
+        throw new Error('Puter.js error: ' + e.message);
+      }
+    }
+
+    if (provider === 'gemini-flash-img') {
+      const key = apiKey || document.getElementById('gemini-key').value.trim();
+      if (!key) throw new Error('Gemini API key required');
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'Gemini image error');
+      const imgPart = data.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+      if (!imgPart) throw new Error('No image returned');
+      return { type: 'base64', data: imgPart.inlineData.data, mime: imgPart.inlineData.mimeType };
+    }
+
+    if (provider === 'gemini-imagen' || provider === 'gemini-nano-pro') {
+      const key = apiKey || document.getElementById('gemini-key').value.trim();
+      if (!key) throw new Error('Gemini API key required');
+      const model = provider === 'gemini-imagen' ? 'imagen-4.0-flash-generate-preview-05-20' : 'imagen-4.0-ultra-generate-preview-05-20';
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1 } })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'Imagen error');
+      const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+      if (!b64) throw new Error('No image returned');
+      return { type: 'base64', data: b64, mime: 'image/png' };
+    }
+
+    if (provider.startsWith('openai')) {
+      const key = apiKey || document.getElementById('openai-key').value.trim();
+      if (!key) throw new Error('OpenAI API key required');
+      const modelMap = {
+        'openai-dalle3': 'dall-e-3',
+        'openai-dalle2': 'dall-e-2',
+        'openai-gptimg1': 'gpt-image-1',
+        'openai-gptimg1-mini': 'gpt-image-1'
+      };
+      const body = { model: modelMap[provider], prompt, n: 1, size };
+      if (provider === 'openai-gptimg1-mini') body.quality = 'low';
+      const res = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'OpenAI image error');
+      const imgData = data.data?.[0];
+      if (imgData?.url) return { type: 'url', url: imgData.url };
+      if (imgData?.b64_json) return { type: 'base64', data: imgData.b64_json, mime: 'image/png' };
+      throw new Error('No image in response');
+    }
+
+    if (provider.startsWith('stability')) {
+      const key = apiKey;
+      if (!key) throw new Error('Stability AI API key required');
+      const engineMap = {
+        'stability-core': 'stable-image-core',
+        'stability-ultra': 'stable-image-ultra',
+        'stability-sd3': 'sd3.5-large'
+      };
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+      formData.append('output_format', 'png');
+      const endpoint = provider === 'stability-sd3'
+        ? 'https://api.stability.ai/v2beta/stable-diffusion/generate'
+        : `https://api.stability.ai/v2beta/stable-image/generate/${engineMap[provider]}`;
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Accept': 'image/*' },
+        body: formData
+      });
+      if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.errors?.[0] || 'Stability error'); }
+      const blob = await res.blob();
+      const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+      return { type: 'base64', data: b64, mime: 'image/png' };
+    }
+
+    if (provider.startsWith('fal')) {
+      const key = apiKey;
+      if (!key) throw new Error('fal.ai API key required');
+      const endpointMap = {
+        'fal-flux-schnell': 'fal-ai/flux/schnell',
+        'fal-flux-pro': 'fal-ai/flux-pro/v1.1',
+        'fal-seedream': 'fal-ai/seedream-v4',
+        'fal-recraft': 'fal-ai/recraft-v3',
+        'fal-ideogram': 'fal-ai/ideogram/v3'
+      };
+      const res = await fetch(`https://fal.run/${endpointMap[provider]}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Key ${key}` },
+        body: JSON.stringify({ prompt, image_size: { width: parseInt(w), height: parseInt(h) }, num_images: 1 })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'fal.ai error');
+      const url = data.images?.[0]?.url;
+      if (!url) throw new Error('No image from fal.ai');
+      return { type: 'url', url };
+    }
+
+    if (provider.startsWith('replicate')) {
+      const key = apiKey;
+      if (!key) throw new Error('Replicate API key required');
+      const modelMap = {
+        'replicate-sdxl': 'stability-ai/sdxl:39ed52f2319f9a4b081fef3ffe28cdb86f056bab787e0f0a4c3de8a3e5e2c94f',
+        'replicate-flux-schnell': 'black-forest-labs/flux-schnell'
+      };
+      const res = await fetch('https://api.replicate.com/v1/predictions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ version: modelMap[provider], input: { prompt, width: parseInt(w), height: parseInt(h) } })
+      });
+      const pred = await res.json();
+      if (!res.ok) throw new Error(pred.detail || 'Replicate error');
+      // Poll for result
+      let result = pred;
+      for (let i = 0; i < 30; i++) {
+        await new Promise(r => setTimeout(r, 2000));
+        const poll = await fetch(`https://api.replicate.com/v1/predictions/${result.id}`, { headers: { 'Authorization': `Bearer ${key}` } });
+        result = await poll.json();
+        if (result.status === 'succeeded') return { type: 'url', url: result.output?.[0] };
+        if (result.status === 'failed') throw new Error(result.error || 'Replicate failed');
+      }
+      throw new Error('Replicate timed out');
+    }
+
+    throw new Error('Unknown provider');
+  }
+
+  function renderImageMessage(prompt, imgResult, errorMsg) {
+    const chat = document.getElementById('chatArea');
+
+    // Assistant message
+    const aDiv = document.createElement('div');
+    aDiv.className = 'message assistant';
+    if (errorMsg) {
+      aDiv.innerHTML = `<div class="message-avatar">✦</div><div class="message-content"><div class="message-role">assistant</div><div class="message-bubble">❌ ${escapeHtml(errorMsg)}</div></div>`;
+    } else {
+      let imgSrc = imgResult.type === 'url' ? imgResult.url : `data:${imgResult.mime};base64,${imgResult.data}`;
+      const modelLabel = document.getElementById('imgProvider').options[document.getElementById('imgProvider').selectedIndex].text.split('—')[1]?.trim() || 'Generated';
+      const imgId = 'img-' + Date.now();
+      aDiv.innerHTML = `
+        <div class="message-avatar">✦</div>
+        <div class="message-content">
+          <div class="message-role">assistant · image</div>
+          <div class="message-bubble" style="padding:10px;">
+            <img id="${imgId}" src="${imgSrc}" class="generated-img" alt="${escapeHtml(prompt)}" />
+            <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+              <button class="img-dl-btn" onclick="downloadImg('${imgId}', '${escapeTemplate(prompt)}')">⬇ Download</button>
+              <span style="font-size:11px;color:var(--text3);">${modelLabel}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+    chat.appendChild(aDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function downloadImg(imgId, prompt) {
+    const img = document.getElementById(imgId);
+    if (!img) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth || img.width;
+    canvas.height = img.naturalHeight || img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'nexim-' + (prompt || 'image').slice(0, 30).replace(/[^a-z0-9]/gi, '-') + '.png';
+    a.click();
+  }
+
+  // DARK MODE
+  function toggleDark() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('nexim_dark', document.body.classList.contains('dark') ? '1' : '0');
+  }
+  if (localStorage.getItem('nexim_dark') === '1') document.body.classList.add('dark');
+
+  // ── COMPARE MODE ──
+  let compareType = 'models';
+  let cmpConfig = {};
+  let cmpMessages = { a: [], b: [] };
+
+  function openCompareModal() {
+    document.getElementById('compareOverlay').classList.add('show');
+  }
+
+  function closeCompareModal() {
+    document.getElementById('compareOverlay').classList.remove('show');
+  }
+
+  function selectCompareType(type, el) {
+    compareType = type;
+    document.querySelectorAll('.compare-type-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.querySelectorAll('.compare-config').forEach(c => c.classList.remove('show'));
+    document.getElementById('config-' + type).classList.add('show');
+  }
+
+  function getKey(provider) {
+    if (provider === 'gemini') return document.getElementById('gemini-key').value.trim();
+    if (provider === 'openrouter') return document.getElementById('openrouter-key').value.trim();
+    if (provider === 'openai') return document.getElementById('openai-key').value.trim();
+    return '';
+  }
+
+  function updateCmpKeyHint(side) {
+    const val = document.getElementById('cmp-model-' + side).value;
+    const provider = val.split(':')[0];
+    const label = document.getElementById('cmp-key-label-' + side);
+    const input = document.getElementById('cmp-key-' + side);
+    const hints = { gemini: 'API Key (Gemini)', openai: 'API Key (OpenAI)', openrouter: 'API Key (OpenRouter)' };
+    const placeholders = { gemini: 'AIza... or uses sidebar key', openai: 'sk-... or uses sidebar key', openrouter: 'sk-or-... or uses sidebar key' };
+    if (label) label.textContent = hints[provider] || 'API Key';
+    if (input) input.placeholder = placeholders[provider] || 'Uses sidebar key if empty';
+  }
+
+  function getCmpKey(side, provider) {
+    const perSideKey = document.getElementById('cmp-key-' + side)?.value.trim();
+    return perSideKey || getKey(provider);
+  }
+
+  function startCompare() {
+    const temp = parseFloat(document.getElementById('temperature').value);
+    const maxTok = parseInt(document.getElementById('maxTokens').value);
+    const sysPrompt = document.getElementById('systemPrompt').value.trim();
+
+    if (compareType === 'models') {
+      const valA = document.getElementById('cmp-model-a').value;
+      const valB = document.getElementById('cmp-model-b').value;
+      const pA = valA.split(':')[0], mA = valA.slice(pA.length+1);
+      const pB = valB.split(':')[0], mB = valB.slice(pB.length+1);
+      cmpConfig = {
+        a: { provider: pA, model: mA, key: getCmpKey('a', pA), temp, maxTok, system: sysPrompt },
+        b: { provider: pB, model: mB, key: getCmpKey('b', pB), temp, maxTok, system: sysPrompt }
+      };
+      document.getElementById('cmp-label-a').textContent = mA.split('/').pop();
+      document.getElementById('cmp-label-b').textContent = mB.split('/').pop();
+    } else if (compareType === 'temperature') {
+      const tA = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[0].value);
+      const tB = parseFloat(document.querySelectorAll('#config-temperature input[type=range]')[1].value);
+      const p = currentProvider, m = document.getElementById(p+'-model').value;
+      cmpConfig = {
+        a: { provider: p, model: m, key: getKey(p), temp: tA, maxTok, system: sysPrompt },
+        b: { provider: p, model: m, key: getKey(p), temp: tB, maxTok, system: sysPrompt }
+      };
+      document.getElementById('cmp-label-a').textContent = 'temp=' + tA;
+      document.getElementById('cmp-label-b').textContent = 'temp=' + tB;
+    } else if (compareType === 'system') {
+      const sA = document.getElementById('cmp-sys-a').value.trim();
+      const sB = document.getElementById('cmp-sys-b').value.trim();
+      const p = currentProvider, m = document.getElementById(p+'-model').value;
+      cmpConfig = {
+        a: { provider: p, model: m, key: getKey(p), temp, maxTok, system: sA },
+        b: { provider: p, model: m, key: getKey(p), temp, maxTok, system: sB }
+      };
+      document.getElementById('cmp-label-a').textContent = sA.slice(0,20) || 'System A';
+      document.getElementById('cmp-label-b').textContent = sB.slice(0,20) || 'System B';
+    }
+
+    cmpMessages = { a: [], b: [] };
+    document.getElementById('cmp-chat-a').innerHTML = '';
+    document.getElementById('cmp-chat-b').innerHTML = '';
+
+    closeCompareModal();
+    // Hide main app, show compare
+    document.querySelector('.app').style.display = 'none';
+    document.getElementById('compareLayout').classList.add('show');
+    document.getElementById('compareModeBtn').classList.add('active');
+    document.getElementById('comparePromptInput').focus();
+  }
+
+  async function sendCompare() {
+    const input = document.getElementById('comparePromptInput').value.trim();
+    if (!input) return;
+    document.getElementById('comparePromptInput').value = '';
+
+    // Render user messages
+    renderCmpMessage('a', 'user', input);
+    renderCmpMessage('b', 'user', input);
+    cmpMessages.a.push({ role:'user', content: input });
+    cmpMessages.b.push({ role:'user', content: input });
+
+    const typA = showCmpTyping('a');
+    const typB = showCmpTyping('b');
+
+    const [resA, resB] = await Promise.allSettled([
+      callProvider(cmpConfig.a, [...cmpMessages.a], cmpConfig.a.system),
+      callProvider(cmpConfig.b, [...cmpMessages.b], cmpConfig.b.system)
+    ]);
+
+    typA.remove(); typB.remove();
+
+    const textA = resA.status === 'fulfilled' ? resA.value : '❌ ' + resA.reason.message;
+    const textB = resB.status === 'fulfilled' ? resB.value : '❌ ' + resB.reason.message;
+
+    renderCmpMessage('a', 'assistant', textA);
+    renderCmpMessage('b', 'assistant', textB);
+    cmpMessages.a.push({ role:'assistant', content: textA });
+    cmpMessages.b.push({ role:'assistant', content: textB });
+  }
+
+  async function callProvider(cfg, msgs, system) {
+    if (cfg.provider === 'gemini') return await callGemini({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+    if (cfg.provider === 'openrouter') return await callOpenRouter({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+    if (cfg.provider === 'openai') return await callOpenAI({ key: cfg.key, model: cfg.model }, msgs, system, cfg.temp, cfg.maxTok);
+  }
+
+  function renderCmpMessage(side, role, text) {
+    const chat = document.getElementById('cmp-chat-' + side);
+    const div = document.createElement('div');
+    div.className = 'message ' + role;
+    div.innerHTML = `
+      <div class="message-avatar">${role==='user'?'U':'✦'}</div>
+      <div class="message-content">
+        <div class="message-role">${role}</div>
+        <div class="message-bubble">${role === 'assistant' ? parseMarkdown(text) : escapeHtml(text)}</div>
+        ${role==='assistant' ? `<div class="message-meta"><button class="copy-btn" onclick="copyText(this,\`${escapeTemplate(text)}\`)">Copy</button></div>` : ''}
+      </div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function showCmpTyping(side) {
+    const chat = document.getElementById('cmp-chat-' + side);
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;">✦</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function exitCompare() {
+    document.getElementById('compareLayout').classList.remove('show');
+    document.querySelector('.app').style.display = '';
+    document.getElementById('compareModeBtn').classList.remove('active');
+  }
+
+  document.getElementById('compareOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeCompareModal();
+  });
+
+  // MOBILE DRAWER
+  function openDrawer() {
+    document.getElementById('mobileDrawer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    document.getElementById('mobileDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function syncKey(targetId, value) {
+    document.getElementById(targetId).value = value;
+  }
+
+  function updateMobileTabs(clickedTab) {
+    const tabs = clickedTab.closest('.api-provider-tabs').querySelectorAll('.provider-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    clickedTab.classList.add('active');
+    const providers = ['gemini', 'openrouter', 'openai'];
+    const idx = Array.from(tabs).indexOf(clickedTab);
+    document.querySelectorAll('.mobile-provider-panel').forEach((p, i) => {
+      p.style.display = i === idx ? 'block' : 'none';
+    });
+  }
+
+  // Sync desktop model selects to mobile on change
+  document.getElementById('gemini-model').addEventListener('change', function() {
+    document.getElementById('mobile-gemini-model').value = this.value;
+  });
+</script>
+<!-- SEO: semantic footer with internal links and h2/h3 headings for crawlers -->
+<footer style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+  <h2>Nexim AI Prompt Playground Features</h2>
+  <nav aria-label="Features">
+    <h3><a href="#chat">AI Chat &amp; Prompt Testing</a></h3>
+    <p>Test prompts with Gemini 2.5 Pro, Gemini 3.1 Pro Preview, DeepSeek R1, Llama 4 Maverick, GPT-4.1 and more.</p>
+    <h3><a href="#compare">Side-by-Side Model Comparison</a></h3>
+    <p>Compare two AI models, temperatures, or system prompts simultaneously.</p>
+    <h3><a href="#image">AI Image Generation</a></h3>
+    <p>Generate images using FLUX, DALL-E 3, Gemini 2.5 Flash Image, Stable Diffusion and more.</p>
+  </nav>
+  <h2>Supported AI Providers</h2>
+  <ul>
+    <li>Google Gemini — Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Pro Preview, Gemini 3 Flash Preview</li>
+    <li>OpenRouter — DeepSeek R1, Llama 4, Qwen3 235B, NVIDIA Nemotron 3 Super, Gemma 4, GPT OSS 120B</li>
+    <li>OpenAI — GPT-4.1, GPT-4.1 Mini, GPT-4o, o3, o3-pro, GPT OSS 120B</li>
+    <li>Image: Puter.js (FLUX free), fal.ai, Stability AI, Replicate, Gemini Imagen 4</li>
+  </ul>
+  <h2>About Nexim</h2>
+  <p>Nexim is a free, open AI prompt playground built for developers, researchers and AI enthusiasts. No login, no tracking, API keys stored only in your browser.</p>
+</footer>
+</body>
+</html>
